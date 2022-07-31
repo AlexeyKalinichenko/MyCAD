@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-jqz)gv#uhy#@yrxj-j=38i2qh!ebe-ab5r5_$z2p%u@d)wm(b5
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1'
+    '127.0.0.1',
+    'AlexeyMyCAD.pythonanywhere.com'
 ]
 
 
