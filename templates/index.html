@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>WebGL</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="{% static "style.css" %}">
+    </head>
+    <body>
+        <canvas id="Editor" width="500" height="500">Canvas is not supported</canvas>
+        <script id="shader-fs" type="x-shader/x-fragment">
+          void main(void) {
+            gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+          }
+        </script>
+        <script id="shader-vs" type="x-shader/x-vertex">
+          attribute vec3 aVertexPosition;
+          void main(void) {
+            gl_Position = vec4(aVertexPosition, 1.0);
+          }
+        </script>
+        <script src="{% static "script.js" %}"></script>
+    </body>
+</html>
