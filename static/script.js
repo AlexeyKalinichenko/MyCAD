@@ -125,12 +125,22 @@ function addLine(x1, y1, x2, y2)
 
     indicesBuffer.push(indexCounter++);
     indicesBuffer.push(indexCounter++);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url + 'setdata/', false);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('X-CSRFToken', csrf_token);
+
+    var body = 'vertices=' + encodeURIComponent(verticesBuffer) +
+        '&indices=' + encodeURIComponent(indicesBuffer) +
+        '&counter=' + encodeURIComponent(indexCounter);
+    xhr.send(body);
 }
 
 function loadSceneData()
 {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', url + 'data/', false);
+    xhr.open('GET', url + 'getdata/', false);
     xhr.send();
 
     data = JSON.parse(xhr.responseText);
