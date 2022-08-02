@@ -220,3 +220,33 @@ window.onmousemove = function(me)
         drawTempLine(lastXgl, lastYgl, Xgl, Ygl);
     }
 }
+
+window.onkeydown = function(e)
+{
+    if (e.code != "Backspace")
+        return;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url + 'clearScene/', false);
+    xhr.send();
+
+    verticesBuffer = [];
+    indicesBuffer = [];
+    indexCounter = 0;
+
+    ClearScene();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

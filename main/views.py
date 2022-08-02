@@ -58,3 +58,12 @@ def setSceneData(request):
 		f.close()
 
 	return HttpResponseRedirect(deploy['url'])
+
+def clearSceneData(request):
+	filePath = os.path.join(os.getcwd(), 'data', 'data.json')
+
+	f = open(filePath, "w")
+	f.write('')
+	f.close()
+
+	return HttpResponseRedirect(deploy['url'])
