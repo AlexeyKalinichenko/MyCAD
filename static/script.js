@@ -237,24 +237,6 @@ window.onkeydown = function(e)
     ClearScene();
 }
 
-window.ontouchstart = function(e)
-{
-    //console.log("START: " + e.clientX);
-    //console.log("START: " + e.clientY);
-    window.alert("START");
-}
-
-window.ontouchmove = function(e)
-{
-    //console.log("ontouchmove: " + e.clientX);
-    //console.log("ontouchmove: " + e.clientY);
-}
-
-window.ontouchend = function(e)
-{
-    //console.log("ontouchmove: " + e.clientX);
-    //console.log("ontouchmove: " + e.clientY);
-}
 
 
 
