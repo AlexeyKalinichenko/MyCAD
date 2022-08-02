@@ -127,6 +127,19 @@ function addLine(x1, y1, x2, y2)
     indicesBuffer.push(indexCounter++);
 }
 
+function loadSceneData()
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url + 'data/', false);
+    xhr.send();
+
+    data = JSON.parse(xhr.responseText);
+
+    verticesBuffer = data.vertices;
+    indicesBuffer = data.indices;
+    indexCounter = data.counter;
+}
+
 window.onload = window.onresize = function()
 {
     var canvas = document.getElementById("Editor");
@@ -151,6 +164,7 @@ window.onload = window.onresize = function()
         gl.viewportHeight = canvas.height;
 
         initShaders();
+        loadSceneData();
         RefreshScene();
     }
 }

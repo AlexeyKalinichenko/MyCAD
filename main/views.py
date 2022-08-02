@@ -1,11 +1,30 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.template import loader
+from MyCAD.deploy import deploy
 
-#def index(request):
-#    return HttpResponse("Hello, world. You're at the polls index.")
+import os
+import json
 
 def index(request):
 	template = loader.get_template('index.html')
-	context = {}
+	context = { 'url': deploy['url'] }
 	return HttpResponse(template.render(context, request))
+
+def getSceneData(request):
+	filePath = os.path.join(os.getcwd(), 'data', 'data.json')
+
+	f = open(filePath, "r")
+	jsonData = f.read()
+	f.close()
+
+	data = json.loads(jsonData)
+
+	response = JsonResponse({
+			'vertices': data['vertices'],
+			'indices': data['indices'],
+			'counter': data['counter']
+		})
+
+	return response
