@@ -15,4 +15,6 @@ core = ctypes.CDLL(deploy['core_path'] + CORE_LIBRARY)
 
 def statisticsWrapper(counter):
 	core.statisticsAPI.argtypes = [ctypes.c_int]
-	return core.statisticsAPI(counter)
+	core.statisticsAPI.restype = ctypes.c_int
+	result = core.statisticsAPI(counter)
+	return result

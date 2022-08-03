@@ -1,7 +1,7 @@
 #include "api.h"
 #include "funcs.h"
 
-void statisticsAPI(int counter)
+int statisticsAPI(int counter)
 {
-	statistics(counter);
+	return statistics(counter);
 }

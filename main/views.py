@@ -7,6 +7,8 @@ from MyCAD.deploy import deploy
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt
 
+import core.wrapper as wrapper
+
 import os
 import json
 
@@ -67,3 +69,22 @@ def clearSceneData(request):
 	f.close()
 
 	return HttpResponseRedirect(deploy['url'])
+
+def getStatistics(request):
+	filePath = os.path.join(os.getcwd(), 'data', 'data.json')
+
+	f = open(filePath, "r")
+	jsonData = f.read()
+	f.close()
+
+	if len(jsonData) != 0:
+		data = json.loads(jsonData)
+		counter = data['counter']
+	else:
+		counter = 0
+
+	result = wrapper.statisticsWrapper(counter)
+
+	response = JsonResponse({ 'objects': result })
+
+	return response

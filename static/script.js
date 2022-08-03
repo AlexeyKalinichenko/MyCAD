@@ -223,26 +223,28 @@ window.onmousemove = function(me)
 
 window.onkeydown = function(e)
 {
-    if (e.code != "Backspace")
-        return;
+    if (e.code == "Backspace")
+    {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url + 'clearScene/', false);
+        xhr.send();
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url + 'clearScene/', false);
-    xhr.send();
+        verticesBuffer = [];
+        indicesBuffer = [];
+        indexCounter = 0;
 
-    verticesBuffer = [];
-    indicesBuffer = [];
-    indexCounter = 0;
+        ClearScene();
+    }
+    else if (e.code == "KeyS")
+    {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url + 'getStatistics/', false);
+        xhr.send();
 
-    ClearScene();
+        result = JSON.parse(xhr.responseText);
+
+        numberOfSceneObjects = result.objects;
+
+        console.log("Scene objects: " + numberOfSceneObjects);
+    }
 }
-
-
-
-
-
-
-
-
-
-
