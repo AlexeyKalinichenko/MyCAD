@@ -1,22 +1,23 @@
-# MyCAD
-MyCAD project
-
-Test: http://127.0.0.1:8000/main/
+# MyCAD project
 
 Prod: https://AlexeyMyCAD.pythonanywhere.com/main/
 
-Virtual environment:
+Test: http://127.0.0.1:8000/main/
+
+## Virtual environment
 
 source ./virtenv/bin/activate
+
 deactivate
 
 
-Run server:
+## Run server
 
 python3 ./manage.py runserver
 
 
-Test vs Prod:
+## Test vs Prod
 
 settings.py -> DEBUG = True/False
+
 deploy.py -> deploy = development/production
