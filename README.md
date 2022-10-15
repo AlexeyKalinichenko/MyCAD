@@ -21,3 +21,19 @@ python3 ./manage.py runserver
 settings.py -> DEBUG = True/False
 
 deploy.py -> deploy = development/production
+
+## MySQL
+
+mysql -u root -p
+
+mysql> show databases;
+
+mysql> create database mytest;
+
+mysql> drop database mytest;
+
+mysql> use mytest;
+
+mysql> show tables;
+
+mysql> exit;
