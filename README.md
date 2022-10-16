@@ -37,3 +37,15 @@ mysql> use mytest;
 mysql> show tables;
 
 mysql> exit;
+
+## CyMySQL
+
+import cymysql
+
+conn = cymysql.connect(host='127.0.0.1', user='root', passwd='...', db='...')
+
+cur = conn.cursor()
+
+cur.execute('select * from tb')
+
+for r in cur.fetchall(): print(r[0], r[1])
