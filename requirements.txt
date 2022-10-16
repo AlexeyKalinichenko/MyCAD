@@ -1,0 +1,5 @@
+pycryptodome
+cymysql
+django-cymysql
+Django
+pytz
