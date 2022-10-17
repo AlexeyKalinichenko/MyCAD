@@ -10,12 +10,12 @@ development = {
 production = {
 	'url': 'https://alexeymycad.pythonanywhere.com/main/',
 	'core_path': '/home/AlexeyMyCAD/MyCAD/core/build/',
-	'db_name': '',
-	'host': '',
-	'user': '',
-	'password': ''
+	'db_name': 'AlexeyMyCAD$mycaddb',
+	'host': 'AlexeyMyCAD.mysql.pythonanywhere-services.com',
+	'user': 'AlexeyMyCAD',
+	'password': 'mycad_prod'
 }
 
 # development if local
 # production if internet
-deploy = development
+deploy = production
