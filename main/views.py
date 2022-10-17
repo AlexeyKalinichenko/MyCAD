@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.template import loader
 from MyCAD.deploy import deploy
+from .models import getUserData, addUserData, resetUserData
 
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt
@@ -68,6 +69,8 @@ def clearSceneData(request):
 	f.write('')
 	f.close()
 
+	resetUserData()
+
 	return HttpResponseRedirect(deploy['url'])
 
 def getStatistics(request):
@@ -84,6 +87,12 @@ def getStatistics(request):
 		counter = 0
 
 	result = wrapper.statisticsWrapper(counter)
+
+	addUserData(result)
+
+	table = getUserData()
+	for line in table:
+		print(line)
 
 	response = JsonResponse({ 'objects': result })
 
