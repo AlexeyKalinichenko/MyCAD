@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'MyCAD.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql_cymysql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': deploy['db_name'],
         'HOST': deploy['host'],
         'USER': deploy['user'],
