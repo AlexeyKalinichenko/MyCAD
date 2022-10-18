@@ -4,7 +4,9 @@ development = {
 	'db_name': 'Statistics',
 	'host': 'localhost',
 	'user': 'django_user',
-	'password': 'django_passwd'
+	'password': 'django_passwd',
+	'db_engine': 'mysql_cymysql',
+	'debug': True
 }
 
 production = {
@@ -13,9 +15,11 @@ production = {
 	'db_name': 'AlexeyMyCAD$mycaddb',
 	'host': 'AlexeyMyCAD.mysql.pythonanywhere-services.com',
 	'user': 'AlexeyMyCAD',
-	'password': 'mycad_prod'
+	'password': 'mycad_prod',
+	'db_engine': 'django.db.backends.mysql',
+	'debug': False
 }
 
 # development if local
 # production if internet
-deploy = production
+deploy = development

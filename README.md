@@ -16,13 +16,11 @@ deactivate
 python3 ./manage.py runserver
 
 
-## Test vs Prod
-
-settings.py -> DEBUG = True/False
+## Dev vs Prod
 
 deploy.py -> deploy = development/production
 
-## MySQL
+## MySQL console
 
 mysql -u root -p
 
@@ -38,7 +36,7 @@ mysql> show tables;
 
 mysql> exit;
 
-## CyMySQL
+## CyMySQL API
 
 import cymysql
 
