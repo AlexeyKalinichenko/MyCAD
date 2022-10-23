@@ -36,6 +36,11 @@ function initShaders()
 
     shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
     gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+
+    //
+    shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
+    gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
+    //
 }
 
 // Функция создания шейдера
@@ -150,6 +155,55 @@ function loadSceneData()
     indexCounter = data.counter;
 }
 
+//
+function test(vertices, indices)
+{
+    vertices = [
+        //X    Y     Z     R    G    B
+
+        // LINE
+        -0.5,  0.01, 0.0,  0.0, 0.0, 1.0,  // triangle 1
+         0.5, -0.01, 0.0,  0.0, 0.0, 1.0,
+        -0.5, -0.01, 0.0,  0.0, 0.0, 1.0,
+
+         0.5, -0.01, 0.0,  0.0, 0.0, 1.0,  // triangle 2
+         0.5,  0.01, 0.0,  0.0, 0.0, 1.0,
+        -0.5,  0.01, 0.0,  0.0, 0.0, 1.0,
+
+        // NODE 1
+         0.5,  0.0,  0.0,  0.0, 1.0, 0.0,  // point 1
+
+        // NODE 2
+        -0.5,  0.0,  0.0,  0.0, 1.0, 0.0,  // point 2
+    ];
+
+    vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+    gl.vertexAttribPointer(
+        shaderProgram.vertexPositionAttribute,
+        3,
+        gl.FLOAT,
+        gl.FALSE,
+        6 * Float32Array.BYTES_PER_ELEMENT,
+        0 * Float32Array.BYTES_PER_ELEMENT
+    );
+
+    gl.vertexAttribPointer(
+        shaderProgram.vertexColorAttribute,
+        3,
+        gl.FLOAT,
+        gl.FALSE,
+        6 * Float32Array.BYTES_PER_ELEMENT,
+        3 * Float32Array.BYTES_PER_ELEMENT
+    );
+
+    gl.drawArrays(gl.TRIANGLES, 0, 3*2);
+    gl.drawArrays(gl.POINTS, 6, 1*2);
+}
+//
+
 window.onload = window.onresize = function()
 {
     var canvas = document.getElementById("Editor");
@@ -176,6 +230,10 @@ window.onload = window.onresize = function()
         initShaders();
         loadSceneData();
         RefreshScene();
+
+        //
+        test();
+        //
     }
 }
 
