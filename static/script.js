@@ -209,7 +209,7 @@ window.onload = window.onresize = function()
     var canvas = document.getElementById("Editor");
 
     canvas.setAttribute('width', document.documentElement.clientWidth);
-    canvas.setAttribute('height', document.documentElement.clientHeight);
+    canvas.setAttribute('height', document.documentElement.clientHeight * 0.9);
 
     try
     {
@@ -239,6 +239,23 @@ window.onload = window.onresize = function()
 
 window.onclick = function(me)
 {
+    //
+    if (!event.target.matches('.dropbtn'))
+    {
+        //alert("BP");
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++)
+        {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show'))
+            {
+              openDropdown.classList.remove('show');
+            }
+        }
+    }
+    //
+
     var offsetX = - 0.009;
     var offsetY = 0.009;
 
@@ -305,4 +322,13 @@ window.onkeydown = function(e)
 
         console.log("Scene objects: " + numberOfSceneObjects);
     }
+}
+
+function myfunc()
+{
+    alert("On my button click!!");
+}
+
+function myButtonMenuFunc() {
+  document.getElementById("myDropdown").classList.toggle("show");
 }

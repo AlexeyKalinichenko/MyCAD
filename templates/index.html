@@ -2,14 +2,39 @@
 {% load static %}
 <html>
     <head>
-        <title>WebGL</title>
+        <title>MyCAD</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="{% static "style.css" %}">
         <script type="text/javascript">var csrf_token = '{{ csrf_token }}';</script>
         <script type="text/javascript">var url = '{{ url }}';</script>
     </head>
     <body>
+        <div class="TopPanel">
+          <a class="button" onclick="myfunc()">
+            <img class="img1" src="{% static "testImage.png" %}">Line1</a>
+          <a class="button" onclick="myfunc()">Line2</a>
+          <a class="button" onclick="myfunc()">Line3</a>
+          <a class="button" onclick="myfunc()">Line4</a>
+          <a class="button" onclick="myfunc()">Line5</a>
+          <a class="button" onclick="myfunc()">Line6</a>
+          <a class="button" onclick="myfunc()">Line7</a>
+
+          <div class="dropdown">
+            <a class="dropbtn" onclick="myButtonMenuFunc()">Line8</a>
+            <div id="myDropdown" class="dropdown-content">
+              <a onclick="myfunc()"><img class="img2" src="{% static "testImage.png" %}">Style 1</a>
+              <a onclick="myfunc()">Style 2</a>
+              <a onclick="myfunc()">Style 3</a>
+            </div>
+          </div>
+
+        </div>
         <canvas id="Editor" width="500" height="500">Canvas is not supported</canvas>
+        <div class="BottomPanel">
+          <p class="Coord-x">X: 1.23</p>
+          <p class="Coord-y">Y: 0.56</p>
+          <p class="Stat">Objects: 278</p>
+        </div>
         <script id="shader-fs" type="x-shader/x-fragment">
           precision mediump float;
           varying vec3 fragColor;
