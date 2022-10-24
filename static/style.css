@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #bbff00;
+    background-color: #22262a;
 }
 
 #Editor {
@@ -47,30 +47,30 @@ a.button:hover, a.button:focus {
 }
 
 .Coord-x {
-    font-size: 25px;
+    font-size: 11px;
     font-family: Tahoma;
-    color: #2F4F4F;
+    color: #cccccc;
     position: relative;
-    bottom: 35px;
-    left: -10px;
+    bottom: 32px;
+    left: 0px;
 }
 
 .Coord-y {
-    font-size: 25px;
+    font-size: 11px;
     font-family: Tahoma;
-    color: #2F4F4F;
+    color: #cccccc;
     position: relative;
-    bottom: 90px;
-    left: 100px;
+    bottom: 56px;
+    left: 60px;
 }
 
 .Stat {
-    font-size: 25px;
+    font-size: 12px;
     font-family: Tahoma;
-    color: #2F4F4F;
+    color: #cccccc;
     position: relative;
-    bottom: 145px;
-    left: 1490px;
+    bottom: 81px;
+    left: 1550px;
 }
 
 .dropbtn {

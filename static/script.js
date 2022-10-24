@@ -63,7 +63,7 @@ function getShader(type, id)
 
 function ClearScene()
 {
-    gl.clearColor(0.2, 0.2, 0.2, 1.0);
+    gl.clearColor(0.19, 0.22, 0.25, 1.0);   //#303841
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT);
 }
@@ -158,23 +158,72 @@ function loadSceneData()
 //
 function test(vertices, indices)
 {
+    var coef = 1.971;
+
     vertices = [
-        //X    Y     Z     R    G    B
+        // X Y Z R G B
 
-        // LINE
-        -0.5,  0.01, 0.0,  0.0, 0.0, 1.0,  // triangle 1
-         0.5, -0.01, 0.0,  0.0, 0.0, 1.0,
-        -0.5, -0.01, 0.0,  0.0, 0.0, 1.0,
+        //Сoordinate system
+        0.0,   0.0   * coef, 0.0, 0.93, 0.42, 0.37,  // triangle 1 color - #ed6a5e
+        0.04,  0.0   * coef, 0.0, 0.93, 0.42, 0.37,
+        0.005, 0.005 * coef, 0.0, 0.93, 0.42, 0.37,
 
-         0.5, -0.01, 0.0,  0.0, 0.0, 1.0,  // triangle 2
-         0.5,  0.01, 0.0,  0.0, 0.0, 1.0,
-        -0.5,  0.01, 0.0,  0.0, 0.0, 1.0,
+        0.005, 0.005 * coef, 0.0, 0.93, 0.42, 0.37,  // triangle 2 color - #ed6a5e
+        0.04,  0.0   * coef, 0.0, 0.93, 0.42, 0.37,
+        0.04,  0.005 * coef, 0.0, 0.93, 0.42, 0.37,
 
-        // NODE 1
-         0.5,  0.0,  0.0,  0.0, 1.0, 0.0,  // point 1
+        0.0,   0.0   * coef, 0.0, 0.38, 0.76, 0.33,  // triangle 3 color - #60c253
+        0.0,   0.04  * coef, 0.0, 0.38, 0.76, 0.33,
+        0.005, 0.005 * coef, 0.0, 0.38, 0.76, 0.33,
 
-        // NODE 2
-        -0.5,  0.0,  0.0,  0.0, 1.0, 0.0,  // point 2
+        0.005, 0.005 * coef, 0.0, 0.38, 0.76, 0.33,  // triangle 4 color - #60c253
+        0.0,   0.04  * coef, 0.0, 0.38, 0.76, 0.33,
+        0.005, 0.04  * coef, 0.0, 0.38, 0.76, 0.33,
+
+        // LINE 1
+        -0.4, 0.4012 * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
+         0.4, 0.4    * coef, 0.0, 0.85, 0.87, 0.91,
+        -0.4, 0.4    * coef, 0.0, 0.85, 0.87, 0.91,
+
+         0.4, 0.4    * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
+         0.4, 0.4012 * coef, 0.0, 0.85, 0.87, 0.91,
+        -0.4, 0.4012 * coef, 0.0, 0.85, 0.87, 0.91,
+
+        // LINE 2
+        -0.4, 0.3025 * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
+         0.4, 0.3   * coef, 0.0, 0.85, 0.87, 0.91,
+        -0.4, 0.3   * coef, 0.0, 0.85, 0.87, 0.91,
+
+         0.4, 0.3   * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
+         0.4, 0.3025 * coef, 0.0, 0.85, 0.87, 0.91,
+        -0.4, 0.3025 * coef, 0.0, 0.85, 0.87, 0.91,
+
+        // LINE 3
+        -0.4, 0.205 * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
+         0.4, 0.2  * coef, 0.0, 0.85, 0.87, 0.91,
+        -0.4, 0.2  * coef, 0.0, 0.85, 0.87, 0.91,
+
+         0.4, 0.2  * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
+         0.4, 0.205 * coef, 0.0, 0.85, 0.87, 0.91,
+        -0.4, 0.205 * coef, 0.0, 0.85, 0.87, 0.91,
+
+        // NODE 11
+         0.4,  0.4006 * coef,  0.0, 0.98, 0.68, 0.35,  // point 1
+
+        // NODE 12
+        -0.4,  0.4006 * coef,  0.0, 0.98, 0.68, 0.35,  // point 2
+
+        // NODE 21
+         0.4,  0.3012 * coef,  0.0, 0.98, 0.68, 0.35,  // point 1
+
+        // NODE 22
+        -0.4,  0.3012 * coef,  0.0, 0.98, 0.68, 0.35,  // point 2
+
+        // NODE 31
+         0.4,  0.2025 * coef,  0.0, 0.98, 0.68, 0.35,  // point 1
+
+        // NODE 32
+        -0.4,  0.2025 * coef,  0.0, 0.98, 0.68, 0.35,  // point 2
     ];
 
     vertexBuffer = gl.createBuffer();
@@ -199,8 +248,8 @@ function test(vertices, indices)
         3 * Float32Array.BYTES_PER_ELEMENT
     );
 
-    gl.drawArrays(gl.TRIANGLES, 0, 3*2);
-    gl.drawArrays(gl.POINTS, 6, 1*2);
+    gl.drawArrays(gl.TRIANGLES, 0, 3*10);
+    gl.drawArrays(gl.POINTS, 30, 1*6);
 }
 //
 
@@ -209,7 +258,15 @@ window.onload = window.onresize = function()
     var canvas = document.getElementById("Editor");
 
     canvas.setAttribute('width', document.documentElement.clientWidth);
-    canvas.setAttribute('height', document.documentElement.clientHeight * 0.9);
+    canvas.setAttribute('height', document.documentElement.clientHeight * 0.91);
+
+    //
+    var w = document.documentElement.clientWidth;
+    var h = document.documentElement.clientHeight * 0.91;
+
+    console.log("Canvas width: " + w);
+    console.log("Canvas height: " + h);
+    //
 
     try
     {

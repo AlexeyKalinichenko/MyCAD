@@ -18,9 +18,10 @@
           <a class="button" onclick="myfunc()">Line5</a>
           <a class="button" onclick="myfunc()">Line6</a>
           <a class="button" onclick="myfunc()">Line7</a>
+          <a class="button" onclick="myfunc()">Line8</a>
 
           <div class="dropdown">
-            <a class="dropbtn" onclick="myButtonMenuFunc()">Line8</a>
+            <a class="dropbtn" onclick="myButtonMenuFunc()">Line9</a>
             <div id="myDropdown" class="dropdown-content">
               <a onclick="myfunc()"><img class="img2" src="{% static "testImage.png" %}">Style 1</a>
               <a onclick="myfunc()">Style 2</a>
@@ -49,7 +50,7 @@
           void main(void) {
             fragColor = aVertexColor;
             gl_Position = vec4(aVertexPosition, 1.0);
-            gl_PointSize = 20.0;
+            gl_PointSize = 10.0;
           }
         </script>
         <script src="{% static "script.js" %}"></script>
