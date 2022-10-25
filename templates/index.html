@@ -10,25 +10,30 @@
     </head>
     <body>
         <div class="TopPanel">
-          <a class="button" onclick="myfunc()">
-            <img class="img1" src="{% static "testImage.png" %}">Line1</a>
-          <a class="button" onclick="myfunc()">Line2</a>
-          <a class="button" onclick="myfunc()">Line3</a>
-          <a class="button" onclick="myfunc()">Line4</a>
-          <a class="button" onclick="myfunc()">Line5</a>
-          <a class="button" onclick="myfunc()">Line6</a>
-          <a class="button" onclick="myfunc()">Line7</a>
-          <a class="button" onclick="myfunc()">Line8</a>
-
-          <div class="dropdown">
-            <a class="dropbtn" onclick="myButtonMenuFunc()">Line9</a>
-            <div id="myDropdown" class="dropdown-content">
-              <a onclick="myfunc()"><img class="img2" src="{% static "testImage.png" %}">Style 1</a>
-              <a onclick="myfunc()">Style 2</a>
-              <a onclick="myfunc()">Style 3</a>
+          <p class="LeftPanel">
+            <a class="button" onclick="myfunc()">
+              <img class="Img" src="{% static "undo.png" %}"></a>
+            <a class="button" onclick="myfunc()">
+              <img class="Img" src="{% static "redo.png" %}"></a>
+          </p>
+          <p class="CenterPanel">
+            <a class="button" onclick="myfunc()">Line</a>
+            <a class="button" onclick="myfunc()">Clear</a>
+            <a class="dropbtn" onclick="myButtonMenuFunc()">Snap to</a>
+            <div class="dropdown">
+              <div id="myDropdown" class="dropdown-content">
+                <a onclick="myfunc()">Node</a>
+                <a onclick="myfunc()">Angle</a>
+              </div>
             </div>
-          </div>
-
+          </p>
+          <p class="RightPanel">
+            <a class="button" onclick="myfunc()">
+              <img class="Img" src="{% static "nodes.png" %}"></a>
+            <a class="button" onclick="myfunc()">
+              <img class="Img2" src="{% static "thickness.png" %}"></a>
+            <a class="themeButton" onclick="myfunc()">Light</a>
+          </p>
         </div>
         <canvas id="Editor" width="500" height="500">Canvas is not supported</canvas>
         <div class="BottomPanel">

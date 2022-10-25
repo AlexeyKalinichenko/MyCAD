@@ -191,39 +191,39 @@ function test(vertices, indices)
 
         // LINE 2
         -0.4, 0.3025 * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
-         0.4, 0.3   * coef, 0.0, 0.85, 0.87, 0.91,
-        -0.4, 0.3   * coef, 0.0, 0.85, 0.87, 0.91,
+         0.4, 0.3    * coef, 0.0, 0.85, 0.87, 0.91,
+        -0.4, 0.3    * coef, 0.0, 0.85, 0.87, 0.91,
 
-         0.4, 0.3   * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
+         0.4, 0.3    * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
          0.4, 0.3025 * coef, 0.0, 0.85, 0.87, 0.91,
         -0.4, 0.3025 * coef, 0.0, 0.85, 0.87, 0.91,
 
         // LINE 3
         -0.4, 0.205 * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
-         0.4, 0.2  * coef, 0.0, 0.85, 0.87, 0.91,
-        -0.4, 0.2  * coef, 0.0, 0.85, 0.87, 0.91,
+         0.4, 0.2   * coef, 0.0, 0.85, 0.87, 0.91,
+        -0.4, 0.2   * coef, 0.0, 0.85, 0.87, 0.91,
 
-         0.4, 0.2  * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
+         0.4, 0.2   * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
          0.4, 0.205 * coef, 0.0, 0.85, 0.87, 0.91,
         -0.4, 0.205 * coef, 0.0, 0.85, 0.87, 0.91,
 
         // NODE 11
-         0.4,  0.4006 * coef,  0.0, 0.98, 0.68, 0.35,  // point 1
+         0.4, 0.4006 * coef, 0.0, 0.98, 0.68, 0.35,  // point 1
 
         // NODE 12
-        -0.4,  0.4006 * coef,  0.0, 0.98, 0.68, 0.35,  // point 2
+        -0.4, 0.4006 * coef, 0.0, 0.98, 0.68, 0.35,  // point 2
 
         // NODE 21
-         0.4,  0.3012 * coef,  0.0, 0.98, 0.68, 0.35,  // point 1
+         0.4, 0.3012 * coef, 0.0, 0.98, 0.68, 0.35,  // point 1
 
         // NODE 22
-        -0.4,  0.3012 * coef,  0.0, 0.98, 0.68, 0.35,  // point 2
+        -0.4, 0.3012 * coef, 0.0, 0.98, 0.68, 0.35,  // point 2
 
         // NODE 31
-         0.4,  0.2025 * coef,  0.0, 0.98, 0.68, 0.35,  // point 1
+         0.4, 0.2025 * coef, 0.0, 0.98, 0.68, 0.35,  // point 1
 
         // NODE 32
-        -0.4,  0.2025 * coef,  0.0, 0.98, 0.68, 0.35,  // point 2
+        -0.4, 0.2025 * coef, 0.0, 0.98, 0.68, 0.35,  // point 2
     ];
 
     vertexBuffer = gl.createBuffer();
@@ -258,11 +258,11 @@ window.onload = window.onresize = function()
     var canvas = document.getElementById("Editor");
 
     canvas.setAttribute('width', document.documentElement.clientWidth);
-    canvas.setAttribute('height', document.documentElement.clientHeight * 0.91);
+    canvas.setAttribute('height', document.documentElement.clientHeight * 0.93);
 
     //
     var w = document.documentElement.clientWidth;
-    var h = document.documentElement.clientHeight * 0.91;
+    var h = document.documentElement.clientHeight * 0.93;
 
     console.log("Canvas width: " + w);
     console.log("Canvas height: " + h);

@@ -7,39 +7,68 @@ body {
 
 #Editor {
     cursor: crosshair;
+    position: relative;
+    top: -115px;
 }
 
 a.button {
-    background: #778899;
-    color: #fff;
-    padding: 15px;
+    background: #47525d;
+    color: #cccccc;
+    padding: 5px;
     border-radius: 4px;
     text-decoration: none;
     font-family: Tahoma;
-    font-size: 20px;
+    font-size: 15px;
+}
+
+.themeButton {
+    background: #cccccc;
+    color: #47525d;
+    padding: 5px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: Tahoma;
+    font-size: 15px;
 }
 
 a.button:hover, a.button:focus {
-  background-color: #2980B9;
+  background-color: #3f464f;
 }
 
-.img1 {
-    width: 25px;
+.LeftPanel {
     position: relative;
-    bottom: -5px;
-    left: -5px;
+    top: -5px;
+    text-align: left;
 }
 
-.img2 {
-    width: 15px;
+.CenterPanel {
+    position: relative;
+    top: -40px;
+    text-align: center;
+}
+
+.RightPanel {
+    position: relative;
+    top: -110px;
+    text-align: right;
+}
+
+.Img {
+    width: 12px;
     position: relative;
     bottom: -2px;
-    left: -10px;
+    left: 0px;
+}
+
+.Img2 {
+    width: 50px;
+    position: relative;
+    bottom: -4px;
+    left: 0px;
 }
 
 .TopPanel {
     margin: 20px;
-    text-align: center;
 }
 
 .BottomPanel {
@@ -51,7 +80,7 @@ a.button:hover, a.button:focus {
     font-family: Tahoma;
     color: #cccccc;
     position: relative;
-    bottom: 32px;
+    bottom: 146px;
     left: 0px;
 }
 
@@ -60,7 +89,7 @@ a.button:hover, a.button:focus {
     font-family: Tahoma;
     color: #cccccc;
     position: relative;
-    bottom: 56px;
+    bottom: 170px;
     left: 60px;
 }
 
@@ -69,22 +98,22 @@ a.button:hover, a.button:focus {
     font-family: Tahoma;
     color: #cccccc;
     position: relative;
-    bottom: 81px;
+    bottom: 195px;
     left: 1550px;
 }
 
 .dropbtn {
-    background: #778899;
-    color: #fff;
-    padding: 15px;
+    background: #47525d; /*#f9ae58*/
+    color: #cccccc; /*#22262a*/
+    padding: 4px;
     border-radius: 4px;
     text-decoration: none;
     font-family: Tahoma;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .dropbtn:hover, .dropbtn:focus {
-    background-color: #2980B9;
+    background-color: #3f464f;
 }
 
 .dropdown {
@@ -94,15 +123,16 @@ a.button:hover, a.button:focus {
 
 .dropdown-content {
     display: none;
-    position: absolute;
-    background-color: #ADD8E6;
-    min-width: 100px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    position:absolute;
+    top: -60px;
+    left: 835px;
+    background-color: #cccccc;
+    min-width: 80px;
     z-index: 1;
 }
 
 .dropdown-content a {
-    color: black;
+    color: #22262a;
     padding: 5px 10px;
     text-decoration: none;
     display: block;
@@ -110,7 +140,7 @@ a.button:hover, a.button:focus {
 }
 
 .dropdown-content a:hover {
-    background-color: #2980B9
+    background-color: #f9ae58;
 }
 
 .show {
