@@ -18,6 +18,43 @@ def index(request):
 	context = { 'url': deploy['url'] }
 	return HttpResponse(template.render(context, request))
 
+def OpenDocument(request):
+	response = JsonResponse({ "result": 0 })
+	return response
+
+def CloseDocument(request):
+	response = JsonResponse({ "result": 0 })
+	return response
+
+def RunOperation(request, operationId):
+	response = JsonResponse({ "result": 0 })
+	return response
+
+def ButtonEvent(request, buttonId, state):
+	return HttpResponseRedirect(deploy['url'])
+
+def MouseMoveEvent(request, x, y):
+	return HttpResponseRedirect(deploy['url'])
+
+def SendIntData(request, value):
+	return HttpResponseRedirect(deploy['url'])
+
+def SendStringData(request, value):
+	return HttpResponseRedirect(deploy['url'])
+
+def IsDocumentChanged(request):
+	response = JsonResponse({ "result": 0, "IsDocumentChanged": True })
+	return response
+
+def GetDataForRendering(request):
+	response = JsonResponse({ "result": 0, "data": "qwerty" })
+	return response
+
+def GetDocumentInfo(request):
+	response = JsonResponse({ "result": 0, "data": "qwerty" })
+	return response
+
+# Old API #
 def getSceneData(request):
 	filePath = os.path.join(os.getcwd(), 'data', 'data.json')
 
@@ -97,3 +134,4 @@ def getStatistics(request):
 	response = JsonResponse({ 'objects': result })
 
 	return response
+# Old API #
