@@ -256,17 +256,10 @@ function test(vertices, indices)
 window.onload = window.onresize = function()
 {
     var canvas = document.getElementById("Editor");
+    var el = document.getElementById("space");
 
-    canvas.setAttribute('width', document.documentElement.clientWidth);
-    canvas.setAttribute('height', document.documentElement.clientHeight * 0.93);
-
-    //
-    var w = document.documentElement.clientWidth;
-    var h = document.documentElement.clientHeight * 0.93;
-
-    console.log("Canvas width: " + w);
-    console.log("Canvas height: " + h);
-    //
+    canvas.setAttribute('width', el.offsetWidth);
+    canvas.setAttribute('height', el.offsetHeight);
 
     try
     {
@@ -296,23 +289,6 @@ window.onload = window.onresize = function()
 
 window.onclick = function(me)
 {
-    //
-    if (!event.target.matches('.dropbtn'))
-    {
-        //alert("BP");
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++)
-        {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show'))
-            {
-              openDropdown.classList.remove('show');
-            }
-        }
-    }
-    //
-
     var offsetX = - 0.009;
     var offsetY = 0.009;
 
@@ -381,11 +357,20 @@ window.onkeydown = function(e)
     }
 }
 
-function myfunc()
-{
-    alert("On my button click!!");
-}
+function OnBtn1Click() { alert("Btn 1"); }
+function OnBtn2Click() { alert("Btn 2"); }
+function OnBtn3Click() { alert("Btn 3"); }
+function OnBtn4Click() { alert("Btn 4"); }
 
-function myButtonMenuFunc() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
+function OnBtn5Click() { document.getElementById("btn5-menu").classList.toggle("show"); }
+function OnBtn51Click() { alert("Btn 51"); }
+function OnBtn52Click() { alert("Btn 52"); }
+
+function OnBtn6Click() { alert("Btn 6"); }
+
+function OnBtn7Click() { document.getElementById("btn7-menu").classList.toggle("show"); }
+function OnBtn71Click() { alert("Btn 71"); }
+function OnBtn72Click() { alert("Btn 72"); }
+function OnBtn73Click() { alert("Btn 73"); }
+
+function OnBtn8Click() { alert("Btn 8"); }

@@ -1,63 +1,78 @@
 <!DOCTYPE html>
 {% load static %}
 <html>
-    <head>
-        <title>MyCAD</title>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="{% static "style.css" %}">
-        <script type="text/javascript">var csrf_token = '{{ csrf_token }}';</script>
-        <script type="text/javascript">var url = '{{ url }}';</script>
-    </head>
-    <body>
-        <div class="TopPanel">
-          <p class="LeftPanel">
-            <a class="button" onclick="myfunc()">
-              <img class="Img" src="{% static "undo.png" %}"></a>
-            <a class="button" onclick="myfunc()">
-              <img class="Img" src="{% static "redo.png" %}"></a>
-          </p>
-          <p class="CenterPanel">
-            <a class="button" onclick="myfunc()">Line</a>
-            <a class="button" onclick="myfunc()">Clear</a>
-            <a class="dropbtn" onclick="myButtonMenuFunc()">Snap to</a>
-            <div class="dropdown">
-              <div id="myDropdown" class="dropdown-content">
-                <a onclick="myfunc()">Node</a>
-                <a onclick="myfunc()">Angle</a>
-              </div>
-            </div>
-          </p>
-          <p class="RightPanel">
-            <a class="button" onclick="myfunc()">
-              <img class="Img" src="{% static "nodes.png" %}"></a>
-            <a class="button" onclick="myfunc()">
-              <img class="Img2" src="{% static "thickness.png" %}"></a>
-            <a class="themeButton" onclick="myfunc()">Light</a>
-          </p>
+  <head>
+    <title>MyCAD</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">var csrf_token = '{{ csrf_token }}';</script>
+    <script type="text/javascript">var url = '{{ url }}';</script>
+    <link rel="icon" href="{% static "main/images/favicon.png" %}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{% static "main/images/favicon.png" %}">
+    <link rel="stylesheet" href="{% static "main/styles/style.css" %}">
+  </head>
+  <body>
+    <div class="window">
+      <div class="top">
+        <button id="btn1" onclick="OnBtn1Click()">
+          <img id="img1" src="{% static "main/images/undo.png" %}">
+        </button>
+        <button id="btn2" onclick="OnBtn2Click()">
+          <img id="img2" src="{% static "main/images/redo.png" %}">
+        </button>
+        <button id="btn3" onclick="OnBtn3Click()">Line</button>
+        <button id="btn4" onclick="OnBtn4Click()">Clear</button>
+        <button id="btn5" onclick="OnBtn5Click()">Snap to</button>
+        <div id="btn5-menu" class="menu">
+          <button class="menu_btn" onclick="OnBtn51Click()">Node</button>
+          <button class="menu_btn" onclick="OnBtn52Click()">Angle</button>
         </div>
-        <canvas id="Editor" width="500" height="500">Canvas is not supported</canvas>
-        <div class="BottomPanel">
-          <p class="Coord-x">X: 1.23</p>
-          <p class="Coord-y">Y: 0.56</p>
-          <p class="Stat">Objects: 278</p>
+        <button id="btn6" onclick="OnBtn6Click()">
+          <img id="img3" src="{% static "main/images/nodes.png" %}">
+        </button>
+        <button id="btn7" onclick="OnBtn7Click()">
+          <img id="img4" src="{% static "main/images/thickness3.png" %}">
+        </button>
+        <div id="btn7-menu" class="menu">
+          <button class="menu_btn7" onclick="OnBtn71Click()">
+            <img id="img4" src="{% static "main/images/thickness1.png" %}">
+          </button>
+          <button class="menu_btn7" onclick="OnBtn72Click()">
+            <img id="img4" src="{% static "main/images/thickness2.png" %}">
+          </button>
+          <button class="menu_btn7" onclick="OnBtn73Click()">
+            <img id="img4" src="{% static "main/images/thickness3.png" %}">
+          </button>
         </div>
-        <script id="shader-fs" type="x-shader/x-fragment">
-          precision mediump float;
-          varying vec3 fragColor;
-          void main(void) {
-            gl_FragColor = vec4(fragColor, 1.0);
-          }
-        </script>
-        <script id="shader-vs" type="x-shader/x-vertex">
-          attribute vec3 aVertexPosition;
-          attribute vec3 aVertexColor;
-          varying vec3 fragColor;
-          void main(void) {
-            fragColor = aVertexColor;
-            gl_Position = vec4(aVertexPosition, 1.0);
-            gl_PointSize = 10.0;
-          }
-        </script>
-        <script src="{% static "script.js" %}"></script>
-    </body>
+        <button id="btn8" onclick="OnBtn8Click()">
+          <img id="img5" src="{% static "main/images/light.png" %}">
+        </button>
+      </div>
+      <div id="space">
+        <canvas id="Editor" height='100' width='100'>Canvas</canvas>
+      </div>
+      <div class="bottom">
+        <button id="coord_x">X: 1.23</button>
+        <button id="coord_y">Y: 0.56</button>
+        <button id="stat">Objects: 278</button>
+      </div>
+    </div>
+    <script id="shader-fs" type="x-shader/x-fragment">
+      precision mediump float;
+      varying vec3 fragColor;
+      void main(void) {
+        gl_FragColor = vec4(fragColor, 1.0);
+      }
+    </script>
+    <script id="shader-vs" type="x-shader/x-vertex">
+      attribute vec3 aVertexPosition;
+      attribute vec3 aVertexColor;
+      varying vec3 fragColor;
+      void main(void) {
+        fragColor = aVertexColor;
+        gl_Position = vec4(aVertexPosition, 1.0);
+        gl_PointSize = 10.0;
+      }
+    </script>
+    <script src="{% static "main/scripts/script.js" %}"></script>
+  </body>
 </html>
