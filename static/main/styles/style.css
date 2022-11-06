@@ -9,9 +9,9 @@ html {
 
   --offsetBotY: -3px;
 
-  --offsetBotX1: 10px;
-  --offsetBotX2: 40px;
-  --offsetBotX3: calc(100vw - 180px);
+  --offsetBotX1: 20px;
+  --offsetBotX2: 30px;
+  --offsetBotX3: calc(100vw - 220px);
 }
 
 .window {
@@ -233,6 +233,9 @@ html {
   bottom: var(--offsetBotY);
   left: var(--offsetBotX1);
 
+  width: 60px;
+  text-align: left;
+
   background-color: rgba(0,0,0,0);
   padding: 0;
   border: none;
@@ -247,6 +250,9 @@ html {
   position: relative;
   bottom: var(--offsetBotY);
   left: var(--offsetBotX2);
+
+  width: 60px;
+  text-align: left;
 
   background-color: rgba(0,0,0,0);
   padding: 0;

@@ -316,6 +316,30 @@ window.onclick = function(me)
 
 window.onmousemove = function(me)
 {
+    var current = document.elementFromPoint(me.clientX, me.clientY);
+    var canvas = document.getElementById("Editor");
+
+    if (current === canvas)
+    {
+        var offsetX = - 0.009;
+        var offsetY = 0.009;
+
+        var glX = ((me.clientX - gl.viewportWidth / 2) / gl.viewportWidth) * 2 + offsetX;
+        var glY = ((gl.viewportHeight / 2 - me.clientY) / gl.viewportHeight) * 2 + offsetY;
+
+        var target = " ";
+    
+        var xCoord = document.getElementById("coord_x");
+        var foundPos = xCoord.textContent.indexOf(target);
+        var prefix = xCoord.textContent.slice(0, foundPos+1);
+        xCoord.textContent = prefix + glX.toFixed(3);
+
+        var yCoord = document.getElementById("coord_y");
+        foundPos = yCoord.textContent.indexOf(target);
+        prefix = yCoord.textContent.slice(0, foundPos+1);
+        yCoord.textContent = prefix + glY.toFixed(3);
+    }
+    
     if(step == ControllerSteps.DRAWING)
     {
         var offsetX = - 0.009;
@@ -357,10 +381,10 @@ window.onkeydown = function(e)
     }
 }
 
-function OnBtn1Click() { alert("Btn 1"); }
-function OnBtn2Click() { alert("Btn 2"); }
-function OnBtn3Click() { alert("Btn 3"); }
-function OnBtn4Click() { alert("Btn 4"); }
+function OnBtn1Click() { alert("Btn Undo"); }
+function OnBtn2Click() { alert("Btn Redo"); }
+function OnBtn3Click() { alert("Btn Line"); }
+function OnBtn4Click() { alert("Btn Clear"); }
 
 function OnBtn5Click() { document.getElementById("btn5-menu").classList.toggle("show"); }
 function OnBtn51Click() { alert("Btn 51"); }
