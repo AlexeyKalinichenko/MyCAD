@@ -14,6 +14,10 @@ var lastYgl = 0;
 const ControllerSteps = { POINT1: 0, POINT2: 1, DRAWING: 2 };
 var step = ControllerSteps.POINT1;
 
+const LightThemeColor = { R: 1.0, G: 1.0, B: 1.0, A: 1.0 };
+const DarkThemeColor = { R: 0.19, G: 0.22, B: 0.25, A: 1.0 };
+let currentThemeColor = DarkThemeColor;
+
 // установка шейдеров
 function initShaders()
 {
@@ -61,16 +65,16 @@ function getShader(type, id)
     return shader;  
 }
 
-function ClearScene()
+function ClearScene(themeColor)
 {
-    gl.clearColor(0.19, 0.22, 0.25, 1.0);   //#303841
+    gl.clearColor(themeColor.R, themeColor.G, themeColor.B, themeColor.A);
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
 function RefreshScene()
 {
-    ClearScene();
+    ClearScene(currentThemeColor);
     drawScene();
 }
 
@@ -281,9 +285,7 @@ window.onload = window.onresize = function()
         loadSceneData();
         RefreshScene();
 
-        //
         test();
-        //
     }
 }
 
@@ -365,7 +367,7 @@ window.onkeydown = function(e)
         indicesBuffer = [];
         indexCounter = 0;
 
-        ClearScene();
+        ClearScene(currentThemeColor);
     }
     else if (e.code == "KeyS")
     {
@@ -397,4 +399,35 @@ function OnBtn71Click() { alert("Btn 71"); }
 function OnBtn72Click() { alert("Btn 72"); }
 function OnBtn73Click() { alert("Btn 73"); }
 
-function OnBtn8Click() { alert("Btn 8"); }
+function OnBtn8Click()
+{
+    var divWindow = document.getElementsByClassName("window")[0];
+    divWindow.classList.toggle("Dark-Theme");
+    divWindow.classList.toggle("Light-Theme");
+
+    currentThemeColor = divWindow.classList.contains("Dark-Theme") ? DarkThemeColor : LightThemeColor;
+
+    if (currentThemeColor == DarkThemeColor)
+    {
+        document.getElementById("img1").setAttribute("src", "/static/main/images/undo.png");
+        document.getElementById("img2").setAttribute("src", "/static/main/images/redo.png");
+        document.getElementById("img4").setAttribute("src", "/static/main/images/thickness3.png");
+        document.getElementById("img41").setAttribute("src", "/static/main/images/thickness1.png");
+        document.getElementById("img42").setAttribute("src", "/static/main/images/thickness2.png");
+        document.getElementById("img43").setAttribute("src", "/static/main/images/thickness3.png");
+        document.getElementById("img5").setAttribute("src", "/static/main/images/light.png");
+    }
+    else
+    {
+        document.getElementById("img1").setAttribute("src", "/static/main/images/undo_light.png");
+        document.getElementById("img2").setAttribute("src", "/static/main/images/redo_light.png");
+        document.getElementById("img4").setAttribute("src", "/static/main/images/thickness3_light.png");
+        document.getElementById("img41").setAttribute("src", "/static/main/images/thickness1_light.png");
+        document.getElementById("img42").setAttribute("src", "/static/main/images/thickness2_light.png");
+        document.getElementById("img43").setAttribute("src", "/static/main/images/thickness3_light.png");
+        document.getElementById("img5").setAttribute("src", "/static/main/images/dark.png");
+    }
+
+    RefreshScene();
+    test();
+}

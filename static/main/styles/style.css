@@ -14,6 +14,36 @@ html {
   --offsetBotX3: calc(100vw - 220px);
 }
 
+.Dark-Theme {
+  --BgColor: #22262a;
+  --EditorBgColor: #303841;
+  --ButtonBgColor: #47525d;
+  --ButtonTextColor: #cccccc;
+  --ButtonBgFocusColor: #2e333a;
+  --ThemeButtonBgColor: #cccccc;
+  --ThemeButtonTextColor: #47525d;
+  --ThemeButtonBgFocusColor: #848181;
+  --BottomTextColor: #cccccc;
+  --MenuBgColor: #e4e0e0;
+  --MenuTextColor: #22262a;
+  --MenuBgFocusColor: #a8a6a6;
+}
+
+.Light-Theme {
+  --BgColor: #f3f3f3;
+  --EditorBgColor: #ffffff;
+  --ButtonBgColor: #e4e6f0;
+  --ButtonTextColor: #616161;
+  --ButtonBgFocusColor: #edb067;
+  --ThemeButtonBgColor: #47525d;
+  --ThemeButtonTextColor: #e4e6f0;
+  --ThemeButtonBgFocusColor: #edb067;
+  --BottomTextColor: #616161;
+  --MenuBgColor: #e4e6f0;
+  --MenuTextColor: #616161;
+  --MenuBgFocusColor: #edb067;
+}
+
 .window {
   position: absolute;
   top: 0;
@@ -26,29 +56,29 @@ html {
   grid-template-columns: 1fr;
   grid-template-rows: 40px auto 30px;
   grid-gap: 0px;
-  background-color: #22262a;
+  background-color: var(--BgColor);
 }
 
 .top {
   grid-column: 1;
   grid-row: 1;
-  background-color: #22262a;
+  background-color: var(--BgColor);
 }
 
 #space {
   grid-column: 1;
   grid-row: 2;
-  background-color: #22262a;
+  background-color: var(--BgColor);
 }
 
 .bottom {
   grid-column: 1;
   grid-row: 3;
-  background-color: #22262a;
+  background-color: var(--BgColor);
 }
 
 #Editor {
-  background-color: #303841;
+  background-color: var(--EditorBgColor);
   margin: 0 auto;
   position: absolute;
 }
@@ -59,8 +89,8 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH1);
 
-  background: #47525d;
-  color: #cccccc;
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -69,7 +99,7 @@ html {
 }
 
 #btn1:hover, #btn1:focus {
-  background-color: #2e333a;
+  background-color: var(--ButtonBgFocusColor);
 }
 
 #img1 {
@@ -82,8 +112,8 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH1);
 
-  background: #47525d;
-  color: #cccccc;
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -92,7 +122,7 @@ html {
 }
 
 #btn2:hover, #btn2:focus {
-  background-color: #2e333a;
+  background-color: var(--ButtonBgFocusColor);
 }
 
 #img2 {
@@ -105,8 +135,8 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH2);
 
-  background: #47525d;
-  color: #cccccc;
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -115,7 +145,7 @@ html {
 }
 
 #btn3:hover, #btn3:focus {
-  background-color: #2e333a;
+  background-color: var(--ButtonBgFocusColor);
 }
 
 #btn4 {
@@ -124,8 +154,8 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH2);
 
-  background: #47525d;
-  color: #cccccc;
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -134,7 +164,7 @@ html {
 }
 
 #btn4:hover, #btn4:focus {
-  background-color: #2e333a;
+  background-color: var(--ButtonBgFocusColor);
 }
 
 #btn5 {
@@ -143,8 +173,8 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH2);
 
-  background: #47525d;
-  color: #cccccc;
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -153,7 +183,7 @@ html {
 }
 
 #btn5:hover, #btn5:focus {
-  background-color: #2e333a;
+  background-color: var(--ButtonBgFocusColor);
 }
 
 #btn6 {
@@ -162,8 +192,8 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH3);
 
-  background: #47525d;
-  color: #cccccc;
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -172,7 +202,7 @@ html {
 }
 
 #btn6:hover, #btn6:focus {
-  background-color: #2e333a;
+  background-color: var(--ButtonBgFocusColor);
 }
 
 #img3 {
@@ -185,8 +215,8 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH3);
 
-  background: #47525d;
-  color: #cccccc;
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -195,10 +225,10 @@ html {
 }
 
 #btn7:hover, #btn7:focus {
-  background-color: #2e333a;
+  background-color: var(--ButtonBgFocusColor);
 }
 
-#img4 {
+#img4, #img41, #img42, #img43 {
   width: 85px;
 }
 
@@ -208,8 +238,8 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH3);
 
-  background: #cccccc;
-  color: #47525d;
+  background: var(--ThemeButtonBgColor);
+  color: var(--ThemeButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -218,7 +248,7 @@ html {
 }
 
 #btn8:hover, #btn8:focus {
-  background-color: #848181;
+  background-color: var(--ThemeButtonBgFocusColor);
 }
 
 #img5 {
@@ -236,14 +266,13 @@ html {
   width: 60px;
   text-align: left;
 
-  background-color: rgba(0,0,0,0);
   padding: 0;
   border: none;
   background: none;
 
   font-family: Tahoma;
   font-size: 13px;
-  color: #cccccc;
+  color: var(--BottomTextColor);
 }
 
 #coord_y {
@@ -254,14 +283,13 @@ html {
   width: 60px;
   text-align: left;
 
-  background-color: rgba(0,0,0,0);
   padding: 0;
   border: none;
   background: none;
 
   font-family: Tahoma;
   font-size: 13px;
-  color: #cccccc;
+  color: var(--BottomTextColor);
 }
 
 #stat {
@@ -269,14 +297,13 @@ html {
   bottom: var(--offsetBotY);
   left: var(--offsetBotX3);
 
-  background-color: rgba(0,0,0,0);
   padding: 0;
   border: none;
   background: none;
 
   font-family: Tahoma;
   font-size: 13px;
-  color: #cccccc;
+  color: var(--BottomTextColor);
 }
 
 #btn5-menu {
@@ -289,8 +316,7 @@ html {
   left: 304px;
   width: 95px;
 
-  background: #47525d;
-  color: #cccccc;
+  background: var(--ThemeButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -301,12 +327,12 @@ html {
 .menu {
   display: none;
   position: absolute;
-  background-color: #e4e0e0;
+  background-color: var(--MenuBgColor);
   z-index: 1;
 }
 
 .menu_btn {
-  color: #22262a;
+  color: var(--MenuTextColor);
   padding: 5px 10px;
   text-decoration: none;
   display: block;
@@ -321,7 +347,7 @@ html {
 }
 
 .menu_btn:hover {
-  background-color: rgb(168, 166, 166);
+  background-color: var(--MenuBgFocusColor);
 }
 
 .menu_btn7 {
@@ -329,8 +355,7 @@ html {
   left: 304px;
   width: 95px;
 
-  background: #47525d;
-  color: #cccccc;
+  background: var(--ThemeButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -339,7 +364,7 @@ html {
 }
 
 .menu_btn7:hover {
-  background-color: #3f464f;
+  background-color: var(--ButtonBgFocusColor);
 }
 
 .show {
