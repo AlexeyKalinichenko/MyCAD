@@ -18,6 +18,15 @@ const LightThemeColor = { R: 1.0, G: 1.0, B: 1.0, A: 1.0 };
 const DarkThemeColor = { R: 0.19, G: 0.22, B: 0.25, A: 1.0 };
 let currentThemeColor = DarkThemeColor;
 
+const Thickness = { ONE: 0, TWO: 1, THREE: 2 };
+let currentThickness = Thickness.TWO;
+
+const Nodes = { ON: 0, OFF: 1 };
+let currentNodes = Nodes.OFF;
+
+const SnapTo = { NONE: 0, NODE: 1, ANGLE: 2 };
+let currentSnap = SnapTo.NONE;
+
 // установка шейдеров
 function initShaders()
 {
@@ -291,6 +300,7 @@ window.onload = window.onresize = function()
 
 window.onclick = function(me)
 {
+    /*
     var offsetX = - 0.009;
     var offsetY = 0.009;
 
@@ -314,6 +324,7 @@ window.onclick = function(me)
 
         step = ControllerSteps.POINT1;
     }
+    */
 }
 
 window.onmousemove = function(me)
@@ -341,7 +352,7 @@ window.onmousemove = function(me)
         prefix = yCoord.textContent.slice(0, foundPos+1);
         yCoord.textContent = prefix + glY.toFixed(3);
     }
-    
+    /*
     if(step == ControllerSteps.DRAWING)
     {
         var offsetX = - 0.009;
@@ -353,6 +364,7 @@ window.onmousemove = function(me)
         RefreshScene();
         drawTempLine(lastXgl, lastYgl, Xgl, Ygl);
     }
+    */
 }
 
 window.onkeydown = function(e)
@@ -383,21 +395,132 @@ window.onkeydown = function(e)
     }
 }
 
+function checkSnapMode()
+{
+    var theme = (currentThemeColor == DarkThemeColor) ?
+            document.querySelector(".Dark-Theme") : document.querySelector(".Light-Theme");
+    var style = window.getComputedStyle(theme);
+    
+    if (currentSnap == SnapTo.NODE || currentSnap == SnapTo.ANGLE)
+    {
+        var color = style.getPropertyValue("--ButtonBgSelectedColor");
+        theme.style.setProperty("--SnapToButtonBgColor", color);
+
+        var focusColor = style.getPropertyValue("--ButtonBgSelectedFocusColor");
+        theme.style.setProperty("--SnapToButtonBgFocusColor", focusColor);
+
+        var textColor = style.getPropertyValue("--ButtonTextSelectedColor");
+        theme.style.setProperty("--SnapToButtonTextColor", textColor);
+    }
+    else
+    {
+        var color = style.getPropertyValue("--ButtonBgColor");
+        theme.style.setProperty("--SnapToButtonBgColor", color);
+
+        var focusColor = style.getPropertyValue("--ButtonBgFocusColor");
+        theme.style.setProperty("--SnapToButtonBgFocusColor", focusColor);
+
+        var textColor = style.getPropertyValue("--ButtonTextColor");
+        theme.style.setProperty("--SnapToButtonTextColor", textColor);
+    }
+}
+
 function OnBtn1Click() { alert("Btn Undo"); }
 function OnBtn2Click() { alert("Btn Redo"); }
 function OnBtn3Click() { alert("Btn Line"); }
 function OnBtn4Click() { alert("Btn Clear"); }
 
-function OnBtn5Click() { document.getElementById("btn5-menu").classList.toggle("show"); }
-function OnBtn51Click() { alert("Btn 51"); }
-function OnBtn52Click() { alert("Btn 52"); }
+function OnBtn5Click()
+{
+    document.getElementById("btn5-menu").classList.toggle("show");
+}
 
-function OnBtn6Click() { alert("Btn 6"); }
+function OnBtn51Click()
+{
+    if (currentSnap != SnapTo.NODE)
+        currentSnap = SnapTo.NODE;
+    else
+        currentSnap = SnapTo.NONE;
+    
+    checkSnapMode();
+}
 
-function OnBtn7Click() { document.getElementById("btn7-menu").classList.toggle("show"); }
-function OnBtn71Click() { alert("Btn 71"); }
-function OnBtn72Click() { alert("Btn 72"); }
-function OnBtn73Click() { alert("Btn 73"); }
+function OnBtn52Click()
+{
+    if (currentSnap != SnapTo.ANGLE)
+        currentSnap = SnapTo.ANGLE;
+    else
+        currentSnap = SnapTo.NONE;
+    
+    checkSnapMode();
+}
+
+function OnBtn6Click()
+{
+    currentNodes = (currentNodes == Nodes.ON) ? Nodes.OFF : Nodes.ON;
+
+    var theme = (currentThemeColor == DarkThemeColor) ?
+        document.querySelector(".Dark-Theme") : document.querySelector(".Light-Theme");
+    var style = window.getComputedStyle(theme);
+    
+    if (currentNodes == Nodes.ON)
+    {
+        var selectedColor = style.getPropertyValue("--ButtonBgSelectedColor");
+        theme.style.setProperty("--NodesButtonBgColor", selectedColor);
+
+        var focusColor = style.getPropertyValue("--ButtonBgSelectedFocusColor");
+        theme.style.setProperty("--NodesButtonBgFocusColor", focusColor);
+    }
+    else
+    {
+        var color = style.getPropertyValue("--ButtonBgColor");
+        theme.style.setProperty("--NodesButtonBgColor", color);
+
+        var focusColor = style.getPropertyValue("--ButtonBgFocusColor");
+        theme.style.setProperty("--NodesButtonBgFocusColor", focusColor);
+    }
+}
+
+function OnBtn7Click()
+{
+    document.getElementById("btn7-menu").classList.toggle("show");
+}
+
+function OnBtn71Click()
+{
+    var imagePath = (currentThemeColor == DarkThemeColor) ?
+        "/static/main/images/thickness1.png" : "/static/main/images/thickness1_light.png";
+
+    document.getElementById("img4").setAttribute("src", imagePath);
+
+    currentThickness = Thickness.ONE;
+
+    document.getElementById("btn7-menu").classList.remove("show");
+}
+
+function OnBtn72Click()
+{
+    var imagePath = (currentThemeColor == DarkThemeColor) ?
+        "/static/main/images/thickness2.png" : "/static/main/images/thickness2_light.png";
+
+    document.getElementById("img4").setAttribute("src", imagePath);
+
+    currentThickness = Thickness.TWO;
+
+    document.getElementById("btn7-menu").classList.remove("show");
+}
+
+function OnBtn73Click()
+{
+    var imagePath = (currentThemeColor == DarkThemeColor) ?
+        "/static/main/images/thickness3.png" : "/static/main/images/thickness3_light.png";
+
+    document.getElementById("img4").setAttribute("src", imagePath);
+
+    currentThickness = Thickness.THREE;
+
+    document.getElementById("btn7-menu").classList.remove("show");
+}
 
 function OnBtn8Click()
 {
@@ -407,11 +530,31 @@ function OnBtn8Click()
 
     currentThemeColor = divWindow.classList.contains("Dark-Theme") ? DarkThemeColor : LightThemeColor;
 
+    var theme = (currentThemeColor == DarkThemeColor) ?
+        document.querySelector(".Dark-Theme") : document.querySelector(".Light-Theme");
+    var style = window.getComputedStyle(theme);
+
+    if (currentNodes == Nodes.OFF)
+    {
+        var color = style.getPropertyValue("--ButtonBgColor");
+        theme.style.setProperty("--NodesButtonBgColor", color);
+
+        var focusColor = style.getPropertyValue("--ButtonBgFocusColor");
+        theme.style.setProperty("--NodesButtonBgFocusColor", focusColor);
+    }
+
     if (currentThemeColor == DarkThemeColor)
     {
         document.getElementById("img1").setAttribute("src", "/static/main/images/undo.png");
         document.getElementById("img2").setAttribute("src", "/static/main/images/redo.png");
-        document.getElementById("img4").setAttribute("src", "/static/main/images/thickness3.png");
+
+        var imagePath = "/static/main/images/thickness1.png";
+        if (currentThickness == Thickness.TWO)
+            imagePath = "/static/main/images/thickness2.png";
+        else if (currentThickness == Thickness.THREE)
+            imagePath = "/static/main/images/thickness3.png";
+
+        document.getElementById("img4").setAttribute("src", imagePath);
         document.getElementById("img41").setAttribute("src", "/static/main/images/thickness1.png");
         document.getElementById("img42").setAttribute("src", "/static/main/images/thickness2.png");
         document.getElementById("img43").setAttribute("src", "/static/main/images/thickness3.png");
@@ -421,7 +564,14 @@ function OnBtn8Click()
     {
         document.getElementById("img1").setAttribute("src", "/static/main/images/undo_light.png");
         document.getElementById("img2").setAttribute("src", "/static/main/images/redo_light.png");
-        document.getElementById("img4").setAttribute("src", "/static/main/images/thickness3_light.png");
+
+        var imagePath = "/static/main/images/thickness1_light.png";
+        if (currentThickness == Thickness.TWO)
+            imagePath = "/static/main/images/thickness2_light.png";
+        else if (currentThickness == Thickness.THREE)
+            imagePath = "/static/main/images/thickness3_light.png";
+    
+        document.getElementById("img4").setAttribute("src", imagePath);
         document.getElementById("img41").setAttribute("src", "/static/main/images/thickness1_light.png");
         document.getElementById("img42").setAttribute("src", "/static/main/images/thickness2_light.png");
         document.getElementById("img43").setAttribute("src", "/static/main/images/thickness3_light.png");

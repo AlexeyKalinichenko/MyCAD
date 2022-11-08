@@ -18,8 +18,16 @@ html {
   --BgColor: #22262a;
   --EditorBgColor: #303841;
   --ButtonBgColor: #47525d;
+  --ButtonBgSelectedColor: #eecda6;
   --ButtonTextColor: #cccccc;
+  --ButtonTextSelectedColor: #cccccc;
   --ButtonBgFocusColor: #2e333a;
+  --ButtonBgSelectedFocusColor: #47525d;
+  --SnapToButtonBgColor: var(--ButtonBgColor);
+  --SnapToButtonTextColor: var(--ButtonTextColor);
+  --SnapToButtonBgFocusColor: var(--ButtonBgFocusColor);
+  --NodesButtonBgColor: var(--ButtonBgColor);
+  --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
   --ThemeButtonBgColor: #cccccc;
   --ThemeButtonTextColor: #47525d;
   --ThemeButtonBgFocusColor: #848181;
@@ -33,8 +41,16 @@ html {
   --BgColor: #f3f3f3;
   --EditorBgColor: #ffffff;
   --ButtonBgColor: #e4e6f0;
+  --ButtonBgSelectedColor: #eecda6;
   --ButtonTextColor: #616161;
+  --ButtonTextSelectedColor: #e4e6f0;
   --ButtonBgFocusColor: #edb067;
+  --ButtonBgSelectedFocusColor: #816f59;
+  --SnapToButtonBgColor: var(--ButtonBgColor);
+  --SnapToButtonTextColor: var(--ButtonTextColor);
+  --SnapToButtonBgFocusColor: var(--ButtonBgFocusColor);
+  --NodesButtonBgColor: var(--ButtonBgColor);
+  --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
   --ThemeButtonBgColor: #47525d;
   --ThemeButtonTextColor: #e4e6f0;
   --ThemeButtonBgFocusColor: #edb067;
@@ -173,8 +189,8 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH2);
 
-  background: var(--ButtonBgColor);
-  color: var(--ButtonTextColor);
+  background: var(--SnapToButtonBgColor);
+  color: var(--SnapToButtonTextColor);
   padding: 3px;
   border-radius: 5px;
   font-family: Tahoma;
@@ -183,7 +199,7 @@ html {
 }
 
 #btn5:hover, #btn5:focus {
-  background-color: var(--ButtonBgFocusColor);
+  background-color: var(--SnapToButtonBgFocusColor);
 }
 
 #btn6 {
@@ -192,7 +208,7 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH3);
 
-  background: var(--ButtonBgColor);
+  background: var(--NodesButtonBgColor);  /*eecda6*/
   color: var(--ButtonTextColor);
   padding: 3px;
   border-radius: 5px;
@@ -202,7 +218,7 @@ html {
 }
 
 #btn6:hover, #btn6:focus {
-  background-color: var(--ButtonBgFocusColor);
+  background-color: var(--NodesButtonBgFocusColor);
 }
 
 #img3 {
