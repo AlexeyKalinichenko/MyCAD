@@ -13,39 +13,23 @@
   <body>
     <div class="window Dark-Theme">
       <div class="top">
-        <button id="btn1" onclick="OnBtn1Click()">
-          <img id="img1" src="{% static "main/images/undo.png" %}">
-        </button>
-        <button id="btn2" onclick="OnBtn2Click()">
-          <img id="img2" src="{% static "main/images/redo.png" %}">
-        </button>
-        <button id="btn3" onclick="OnBtn3Click()">Line</button>
-        <button id="btn4" onclick="OnBtn4Click()">Clear</button>
-        <button id="btn5" onclick="OnBtn5Click()">Snap to</button>
+        <button id="btn1"><img id="img1" src="{% static "main/images/undo.png" %}"></button>
+        <button id="btn2"><img id="img2" src="{% static "main/images/redo.png" %}"></button>
+        <button id="btn3">Line</button>
+        <button id="btn4">Clear</button>
+        <button id="btn5">Snap to</button>
         <div id="btn5-menu" class="menu">
-          <button class="menu_btn" onclick="OnBtn51Click()">Node</button>
-          <button class="menu_btn" onclick="OnBtn52Click()">Angle</button>
+          <button id="btn51" class="menu_btn">Node</button>
+          <button id="btn52" class="menu_btn">Angle</button>
         </div>
-        <button id="btn6" onclick="OnBtn6Click()">
-          <img id="img3" src="{% static "main/images/nodes.png" %}">
-        </button>
-        <button id="btn7" onclick="OnBtn7Click()">
-          <img id="img4" src="{% static "main/images/thickness3.png" %}">
-        </button>
+        <button id="btn6"><img id="img3" src="{% static "main/images/nodes.png" %}"></button>
+        <button id="btn7"><img id="img4" src="{% static "main/images/thickness2.png" %}"></button>
         <div id="btn7-menu" class="menu">
-          <button class="menu_btn7" onclick="OnBtn71Click()">
-            <img id="img41" src="{% static "main/images/thickness1.png" %}">
-          </button>
-          <button class="menu_btn7" onclick="OnBtn72Click()">
-            <img id="img42" src="{% static "main/images/thickness2.png" %}">
-          </button>
-          <button class="menu_btn7" onclick="OnBtn73Click()">
-            <img id="img43" src="{% static "main/images/thickness3.png" %}">
-          </button>
+          <button id="btn71" class="menu_btn7"><img id="img41" src="{% static "main/images/thickness1.png" %}"></button>
+          <button id="btn72" class="menu_btn7"><img id="img42" src="{% static "main/images/thickness2.png" %}"></button>
+          <button id="btn73" class="menu_btn7"><img id="img43" src="{% static "main/images/thickness3.png" %}"></button>
         </div>
-        <button id="btn8" onclick="OnBtn8Click()">
-          <img id="img5" src="{% static "main/images/light.png" %}">
-        </button>
+        <button id="btn8"><img id="img5" src="{% static "main/images/light.png" %}"></button>
       </div>
       <div id="space">
         <canvas id="Editor" height='100' width='100'>Canvas</canvas>

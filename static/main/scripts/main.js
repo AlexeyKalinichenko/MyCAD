@@ -1,18 +1,18 @@
-import {SessionManager, SM} from "./session_manager.js";
-import {UIManager, UM} from "./ui_manager.js";
-import {ConnectionManager, CM} from "./connection_manager.js";
-import {EditorManager, EM} from "./editor_manager.js";
+import {Storage, St} from "./storage.js";
+import {Interface, Ui} from "./interface.js";
+import {Connector, Cn} from "./connector.js";
+import {Editor, Ed} from "./editor.js";
 
 
 window.onload = function()
 {
-    SM.LoadContext();
-    EM.ResizeCanvas();
+    St.LoadContext();
+    Ed.ResizeCanvas();
 }
 
 window.onresize = function()
 {
-    EM.ResizeCanvas();
+    Ed.ResizeCanvas();
 }
 
 window.onclick = function(event)
@@ -29,8 +29,8 @@ window.onmousemove = function(event)
         var offsetX = - 0.009;
         var offsetY = 0.009;
 
-        var glX = ((event.clientX - EM.gl.viewportWidth / 2) / EM.gl.viewportWidth) * 2 + offsetX;
-        var glY = ((EM.gl.viewportHeight / 2 - event.clientY) / EM.gl.viewportHeight) * 2 + offsetY;
+        var glX = ((event.clientX - Ed.gl.viewportWidth / 2) / Ed.gl.viewportWidth) * 2 + offsetX;
+        var glY = ((Ed.gl.viewportHeight / 2 - event.clientY) / Ed.gl.viewportHeight) * 2 + offsetY;
 
         var target = " ";
     
@@ -50,45 +50,41 @@ window.onkeydown = function(event)
 {
 }
 
-function OnBtn1Click() { alert("Btn Undo"); }
-function OnBtn2Click() { alert("Btn Redo"); }
-function OnBtn3Click() { alert("Btn Line"); }
-function OnBtn4Click() { alert("Btn Clear"); }
+document.getElementById("btn1").addEventListener("click", () => { alert("Btn Undo"); });
+document.getElementById("btn2").addEventListener("click", () => { alert("Btn Redo"); });
+document.getElementById("btn3").addEventListener("click", () => { alert("Btn Line"); });
+document.getElementById("btn4").addEventListener("click", () => { alert("Btn Clear"); });
 
-function OnBtn5Click()
-{
+document.getElementById("btn5").addEventListener("click", function () {
     document.getElementById("btn5-menu").classList.toggle("show");
-}
+});
 
-function OnBtn51Click()
-{
-    if (SM.Snap != SessionManager.SnapToEnum.Node)
-        SM.Snap = SessionManager.SnapToEnum.Node;
+document.getElementById("btn51").addEventListener("click", () => {
+    if (St.Snap != Storage.SnapToEnum.Node)
+        St.Snap = Storage.SnapToEnum.Node;
     else
-        SM.Snap = SessionManager.SnapToEnum.None;
+        St.Snap = Storage.SnapToEnum.None;
     
-    SM.CheckSnapMode();
-}
+    St.CheckSnapMode();
+});
 
-function OnBtn52Click()
-{
-    if (SM.Snap != SessionManager.SnapToEnum.Angle)
-        SM.Snap = SessionManager.SnapToEnum.Angle;
+document.getElementById("btn52").addEventListener("click", () => {
+    if (St.Snap != Storage.SnapToEnum.Angle)
+        St.Snap = Storage.SnapToEnum.Angle;
     else
-        SM.Snap = SessionManager.SnapToEnum.None;
+        St.Snap = Storage.SnapToEnum.None;
     
-    SM.CheckSnapMode();
-}
+    St.CheckSnapMode();
+});
 
-function OnBtn6Click()
-{
-    SM.Nodes = (SM.Nodes == SessionManager.NodesEnum.On) ? SessionManager.NodesEnum.Off : SessionManager.NodesEnum.On;
+document.getElementById("btn6").addEventListener("click", () => {
+    St.Nodes = (St.Nodes == Storage.NodesEnum.On) ? Storage.NodesEnum.Off : Storage.NodesEnum.On;
 
-    var theme = (SM.ThemeColor.Theme == SessionManager.ThemeColorEnum.Dark) ?
+    var theme = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
         document.querySelector(".Dark-Theme") : document.querySelector(".Light-Theme");
     var style = window.getComputedStyle(theme);
     
-    if (SM.Nodes == SessionManager.NodesEnum.On)
+    if (St.Nodes == Storage.NodesEnum.On)
     {
         var selectedColor = style.getPropertyValue("--ButtonBgSelectedColor");
         theme.style.setProperty("--NodesButtonBgColor", selectedColor);
@@ -104,63 +100,59 @@ function OnBtn6Click()
         var focusColor = style.getPropertyValue("--ButtonBgFocusColor");
         theme.style.setProperty("--NodesButtonBgFocusColor", focusColor);
     }
-}
+});
 
-function OnBtn7Click()
-{
+document.getElementById("btn7").addEventListener("click", () => {
     document.getElementById("btn7-menu").classList.toggle("show");
-}
+});
 
-function OnBtn71Click()
-{
-    var imagePath = (SM.ThemeColor.Theme == SessionManager.ThemeColorEnum.Dark) ?
+
+document.getElementById("btn71").addEventListener("click", () => {
+    var imagePath = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
         "/static/main/images/thickness1.png" : "/static/main/images/thickness1_light.png";
 
     document.getElementById("img4").setAttribute("src", imagePath);
 
-    SM.Thickness = SessionManager.ThicknessEnum.One;
+    St.Thickness = Storage.ThicknessEnum.One;
 
     document.getElementById("btn7-menu").classList.remove("show");
-}
+});
 
-function OnBtn72Click()
-{
-    var imagePath = (SM.ThemeColor.Theme == SessionManager.ThemeColorEnum.Dark) ?
+document.getElementById("btn72").addEventListener("click", () => {
+    var imagePath = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
         "/static/main/images/thickness2.png" : "/static/main/images/thickness2_light.png";
 
     document.getElementById("img4").setAttribute("src", imagePath);
 
-    SM.Thickness = SessionManager.ThicknessEnum.Two;
+    St.Thickness = Storage.ThicknessEnum.Two;
 
     document.getElementById("btn7-menu").classList.remove("show");
-}
+});
 
-function OnBtn73Click()
-{
-    var imagePath = (SM.ThemeColor.Theme == SessionManager.ThemeColorEnum.Dark) ?
+document.getElementById("btn73").addEventListener("click", () => {
+    var imagePath = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
         "/static/main/images/thickness3.png" : "/static/main/images/thickness3_light.png";
 
     document.getElementById("img4").setAttribute("src", imagePath);
 
-    SM.Thickness = SessionManager.ThicknessEnum.Three;
+    St.Thickness = Storage.ThicknessEnum.Three;
 
     document.getElementById("btn7-menu").classList.remove("show");
-}
+});
 
-function OnBtn8Click()
-{
+document.getElementById("btn8").addEventListener("click", () => {
     var divWindow = document.getElementsByClassName("window")[0];
     divWindow.classList.toggle("Dark-Theme");
     divWindow.classList.toggle("Light-Theme");
 
-    SM.ThemeColor.Theme = divWindow.classList.contains("Dark-Theme") ?
-        SessionManager.ThemeColorEnum.Dark : SessionManager.ThemeColorEnum.Light;
+    St.ThemeColor.Theme = divWindow.classList.contains("Dark-Theme") ?
+        Storage.ThemeColorEnum.Dark : Storage.ThemeColorEnum.Light;
 
-    var theme = (SM.ThemeColor.Theme == SessionManager.ThemeColorEnum.Dark) ?
+    var theme = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
         document.querySelector(".Dark-Theme") : document.querySelector(".Light-Theme");
     var style = window.getComputedStyle(theme);
 
-    if (SM.Nodes == SessionManager.NodesEnum.Off)
+    if (St.Nodes == Storage.NodesEnum.Off)
     {
         var color = style.getPropertyValue("--ButtonBgColor");
         theme.style.setProperty("--NodesButtonBgColor", color);
@@ -169,15 +161,15 @@ function OnBtn8Click()
         theme.style.setProperty("--NodesButtonBgFocusColor", focusColor);
     }
 
-    if (SM.ThemeColor.Theme == SessionManager.ThemeColorEnum.Dark)
+    if (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark)
     {
         document.getElementById("img1").setAttribute("src", "/static/main/images/undo.png");
         document.getElementById("img2").setAttribute("src", "/static/main/images/redo.png");
 
         var imagePath = "/static/main/images/thickness1.png";
-        if (SM.Thickness == SessionManager.ThicknessEnum.Two)
+        if (St.Thickness == Storage.ThicknessEnum.Two)
             imagePath = "/static/main/images/thickness2.png";
-        else if (SM.Thickness == SessionManager.ThicknessEnum.Three)
+        else if (St.Thickness == Storage.ThicknessEnum.Three)
             imagePath = "/static/main/images/thickness3.png";
 
         document.getElementById("img4").setAttribute("src", imagePath);
@@ -192,9 +184,9 @@ function OnBtn8Click()
         document.getElementById("img2").setAttribute("src", "/static/main/images/redo_light.png");
 
         var imagePath = "/static/main/images/thickness1_light.png";
-        if (SM.Thickness == SessionManager.ThicknessEnum.Two)
+        if (St.Thickness == Storage.ThicknessEnum.Two)
             imagePath = "/static/main/images/thickness2_light.png";
-        else if (SM.Thickness == SessionManager.ThicknessEnum.Three)
+        else if (St.Thickness == Storage.ThicknessEnum.Three)
             imagePath = "/static/main/images/thickness3_light.png";
     
         document.getElementById("img4").setAttribute("src", imagePath);
@@ -204,7 +196,5 @@ function OnBtn8Click()
         document.getElementById("img5").setAttribute("src", "/static/main/images/dark.png");
     }
 
-    EM.RefreshScene();
-}
-
-alert("main.js");
+    Ed.RefreshScene();
+});

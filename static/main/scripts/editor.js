@@ -1,6 +1,6 @@
-import {SessionManager, SM} from "./session_manager.js";
+import {Storage, St} from "./storage.js";
 
-export class EditorManager {
+export class Editor {
     static gl = null;
     static shaderProgram = null;
     static VerticesBuffer = [];
@@ -73,7 +73,7 @@ export class EditorManager {
     }
 
     RefreshScene = function() {
-        this.ClearScene(SM.ThemeColor.GetColor());
+        this.ClearScene(St.ThemeColor.GetColor());
         this.drawTempObjects();
     }
 
@@ -173,6 +173,4 @@ export class EditorManager {
     }
 }
 
-export let EM = new EditorManager();
-
-alert("editor_manager.js");
+export let Ed = new Editor();

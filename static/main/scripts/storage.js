@@ -1,36 +1,36 @@
-export class SessionManager {
+export class Storage {
     static ThicknessEnum  = { One: "one", Two: "two", Three: "three" };
     static SnapToEnum     = { None: "none", Node: "Node", Angle: "Angle" };
     static NodesEnum      = { On: "on", Off: "off" };
     static ThemeColorEnum = { Dark: "dark", Light: "light" };
 
-    Thickness  = SessionManager.ThicknessEnum.Two;
-    Snap       = SessionManager.SnapToEnum.None;
-    Nodes      = SessionManager.NodesEnum.Off;
+    Thickness  = Storage.ThicknessEnum.Two;
+    Snap       = Storage.SnapToEnum.None;
+    Nodes      = Storage.NodesEnum.Off;
 
     ThemeColor = {
         editorBgColorDark: { R: 0.19, G: 0.22, B: 0.25, A: 1.0 },  // #303841
         editorBgColorLight: { R: 1.0, G: 1.0, B: 1.0, A: 1.0 },    // #ffffff
 
-        Theme: SessionManager.ThemeColorEnum.Dark,
+        Theme: Storage.ThemeColorEnum.Dark,
         GetColor: function() {
-            return (this.Theme == SessionManager.ThemeColorEnum.Dark) ?
+            return (this.Theme == Storage.ThemeColorEnum.Dark) ?
                 this.editorBgColorDark : this.editorBgColorLight;
         }
     };
     
     LoadContext = function() {
         let theme = localStorage.getItem("ThemeColor");
-        this.ThemeColor.Theme = theme ? theme : SessionManager.ThemeColorEnum.Dark;
+        this.ThemeColor.Theme = theme ? theme : Storage.ThemeColorEnum.Dark;
         
         let thickness = localStorage.getItem("Thickness");
-        this.Thickness = thickness ? thickness : SessionManager.ThicknessEnum.Two;
+        this.Thickness = thickness ? thickness : Storage.ThicknessEnum.Two;
 
         let snap = localStorage.getItem("Snap");
-        this.Snap = snap ? snap : SessionManager.SnapToEnum.None;
+        this.Snap = snap ? snap : Storage.SnapToEnum.None;
 
         let nodes = localStorage.getItem("Nodes");
-        this.Nodes = nodes ? nodes : SessionManager.NodesEnum.Off;
+        this.Nodes = nodes ? nodes : Storage.NodesEnum.Off;
     };
 
     SaveContext = function() {
@@ -45,11 +45,11 @@ export class SessionManager {
     };
 
     CheckSnapMode = function() {
-        var theme = (this.ThemeColor.Theme == SessionManager.ThemeColorEnum.Dark) ?
+        var theme = (this.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
                 document.querySelector(".Dark-Theme") : document.querySelector(".Light-Theme");
         var style = window.getComputedStyle(theme);
         
-        if (this.Snap == SessionManager.SnapToEnum.Node || this.Snap == SessionManager.SnapToEnum.Angle)
+        if (this.Snap == Storage.SnapToEnum.Node || this.Snap == Storage.SnapToEnum.Angle)
         {
             var color = style.getPropertyValue("--ButtonBgSelectedColor");
             theme.style.setProperty("--SnapToButtonBgColor", color);
@@ -74,6 +74,4 @@ export class SessionManager {
     }
 }
 
-export let SM = new SessionManager();
-
-alert("session_manager.js");
+export let St = new Storage();

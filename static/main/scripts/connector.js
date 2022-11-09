@@ -1,4 +1,4 @@
-export class ConnectionManager {
+export class Connector {
     LoadSceneData = function()
     {
         var xhr = new XMLHttpRequest();
@@ -11,6 +11,4 @@ export class ConnectionManager {
     }
 }
 
-export let CM = new ConnectionManager();
-
-alert("connection_manager.js");
+export let Cn = new Connector();
