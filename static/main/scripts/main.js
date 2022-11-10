@@ -4,6 +4,7 @@ import {Connector, Cn} from "./connector.js";
 import {Editor, Ed} from "./editor.js";
 
 
+/*
 window.onload = function()
 {
     St.LoadContext();
@@ -198,3 +199,4 @@ document.getElementById("btn8").addEventListener("click", () => {
 
     Ed.RefreshScene();
 });
+*/

@@ -31,16 +31,20 @@ def RunOperation(request, operationId):
 	return response
 
 def ButtonEvent(request, buttonId, state):
-	return HttpResponseRedirect(deploy['url'])
+	response = JsonResponse({ "result": 0 })
+	return response
 
 def MouseMoveEvent(request, x, y):
-	return HttpResponseRedirect(deploy['url'])
+	response = JsonResponse({ "result": 0 })
+	return response
 
 def SendIntData(request, value):
-	return HttpResponseRedirect(deploy['url'])
+	response = JsonResponse({ "result": 0 })
+	return response
 
 def SendStringData(request, value):
-	return HttpResponseRedirect(deploy['url'])
+	response = JsonResponse({ "result": 0 })
+	return response
 
 def IsDocumentChanged(request):
 	response = JsonResponse({ "result": 0, "IsDocumentChanged": True })
