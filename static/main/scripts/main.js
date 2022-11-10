@@ -3,11 +3,11 @@ import {Interface, Ui} from "./interface.js";
 import {Connector, Cn} from "./connector.js";
 import {Editor, Ed} from "./editor.js";
 
+//cursor
 
-/*
 window.onload = function()
 {
-    St.LoadContext();
+    //St.LoadContext();
     Ed.ResizeCanvas();
 }
 
@@ -27,23 +27,16 @@ window.onmousemove = function(event)
 
     if (current === canvas)
     {
+        //editor module//
         var offsetX = - 0.009;
         var offsetY = 0.009;
 
         var glX = ((event.clientX - Ed.gl.viewportWidth / 2) / Ed.gl.viewportWidth) * 2 + offsetX;
         var glY = ((Ed.gl.viewportHeight / 2 - event.clientY) / Ed.gl.viewportHeight) * 2 + offsetY;
+        //editor module//
 
-        var target = " ";
-    
-        var xCoord = document.getElementById("coord_x");
-        var foundPos = xCoord.textContent.indexOf(target);
-        var prefix = xCoord.textContent.slice(0, foundPos+1);
-        xCoord.textContent = prefix + glX.toFixed(3);
-
-        var yCoord = document.getElementById("coord_y");
-        foundPos = yCoord.textContent.indexOf(target);
-        prefix = yCoord.textContent.slice(0, foundPos+1);
-        yCoord.textContent = prefix + glY.toFixed(3);
+        Ui.UpdateText(Interface.UIElementsEnum.TitleCoordX, glX);
+        Ui.UpdateText(Interface.UIElementsEnum.TitleCoordY, glY);
     }
 }
 
@@ -51,11 +44,13 @@ window.onkeydown = function(event)
 {
 }
 
-document.getElementById("btn1").addEventListener("click", () => { alert("Btn Undo"); });
-document.getElementById("btn2").addEventListener("click", () => { alert("Btn Redo"); });
-document.getElementById("btn3").addEventListener("click", () => { alert("Btn Line"); });
-document.getElementById("btn4").addEventListener("click", () => { alert("Btn Clear"); });
 
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonUndo, () => { alert("Btn Undo"); });
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonRedo, () => { alert("Btn Redo"); });
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonLine, () => { alert("Btn Line"); });
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonClear, () => { alert("Btn Clear"); });
+
+/*
 document.getElementById("btn5").addEventListener("click", function () {
     document.getElementById("btn5-menu").classList.toggle("show");
 });
@@ -140,7 +135,13 @@ document.getElementById("btn73").addEventListener("click", () => {
 
     document.getElementById("btn7-menu").classList.remove("show");
 });
+*/
 
+//
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonTheme, () => { Ui.SetColorTheme(Interface.ColorThemeEnum.Light); });
+//
+
+/*
 document.getElementById("btn8").addEventListener("click", () => {
     var divWindow = document.getElementsByClassName("window")[0];
     divWindow.classList.toggle("Dark-Theme");

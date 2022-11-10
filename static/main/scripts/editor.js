@@ -67,7 +67,8 @@ export class Editor {
     }
 
     ClearScene = function(themeColor) {
-        this.gl.clearColor(themeColor.R, themeColor.G, themeColor.B, themeColor.A);
+        //this.gl.clearColor(themeColor.R, themeColor.G, themeColor.B, themeColor.A);
+        his.gl.clearColor(0.19, 0.22, 0.25, 1.0);   // temp
         this.gl.viewport(0, 0, this.gl.viewportWidth, this.gl.viewportHeight);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     }
