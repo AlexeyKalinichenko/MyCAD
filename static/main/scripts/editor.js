@@ -68,13 +68,13 @@ export class Editor {
 
     ClearScene = function(themeColor) {
         //this.gl.clearColor(themeColor.R, themeColor.G, themeColor.B, themeColor.A);
-        his.gl.clearColor(0.19, 0.22, 0.25, 1.0);   // temp
+        this.gl.clearColor(0.19, 0.22, 0.25, 1.0);   // temp
         this.gl.viewport(0, 0, this.gl.viewportWidth, this.gl.viewportHeight);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
     }
 
     RefreshScene = function() {
-        this.ClearScene(St.ThemeColor.GetColor());
+        this.ClearScene(/*St.ThemeColor.GetColor()*/);
         this.drawTempObjects();
     }
 
@@ -175,3 +175,7 @@ export class Editor {
 }
 
 export let Ed = new Editor();
+
+
+//editorBgColorDark: { R: 0.19, G: 0.22, B: 0.25, A: 1.0 },  // #303841
+//editorBgColorLight: { R: 1.0, G: 1.0, B: 1.0, A: 1.0 },    // #ffffff

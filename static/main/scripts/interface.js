@@ -1,4 +1,6 @@
 export class Interface {
+
+    static BaseDir = "/static/main/images/";
     
     static ColorThemeEnum = { Dark: "dark", Light: "light" };
     static ThicknessEnum  = { One: "one", Two: "two", Three: "three" };
@@ -24,42 +26,46 @@ export class Interface {
         TitleObjects: "objects"
     };
 
-    static UIElements = [
-        { name: Interface.UIElementsEnum.ButtonUndo, handler: null },
-        { name: Interface.UIElementsEnum.ButtonRedo, handler: null },
-        { name: Interface.UIElementsEnum.ButtonLine, handler: null },
-        { name: Interface.UIElementsEnum.ButtonClear, handler: null },
-        { name: Interface.UIElementsEnum.ButtonSnapTo, handler: null },
-        { name: Interface.UIElementsEnum.ButtonSnapToNode, handler: null },
-        { name: Interface.UIElementsEnum.ButtonSnapToAngle, handler: null },
-        { name: Interface.UIElementsEnum.ButtonNodes, handler: null },
-        { name: Interface.UIElementsEnum.ButtonThickness, handler: null },
-        { name: Interface.UIElementsEnum.ButtonThickness1, handler: null },
-        { name: Interface.UIElementsEnum.ButtonThickness2, handler: null },
-        { name: Interface.UIElementsEnum.ButtonThickness3, handler: null },
-        { name: Interface.UIElementsEnum.ButtonTheme, handler: null },
-        { name: Interface.UIElementsEnum.TitleCoordX },
-        { name: Interface.UIElementsEnum.TitleCoordY },
-        { name: Interface.UIElementsEnum.TitleObjects }
-    ];
+    DisplayMode = { ColorTheme: null, Thickness: null, SnapMode: null, NodeMode: null };
 
-    static DisplayMode = { ColorTheme: null, Thickness: null, SnapMode: null, NodeMode: null, Elements: null };
+    swowMenu = false;
     
-    SetColorTheme = function(theme) {
-        Interface.displayMode.ColorTheme = theme;
+    SetColorTheme = function(theme, update = true) {
+        this.DisplayMode.ColorTheme = theme;
         this.ChangeTheme(theme);
-        this.UpdateElementsState();
+
+        if (update)
+            this.UpdateSpecialElements();
     };
 
-    SetThickness = function(thickness) { Interface.displayMode.Thickness = thickness; };
-    SetSnapMode = function(snap) { Interface.displayMode.SnapMode = snap; };
-    SetNodeMode = function(node) { Interface.displayMode.NodeMode = node; };
+    SetThickness = function(thickness, update = true) {
+        this.DisplayMode.Thickness = thickness;
+
+        if (update)
+            this.UpdateSpecialElements();
+    };
+
+    SetSnapMode = function(snap, update = true) {
+        this.DisplayMode.SnapMode = snap;
+
+        if (update)
+            this.UpdateSpecialElements();
+    };
+
+    SetNodeMode = function(node, update = true) {
+        this.DisplayMode.NodeMode = node;
+
+        if (update)
+            this.UpdateSpecialElements();
+    };
 
     SetDisplayMode = function(theme, thickness, snap, node) {
-        SetColorTheme(theme);
-        SetThickness(thickness);
-        SetSnapMode(snap);
-        SetNodeMode(node);
+        this.SetColorTheme(theme, false);
+        this.SetThickness(thickness, false);
+        this.SetSnapMode(snap, false);
+        this.SetNodeMode(node, false);
+        
+        this.UpdateSpecialElements();
     };
 
     RegisterHandler = function(element, handler) {
@@ -86,21 +92,17 @@ export class Interface {
 
     ChangeTheme = function(theme) {
         var divWindow = document.getElementsByClassName("window")[0];
-
-        switch (theme) {
-            case "dark":
-                divWindow.classList.add("Dark-Theme");
-                divWindow.classList.remove("Light-Theme");
-                break;
-            case "light":
-                divWindow.classList.remove("Dark-Theme");
-                divWindow.classList.add("Light-Theme");
-                break;
-            default:
-                throw "Invalid theme";
+        
+        if (theme == "dark")
+        {
+            divWindow.classList.add("Dark-Theme");
+            divWindow.classList.remove("Light-Theme");
         }
-
-         // todo
+        else
+        {
+            divWindow.classList.remove("Dark-Theme");
+            divWindow.classList.add("Light-Theme");
+        }
     };
 
     ShowMenu = function(element) {
@@ -109,7 +111,20 @@ export class Interface {
             case "thickness": document.getElementById("btn7-menu").classList.toggle("show"); break;
             default: throw "Invalid element";
         }
+
+        this.swowMenu = true;
     };
+
+    HideAllMenu = function() {
+        if (this.swowMenu)
+        {
+            this.swowMenu = false;
+            return;
+        }
+
+        document.getElementById("btn5-menu").classList.remove("show");
+        document.getElementById("btn7-menu").classList.remove("show");
+    }
 
     UpdateText = function(element, value) {
         let domElement = null;
@@ -126,52 +141,188 @@ export class Interface {
         domElement.textContent = prefix + value.toFixed(3);
     };
 
-    UpdateElementsState = function() {};
+    SetElementImage = function(tag, image) {
+        document.getElementById(tag).setAttribute("src", Interface.BaseDir + image);
+    };
+
+    SetElementColor = function(selector, paramSource, paramTarget) {
+        let st = window.getComputedStyle(document.querySelector(selector));
+        let value = st.getPropertyValue(paramSource);
+
+        document.querySelector(selector).style.setProperty(paramTarget, value);   
+    };
+
+    UpdateSpecialElements = function() {
+        // button Undo
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+            this.SetElementImage("img1", "undo.png");
+        else
+            this.SetElementImage("img1", "undo_light.png");
+
+        // button Redo
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+            this.SetElementImage("img2", "redo.png");
+        else
+            this.SetElementImage("img2", "redo_light.png");
+        
+        // button SnapTo
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+        {
+            if (this.DisplayMode.SnapMode != Interface.SnapToModeEnum.None)
+            {
+                this.SetElementColor(".Dark-Theme", "--ButtonBgSelectedColor", "--SnapToButtonBgColor");
+                this.SetElementColor(".Dark-Theme", "--ButtonBgSelectedFocusColor", "--SnapToButtonBgFocusColor");
+                this.SetElementColor(".Dark-Theme", "--ButtonTextSelectedColor", "--SnapToButtonTextColor");
+            }
+            else
+            {
+                this.SetElementColor(".Dark-Theme", "--ButtonBgColor", "--SnapToButtonBgColor");
+                this.SetElementColor(".Dark-Theme", "--ButtonBgFocusColor", "--SnapToButtonBgFocusColor");
+                this.SetElementColor(".Dark-Theme", "--ButtonTextColor", "--SnapToButtonTextColor");
+            }
+        }
+        else
+        {
+            if (this.DisplayMode.SnapMode != Interface.SnapToModeEnum.None)
+            {
+                this.SetElementColor(".Light-Theme", "--ButtonBgSelectedColor", "--SnapToButtonBgColor");
+                this.SetElementColor(".Light-Theme", "--ButtonBgSelectedFocusColor", "--SnapToButtonBgFocusColor");
+                this.SetElementColor(".Light-Theme", "--ButtonTextSelectedColor", "--SnapToButtonTextColor");
+            }
+            else
+            {
+                this.SetElementColor(".Light-Theme", "--ButtonBgColor", "--SnapToButtonBgColor");
+                this.SetElementColor(".Light-Theme", "--ButtonBgFocusColor", "--SnapToButtonBgFocusColor");
+                this.SetElementColor(".Light-Theme", "--ButtonTextColor", "--SnapToButtonTextColor");
+            }
+        }
+
+        // button SnapToNode
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+        {
+            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Node)
+            {
+                this.SetElementColor(".Dark-Theme", "--MenuSelectedBgColor", "--SnapToNodeButtonColor");
+                this.SetElementColor(".Dark-Theme", "--ButtonBgSelectedFocusColor", "--SnapToNodeButtonFocusColor");
+            }
+            else
+            {
+                this.SetElementColor(".Dark-Theme", "--MenuBgColor", "--SnapToNodeButtonColor");
+                this.SetElementColor(".Dark-Theme", "--MenuBgFocusColor", "--SnapToNodeButtonFocusColor");
+            }
+        }
+        else
+        {
+            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Node)
+            {
+                this.SetElementColor(".Light-Theme", "--MenuSelectedBgColor", "--SnapToNodeButtonColor");
+                this.SetElementColor(".Light-Theme", "--ButtonBgSelectedFocusColor", "--SnapToNodeButtonFocusColor");
+            }
+            else
+            {
+                this.SetElementColor(".Light-Theme", "--MenuBgColor", "--SnapToNodeButtonColor");
+                this.SetElementColor(".Light-Theme", "--MenuBgFocusColor", "--SnapToNodeButtonFocusColor");
+            }
+        }
+
+        // button SnapToAngle
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+        {
+            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Angle)
+            {
+                this.SetElementColor(".Dark-Theme", "--MenuSelectedBgColor", "--SnapToAngleButtonColor");
+                this.SetElementColor(".Dark-Theme", "--ButtonBgSelectedFocusColor", "--SnapToAngleButtonFocusColor");
+            }
+            else
+            {
+                this.SetElementColor(".Dark-Theme", "--MenuBgColor", "--SnapToAngleButtonColor");
+                this.SetElementColor(".Dark-Theme", "--MenuBgFocusColor", "--SnapToAngleButtonFocusColor");
+            }
+        }
+        else
+        {
+            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Angle)
+            {
+                this.SetElementColor(".Light-Theme", "--MenuSelectedBgColor", "--SnapToAngleButtonColor");
+                this.SetElementColor(".Light-Theme", "--ButtonBgSelectedFocusColor", "--SnapToAngleButtonFocusColor");
+            }
+            else
+            {
+                this.SetElementColor(".Light-Theme", "--MenuBgColor", "--SnapToAngleButtonColor");
+                this.SetElementColor(".Light-Theme", "--MenuBgFocusColor", "--SnapToAngleButtonFocusColor");
+            }
+        }
+
+        // button nodes
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+        {
+            if (this.DisplayMode.NodeMode == Interface.NodesModeEnum.On)
+            {
+                this.SetElementColor(".Dark-Theme", "--ButtonBgSelectedColor", "--NodesButtonBgColor");
+                this.SetElementColor(".Dark-Theme", "--ButtonBgSelectedFocusColor", "--NodesButtonBgFocusColor");
+            }
+            else
+            {
+                this.SetElementColor(".Dark-Theme", "--ButtonBgColor", "--NodesButtonBgColor");
+                this.SetElementColor(".Dark-Theme", "--ButtonBgFocusColor", "--NodesButtonBgFocusColor");
+            }
+        }
+        else
+        {
+            if (this.DisplayMode.NodeMode == Interface.NodesModeEnum.On)
+            {
+                this.SetElementColor(".Light-Theme", "--ButtonBgSelectedColor", "--NodesButtonBgColor");
+                this.SetElementColor(".Light-Theme", "--ButtonBgSelectedFocusColor", "--NodesButtonBgFocusColor");
+            }
+            else
+            {
+                this.SetElementColor(".Light-Theme", "--ButtonBgColor", "--NodesButtonBgColor");
+                this.SetElementColor(".Light-Theme", "--ButtonBgFocusColor", "--NodesButtonBgFocusColor");
+            }
+        }
+
+        // button thickness
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+        {
+            switch(this.DisplayMode.Thickness) {
+                case Interface.ThicknessEnum.One: this.SetElementImage("img4", "thickness1.png"); break;
+                case Interface.ThicknessEnum.Two: this.SetElementImage("img4", "thickness2.png"); break;
+                case Interface.ThicknessEnum.Three: this.SetElementImage("img4", "thickness3.png"); break;
+            }
+        }
+        else
+        {
+            switch(this.DisplayMode.Thickness) {
+                case Interface.ThicknessEnum.One: this.SetElementImage("img4", "thickness1_light.png"); break;
+                case Interface.ThicknessEnum.Two: this.SetElementImage("img4", "thickness2_light.png"); break;
+                case Interface.ThicknessEnum.Three: this.SetElementImage("img4", "thickness3_light.png"); break;
+            }
+        }
+
+        // button thickness 1
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+            this.SetElementImage("img41", "thickness1.png");
+        else
+            this.SetElementImage("img41", "thickness1_light.png");
+
+        // button thickness 2
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+            this.SetElementImage("img42", "thickness2.png");
+        else
+            this.SetElementImage("img42", "thickness2_light.png");
+
+        // button thickness 3
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+            this.SetElementImage("img43", "thickness3.png");
+        else
+            this.SetElementImage("img43", "thickness3_light.png");
+        
+        // button theme
+        if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
+            this.SetElementImage("img5", "light.png");
+        else
+            this.SetElementImage("img5", "dark.png");
+    };
 }
 
 export let Ui = new Interface();
-
-
-/*
-ThemeColor = {
-    editorBgColorDark: { R: 0.19, G: 0.22, B: 0.25, A: 1.0 },  // #303841
-    editorBgColorLight: { R: 1.0, G: 1.0, B: 1.0, A: 1.0 },    // #ffffff
-
-    Theme: Storage.ThemeColorEnum.Dark,
-    GetColor: function() {
-        return (this.Theme == Storage.ThemeColorEnum.Dark) ?
-            this.editorBgColorDark : this.editorBgColorLight;
-    }
-};
-*/
-
-/*
-CheckSnapMode = function() {
-    var theme = (this.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
-            document.querySelector(".Dark-Theme") : document.querySelector(".Light-Theme");
-    var style = window.getComputedStyle(theme);
-    
-    if (this.Snap == Storage.SnapToEnum.Node || this.Snap == Storage.SnapToEnum.Angle)
-    {
-        var color = style.getPropertyValue("--ButtonBgSelectedColor");
-        theme.style.setProperty("--SnapToButtonBgColor", color);
-
-        var focusColor = style.getPropertyValue("--ButtonBgSelectedFocusColor");
-        theme.style.setProperty("--SnapToButtonBgFocusColor", focusColor);
-
-        var textColor = style.getPropertyValue("--ButtonTextSelectedColor");
-        theme.style.setProperty("--SnapToButtonTextColor", textColor);
-    }
-    else
-    {
-        var color = style.getPropertyValue("--ButtonBgColor");
-        theme.style.setProperty("--SnapToButtonBgColor", color);
-
-        var focusColor = style.getPropertyValue("--ButtonBgFocusColor");
-        theme.style.setProperty("--SnapToButtonBgFocusColor", focusColor);
-
-        var textColor = style.getPropertyValue("--ButtonTextColor");
-        theme.style.setProperty("--SnapToButtonTextColor", textColor);
-    }
-}
-*/

@@ -1,6 +1,7 @@
 html {
   --offsetTopH1: 10px;
   --offsetTopV1: 10px;
+
   --separator1: 10px;
   --separator2: 10px;
 
@@ -20,21 +21,27 @@ html {
   --ButtonBgColor: #47525d;
   --ButtonBgSelectedColor: #eecda6;
   --ButtonTextColor: #cccccc;
-  --ButtonTextSelectedColor: #cccccc;
+  --ButtonTextSelectedColor: #47525d;
   --ButtonBgFocusColor: #2e333a;
-  --ButtonBgSelectedFocusColor: #47525d;
-  --SnapToButtonBgColor: var(--ButtonBgColor);
-  --SnapToButtonTextColor: var(--ButtonTextColor);
-  --SnapToButtonBgFocusColor: var(--ButtonBgFocusColor);
-  --NodesButtonBgColor: var(--ButtonBgColor);
-  --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
+  --ButtonBgSelectedFocusColor: #eabc83;
   --ThemeButtonBgColor: #cccccc;
   --ThemeButtonTextColor: #47525d;
   --ThemeButtonBgFocusColor: #848181;
   --BottomTextColor: #cccccc;
   --MenuBgColor: #e4e0e0;
+  --MenuSelectedBgColor: #eecda6;
   --MenuTextColor: #22262a;
   --MenuBgFocusColor: #a8a6a6;
+
+  --SnapToButtonBgColor: var(--ButtonBgColor);
+  --SnapToButtonTextColor: var(--ButtonTextColor);
+  --SnapToButtonBgFocusColor: var(--ButtonBgFocusColor);
+  --SnapToNodeButtonColor: var(--MenuBgColor);
+  --SnapToNodeButtonFocusColor: var(--MenuBgFocusColor);
+  --SnapToAngleButtonColor: var(--MenuBgColor);
+  --SnapToAngleButtonFocusColor: var(--MenuBgFocusColor);
+  --NodesButtonBgColor: var(--ButtonBgColor);
+  --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
 }
 
 .Light-Theme {
@@ -43,21 +50,27 @@ html {
   --ButtonBgColor: #e4e6f0;
   --ButtonBgSelectedColor: #eecda6;
   --ButtonTextColor: #616161;
-  --ButtonTextSelectedColor: #e4e6f0;
+  --ButtonTextSelectedColor: #47525d;
   --ButtonBgFocusColor: #edb067;
-  --ButtonBgSelectedFocusColor: #816f59;
-  --SnapToButtonBgColor: var(--ButtonBgColor);
-  --SnapToButtonTextColor: var(--ButtonTextColor);
-  --SnapToButtonBgFocusColor: var(--ButtonBgFocusColor);
-  --NodesButtonBgColor: var(--ButtonBgColor);
-  --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
+  --ButtonBgSelectedFocusColor: #edb067;
   --ThemeButtonBgColor: #47525d;
   --ThemeButtonTextColor: #e4e6f0;
   --ThemeButtonBgFocusColor: #edb067;
   --BottomTextColor: #616161;
   --MenuBgColor: #e4e6f0;
+  --MenuSelectedBgColor: #eecda6;
   --MenuTextColor: #616161;
   --MenuBgFocusColor: #edb067;
+
+  --SnapToButtonBgColor: var(--ButtonBgColor);
+  --SnapToButtonTextColor: var(--ButtonTextColor);
+  --SnapToButtonBgFocusColor: var(--ButtonBgFocusColor);
+  --SnapToNodeButtonColor: var(--MenuBgColor);
+  --SnapToNodeButtonFocusColor: var(--MenuBgFocusColor);
+  --SnapToAngleButtonColor: var(--MenuBgColor);
+  --SnapToAngleButtonFocusColor: var(--MenuBgFocusColor);
+  --NodesButtonBgColor: var(--ButtonBgColor);
+  --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
 }
 
 .window {
@@ -97,6 +110,7 @@ html {
   background-color: var(--EditorBgColor);
   margin: 0 auto;
   position: absolute;
+  cursor: crosshair;
 }
 
 #btn1 {
@@ -208,7 +222,7 @@ html {
   top: var(--offsetTopV1);
   left: var(--offsetTopH3);
 
-  background: var(--NodesButtonBgColor);  /*eecda6*/
+  background: var(--NodesButtonBgColor);
   color: var(--ButtonTextColor);
   padding: 3px;
   border-radius: 5px;
@@ -343,11 +357,11 @@ html {
 .menu {
   display: none;
   position: absolute;
-  background-color: var(--MenuBgColor);
   z-index: 1;
 }
 
-.menu_btn {
+#btn51 {
+  background-color: var(--SnapToNodeButtonColor);
   color: var(--MenuTextColor);
   padding: 5px 10px;
   text-decoration: none;
@@ -359,11 +373,29 @@ html {
 
   padding: 0;
   border: none;
-  background: none;
 }
 
-.menu_btn:hover {
-  background-color: var(--MenuBgFocusColor);
+#btn51:hover {
+  background-color: var(--SnapToNodeButtonFocusColor);
+}
+
+#btn52 {
+  background: var(--SnapToAngleButtonColor);
+  color: var(--MenuTextColor);
+  padding: 5px 10px;
+  text-decoration: none;
+  display: block;
+  font-family: Tahoma;
+  font-size: 15px;
+  width: 70px;
+  height: 25px;
+
+  padding: 0;
+  border: none;
+}
+
+#btn52:hover {
+  background-color: var(--SnapToAngleButtonFocusColor);
 }
 
 .menu_btn7 {

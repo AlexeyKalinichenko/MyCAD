@@ -3,11 +3,12 @@ import {Interface, Ui} from "./interface.js";
 import {Connector, Cn} from "./connector.js";
 import {Editor, Ed} from "./editor.js";
 
-//cursor
 
 window.onload = function()
 {
-    //St.LoadContext();
+    St.LoadState();
+    Ui.SetDisplayMode(St.ColorTheme, St.Thickness, St.SnapToMode, St.NodesMode);
+
     Ed.ResizeCanvas();
 }
 
@@ -18,6 +19,7 @@ window.onresize = function()
 
 window.onclick = function(event)
 {
+    Ui.HideAllMenu();
 }
 
 window.onmousemove = function(event)
@@ -50,154 +52,77 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonRedo, () => { alert("Btn Redo"
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonLine, () => { alert("Btn Line"); });
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonClear, () => { alert("Btn Clear"); });
 
-/*
-document.getElementById("btn5").addEventListener("click", function () {
-    document.getElementById("btn5-menu").classList.toggle("show");
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapTo, () => {
+    Ui.ShowMenu(Interface.UIElementsEnum.ButtonSnapTo);
 });
 
-document.getElementById("btn51").addEventListener("click", () => {
-    if (St.Snap != Storage.SnapToEnum.Node)
-        St.Snap = Storage.SnapToEnum.Node;
-    else
-        St.Snap = Storage.SnapToEnum.None;
-    
-    St.CheckSnapMode();
-});
-
-document.getElementById("btn52").addEventListener("click", () => {
-    if (St.Snap != Storage.SnapToEnum.Angle)
-        St.Snap = Storage.SnapToEnum.Angle;
-    else
-        St.Snap = Storage.SnapToEnum.None;
-    
-    St.CheckSnapMode();
-});
-
-document.getElementById("btn6").addEventListener("click", () => {
-    St.Nodes = (St.Nodes == Storage.NodesEnum.On) ? Storage.NodesEnum.Off : Storage.NodesEnum.On;
-
-    var theme = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
-        document.querySelector(".Dark-Theme") : document.querySelector(".Light-Theme");
-    var style = window.getComputedStyle(theme);
-    
-    if (St.Nodes == Storage.NodesEnum.On)
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapToNode, () => {
+    if (St.SnapToMode == Storage.SnapToModeEnum.Node)
     {
-        var selectedColor = style.getPropertyValue("--ButtonBgSelectedColor");
-        theme.style.setProperty("--NodesButtonBgColor", selectedColor);
-
-        var focusColor = style.getPropertyValue("--ButtonBgSelectedFocusColor");
-        theme.style.setProperty("--NodesButtonBgFocusColor", focusColor);
+        St.SnapToMode = Storage.SnapToModeEnum.None;
+        Ui.SetSnapMode(Interface.SnapToModeEnum.None);
     }
     else
     {
-        var color = style.getPropertyValue("--ButtonBgColor");
-        theme.style.setProperty("--NodesButtonBgColor", color);
-
-        var focusColor = style.getPropertyValue("--ButtonBgFocusColor");
-        theme.style.setProperty("--NodesButtonBgFocusColor", focusColor);
+        St.SnapToMode = Storage.SnapToModeEnum.Node;
+        Ui.SetSnapMode(Interface.SnapToModeEnum.Node);
     }
 });
 
-document.getElementById("btn7").addEventListener("click", () => {
-    document.getElementById("btn7-menu").classList.toggle("show");
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapToAngle, () => {
+    if (St.SnapToMode == Storage.SnapToModeEnum.Angle)
+    {
+        St.SnapToMode = Storage.SnapToModeEnum.None;
+        Ui.SetSnapMode(Interface.SnapToModeEnum.None);
+    }
+    else
+    {
+        St.SnapToMode = Storage.SnapToModeEnum.Angle;
+        Ui.SetSnapMode(Interface.SnapToModeEnum.Angle);
+    }
 });
 
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonNodes, () => {
+    if (St.NodesMode == Storage.NodesModeEnum.On)
+    {
+        St.NodesMode = Storage.NodesModeEnum.Off;
+        Ui.SetNodeMode(Interface.NodesModeEnum.Off);
+    }
+    else
+    {
+        St.NodesMode = Storage.NodesModeEnum.On;
+        Ui.SetNodeMode(Interface.NodesModeEnum.On);
+    }
+});
 
-document.getElementById("btn71").addEventListener("click", () => {
-    var imagePath = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
-        "/static/main/images/thickness1.png" : "/static/main/images/thickness1_light.png";
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness, () => {
+    Ui.ShowMenu(Interface.UIElementsEnum.ButtonThickness);
+});
 
-    document.getElementById("img4").setAttribute("src", imagePath);
-
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness1, () => {
     St.Thickness = Storage.ThicknessEnum.One;
-
-    document.getElementById("btn7-menu").classList.remove("show");
+    Ui.SetThickness(Interface.ThicknessEnum.One);
 });
 
-document.getElementById("btn72").addEventListener("click", () => {
-    var imagePath = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
-        "/static/main/images/thickness2.png" : "/static/main/images/thickness2_light.png";
-
-    document.getElementById("img4").setAttribute("src", imagePath);
-
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness2, () => {
     St.Thickness = Storage.ThicknessEnum.Two;
-
-    document.getElementById("btn7-menu").classList.remove("show");
+    Ui.SetThickness(Interface.ThicknessEnum.Two);
 });
 
-document.getElementById("btn73").addEventListener("click", () => {
-    var imagePath = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
-        "/static/main/images/thickness3.png" : "/static/main/images/thickness3_light.png";
-
-    document.getElementById("img4").setAttribute("src", imagePath);
-
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness3, () => {
     St.Thickness = Storage.ThicknessEnum.Three;
-
-    document.getElementById("btn7-menu").classList.remove("show");
+    Ui.SetThickness(Interface.ThicknessEnum.Three);
 });
-*/
 
-//
-Ui.RegisterHandler(Interface.UIElementsEnum.ButtonTheme, () => { Ui.SetColorTheme(Interface.ColorThemeEnum.Light); });
-//
-
-/*
-document.getElementById("btn8").addEventListener("click", () => {
-    var divWindow = document.getElementsByClassName("window")[0];
-    divWindow.classList.toggle("Dark-Theme");
-    divWindow.classList.toggle("Light-Theme");
-
-    St.ThemeColor.Theme = divWindow.classList.contains("Dark-Theme") ?
-        Storage.ThemeColorEnum.Dark : Storage.ThemeColorEnum.Light;
-
-    var theme = (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark) ?
-        document.querySelector(".Dark-Theme") : document.querySelector(".Light-Theme");
-    var style = window.getComputedStyle(theme);
-
-    if (St.Nodes == Storage.NodesEnum.Off)
+Ui.RegisterHandler(Interface.UIElementsEnum.ButtonTheme, () => {
+    if (St.ColorTheme == Storage.ColorThemeEnum.Dark)
     {
-        var color = style.getPropertyValue("--ButtonBgColor");
-        theme.style.setProperty("--NodesButtonBgColor", color);
-
-        var focusColor = style.getPropertyValue("--ButtonBgFocusColor");
-        theme.style.setProperty("--NodesButtonBgFocusColor", focusColor);
-    }
-
-    if (St.ThemeColor.Theme == Storage.ThemeColorEnum.Dark)
-    {
-        document.getElementById("img1").setAttribute("src", "/static/main/images/undo.png");
-        document.getElementById("img2").setAttribute("src", "/static/main/images/redo.png");
-
-        var imagePath = "/static/main/images/thickness1.png";
-        if (St.Thickness == Storage.ThicknessEnum.Two)
-            imagePath = "/static/main/images/thickness2.png";
-        else if (St.Thickness == Storage.ThicknessEnum.Three)
-            imagePath = "/static/main/images/thickness3.png";
-
-        document.getElementById("img4").setAttribute("src", imagePath);
-        document.getElementById("img41").setAttribute("src", "/static/main/images/thickness1.png");
-        document.getElementById("img42").setAttribute("src", "/static/main/images/thickness2.png");
-        document.getElementById("img43").setAttribute("src", "/static/main/images/thickness3.png");
-        document.getElementById("img5").setAttribute("src", "/static/main/images/light.png");
+        St.ColorTheme = Storage.ColorThemeEnum.Light;
+        Ui.SetColorTheme(Interface.ColorThemeEnum.Light);
     }
     else
     {
-        document.getElementById("img1").setAttribute("src", "/static/main/images/undo_light.png");
-        document.getElementById("img2").setAttribute("src", "/static/main/images/redo_light.png");
-
-        var imagePath = "/static/main/images/thickness1_light.png";
-        if (St.Thickness == Storage.ThicknessEnum.Two)
-            imagePath = "/static/main/images/thickness2_light.png";
-        else if (St.Thickness == Storage.ThicknessEnum.Three)
-            imagePath = "/static/main/images/thickness3_light.png";
-    
-        document.getElementById("img4").setAttribute("src", imagePath);
-        document.getElementById("img41").setAttribute("src", "/static/main/images/thickness1_light.png");
-        document.getElementById("img42").setAttribute("src", "/static/main/images/thickness2_light.png");
-        document.getElementById("img43").setAttribute("src", "/static/main/images/thickness3_light.png");
-        document.getElementById("img5").setAttribute("src", "/static/main/images/dark.png");
+        St.ColorTheme = Storage.ColorThemeEnum.Dark;
+        Ui.SetColorTheme(Interface.ColorThemeEnum.Dark);
     }
-
-    Ed.RefreshScene();
 });
-*/
