@@ -20,7 +20,12 @@ export class Editor {
         var canvas = document.getElementById("Editor");
         this.gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
         if (!this.gl)
+        {
             alert("WebGL is not supported");
+            return;
+        }
+        
+        this.ResizeCanvas();
     }
 
     SetColorTheme = function(theme) {
@@ -31,10 +36,6 @@ export class Editor {
     DrawScene = function(buffer) {
         this.SceneBuffer = buffer;
         this.RefreshScene();
-    };
-
-    Init = function() {
-        this.ResizeCanvas();
     };
 
     ResizeCanvas = function() {

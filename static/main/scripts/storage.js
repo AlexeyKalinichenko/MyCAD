@@ -2,7 +2,7 @@ export class Storage {
     
     static ColorThemeEnum = { Dark: "dark", Light: "light" };
     static ThicknessEnum  = { One: "one", Two: "two", Three: "three" };
-    static SnapToModeEnum = { None: "none", Node: "node", Angle: "angle" };
+    static SnapToModeEnum = { None: "none", Node: "node", Angle: "angle", Both: "both" };
     static NodesModeEnum  = { On: "on", Off: "off" };
 
     ColorTheme = Storage.ColorThemeEnum.Dark;

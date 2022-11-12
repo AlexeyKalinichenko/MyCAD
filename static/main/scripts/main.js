@@ -8,8 +8,6 @@ window.onload = function()
 {
     St.LoadState();
     Ui.SetDisplayMode(St.ColorTheme, St.Thickness, St.SnapToMode, St.NodesMode);
-
-    Ed.Init();
     Ed.SetColorTheme(St.ColorTheme);
 }
 
@@ -57,28 +55,42 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapTo, () => {
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapToNode, () => {
-    if (St.SnapToMode == Storage.SnapToModeEnum.Node)
-    {
-        St.SnapToMode = Storage.SnapToModeEnum.None;
-        Ui.SetSnapMode(Interface.SnapToModeEnum.None);
-    }
-    else
-    {
-        St.SnapToMode = Storage.SnapToModeEnum.Node;
-        Ui.SetSnapMode(Interface.SnapToModeEnum.Node);
+    switch(St.SnapToMode) {
+        case Storage.SnapToModeEnum.Node:
+            St.SnapToMode = Storage.SnapToModeEnum.None;
+            Ui.SetSnapMode(Interface.SnapToModeEnum.None);
+            break;
+        case Storage.SnapToModeEnum.Angle:
+            St.SnapToMode = Storage.SnapToModeEnum.Both;
+            Ui.SetSnapMode(Interface.SnapToModeEnum.Both);
+            break;
+        case Storage.SnapToModeEnum.Both:
+            St.SnapToMode = Storage.SnapToModeEnum.Angle;
+            Ui.SetSnapMode(Interface.SnapToModeEnum.Angle);
+            break;
+        default:
+            St.SnapToMode = Storage.SnapToModeEnum.Node;
+            Ui.SetSnapMode(Interface.SnapToModeEnum.Node);
     }
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapToAngle, () => {
-    if (St.SnapToMode == Storage.SnapToModeEnum.Angle)
-    {
-        St.SnapToMode = Storage.SnapToModeEnum.None;
-        Ui.SetSnapMode(Interface.SnapToModeEnum.None);
-    }
-    else
-    {
-        St.SnapToMode = Storage.SnapToModeEnum.Angle;
-        Ui.SetSnapMode(Interface.SnapToModeEnum.Angle);
+    switch(St.SnapToMode) {
+        case Storage.SnapToModeEnum.Node:
+            St.SnapToMode = Storage.SnapToModeEnum.Both;
+            Ui.SetSnapMode(Interface.SnapToModeEnum.Both);
+            break;
+        case Storage.SnapToModeEnum.Angle:
+            St.SnapToMode = Storage.SnapToModeEnum.None;
+            Ui.SetSnapMode(Interface.SnapToModeEnum.None);
+            break;
+        case Storage.SnapToModeEnum.Both:
+            St.SnapToMode = Storage.SnapToModeEnum.Node;
+            Ui.SetSnapMode(Interface.SnapToModeEnum.Node);
+            break;
+        default:
+            St.SnapToMode = Storage.SnapToModeEnum.Angle;
+            Ui.SetSnapMode(Interface.SnapToModeEnum.Angle);
     }
 });
 

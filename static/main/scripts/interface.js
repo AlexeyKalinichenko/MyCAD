@@ -4,7 +4,7 @@ export class Interface {
     
     static ColorThemeEnum = { Dark: "dark", Light: "light" };
     static ThicknessEnum  = { One: "one", Two: "two", Three: "three" };
-    static SnapToModeEnum = { None: "none", Node: "node", Angle: "angle" };
+    static SnapToModeEnum = { None: "none", Node: "node", Angle: "angle", Both: "both" };
     static NodesModeEnum  = { On: "on", Off: "off" };
     
     static UIElementsEnum = {
@@ -200,7 +200,8 @@ export class Interface {
         // button SnapToNode
         if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
         {
-            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Node)
+            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Node ||
+                this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Both)
             {
                 this.SetElementColor(".Dark-Theme", "--MenuSelectedBgColor", "--SnapToNodeButtonColor");
                 this.SetElementColor(".Dark-Theme", "--ButtonBgSelectedFocusColor", "--SnapToNodeButtonFocusColor");
@@ -213,7 +214,8 @@ export class Interface {
         }
         else
         {
-            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Node)
+            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Node ||
+                this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Both)
             {
                 this.SetElementColor(".Light-Theme", "--MenuSelectedBgColor", "--SnapToNodeButtonColor");
                 this.SetElementColor(".Light-Theme", "--ButtonBgSelectedFocusColor", "--SnapToNodeButtonFocusColor");
@@ -228,7 +230,8 @@ export class Interface {
         // button SnapToAngle
         if (this.DisplayMode.ColorTheme == Interface.ColorThemeEnum.Dark)
         {
-            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Angle)
+            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Angle ||
+                this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Both)
             {
                 this.SetElementColor(".Dark-Theme", "--MenuSelectedBgColor", "--SnapToAngleButtonColor");
                 this.SetElementColor(".Dark-Theme", "--ButtonBgSelectedFocusColor", "--SnapToAngleButtonFocusColor");
@@ -241,7 +244,8 @@ export class Interface {
         }
         else
         {
-            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Angle)
+            if (this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Angle ||
+                this.DisplayMode.SnapMode == Interface.SnapToModeEnum.Both)
             {
                 this.SetElementColor(".Light-Theme", "--MenuSelectedBgColor", "--SnapToAngleButtonColor");
                 this.SetElementColor(".Light-Theme", "--ButtonBgSelectedFocusColor", "--SnapToAngleButtonFocusColor");
