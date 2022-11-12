@@ -17,7 +17,7 @@ html {
 
 .Dark-Theme {
   --BgColor: #22262a;
-  --EditorBgColor: #303841;
+  --EditorBgColor: rgb(48, 56, 65);
   --ButtonBgColor: #47525d;
   --ButtonBgSelectedColor: #eecda6;
   --ButtonTextColor: #cccccc;
@@ -46,7 +46,7 @@ html {
 
 .Light-Theme {
   --BgColor: #f3f3f3;
-  --EditorBgColor: #ffffff;
+  --EditorBgColor: rgb(255, 255, 255);
   --ButtonBgColor: #e4e6f0;
   --ButtonBgSelectedColor: #eecda6;
   --ButtonTextColor: #616161;

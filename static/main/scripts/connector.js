@@ -1,14 +1,14 @@
 export class Connector {
 
     static RequestEnum = {
-        OpenDocument: "OpenDocument/",
+        OpenDocument:  "OpenDocument/",
         CloseDocument: "CloseDocument/",
-        RunOperation: "RunOperation/1",
-        ButtonEvent: "ButtonEvent/2",
+        RunOperation:  "RunOperation/1",
+        ButtonEvent:   "ButtonEvent/2",
         MouseMoveEvent: "MouseMoveEvent/2",
-        SendIntData: "SendIntData/1",
+        SendIntData:    "SendIntData/1",
         SendStringData: "SendStringData/1",
-        IsDocumentChanged: "IsDocumentChanged/",
+        IsDocumentChanged:   "IsDocumentChanged/",
         GetDataForRendering: "GetDataForRendering/",
         GetDocumentInfo: "GetDocumentInfo/"
     };

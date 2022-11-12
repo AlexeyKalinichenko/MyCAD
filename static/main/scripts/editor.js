@@ -1,9 +1,20 @@
-import {Storage, St} from "./storage.js";
-
 export class Editor {
-    static gl = null;
-    static shaderProgram = null;
-    static VerticesBuffer = [];
+
+    static ColorThemeEnum = { Dark: "dark", Light: "light" };
+
+    ColorTheme = Editor.ColorThemeEnum.Dark;
+    
+    gl = null;
+    shaderProgram = null;
+    
+    static Coef = 1.971; // (w/h)
+
+    SceneBuffer = {
+        Vertices: [],   // { X: null, Y: null, Z: null }
+        Indices: [],    // { Figure: null, Offset: null, Count: null }
+        ObjectsColor: { R: null, G: null, B: null },
+        NodesColor: { R: null, G: null, B: null }
+    };
 
     constructor() {
         var canvas = document.getElementById("Editor");
@@ -11,6 +22,20 @@ export class Editor {
         if (!this.gl)
             alert("WebGL is not supported");
     }
+
+    SetColorTheme = function(theme) {
+        this.ColorTheme = theme;
+        this.RefreshScene();
+    };
+
+    DrawScene = function(buffer) {
+        this.SceneBuffer = buffer;
+        this.RefreshScene();
+    };
+
+    Init = function() {
+        this.ResizeCanvas();
+    };
 
     ResizeCanvas = function() {
         var canvas = document.getElementById("Editor");
@@ -23,9 +48,18 @@ export class Editor {
         this.gl.viewportHeight = canvas.height;
     
         this.InitShaders();
-        //CM.LoadSceneData();
         this.RefreshScene();
-    }
+    };
+
+    ConvertCoords = function(coordX, coordY) {
+        let offsetX = - 0.009;
+        let offsetY = 0.009;
+
+        let glX = ((coordX - this.gl.viewportWidth / 2) / this.gl.viewportWidth) * 2 + offsetX;
+        let glY = ((this.gl.viewportHeight / 2 - coordY) / this.gl.viewportHeight) * 2 + offsetY;
+
+        return [glX, glY];
+    };
 
     InitShaders = function() {
         var fragmentShader = this.GetShader(this.gl.FRAGMENT_SHADER, 'shader-fs');
@@ -48,7 +82,7 @@ export class Editor {
 
         this.shaderProgram.vertexColorAttribute = this.gl.getAttribLocation(this.shaderProgram, "aVertexColor");
         this.gl.enableVertexAttribArray(this.shaderProgram.vertexColorAttribute);
-    }
+    };
 
     GetShader = function(type, id) {
         var source = document.getElementById(id).innerHTML;
@@ -64,88 +98,86 @@ export class Editor {
             return null;
         }
         return shader;
-    }
+    };
 
-    ClearScene = function(themeColor) {
-        //this.gl.clearColor(themeColor.R, themeColor.G, themeColor.B, themeColor.A);
-        this.gl.clearColor(0.19, 0.22, 0.25, 1.0);   // temp
+    GetColor = function() {
+        let selector = (this.ColorTheme == Editor.ColorThemeEnum.Dark) ? ".Dark-Theme" : ".Light-Theme";
+
+        let style = window.getComputedStyle(document.querySelector(selector));
+        let colorString = style.getPropertyValue("--EditorBgColor");
+
+        let colorArray = colorString.match(/\d{1,}/g);
+        let result = [];
+        colorArray.forEach((element) => {
+            result.push(Number((Number(element) / 255).toFixed(2)));
+        });
+
+        let alpha = 1;
+        result.push(alpha);
+
+        return result;
+    };
+
+    ClearScene = function() {
+        let color = this.GetColor();
+        this.gl.clearColor(color[0], color[1], color[2], color[3]);
         this.gl.viewport(0, 0, this.gl.viewportWidth, this.gl.viewportHeight);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-    }
+    };
 
     RefreshScene = function() {
-        this.ClearScene(/*St.ThemeColor.GetColor()*/);
-        this.drawTempObjects();
-    }
+        this.ClearScene();
+        this.DrawObjects();
+        this.DrawSpecialObjects();
+    };
 
-    drawTempObjects = function() {
-        var coef = 1.971;
-    
-        let vertices = [
-            // X Y Z R G B
-    
-            //Сoordinate system
-            0.0,   0.0   * coef, 0.0, 0.93, 0.42, 0.37,  // triangle 1 color - #ed6a5e
-            0.04,  0.0   * coef, 0.0, 0.93, 0.42, 0.37,
-            0.005, 0.005 * coef, 0.0, 0.93, 0.42, 0.37,
-    
-            0.005, 0.005 * coef, 0.0, 0.93, 0.42, 0.37,  // triangle 2 color - #ed6a5e
-            0.04,  0.0   * coef, 0.0, 0.93, 0.42, 0.37,
-            0.04,  0.005 * coef, 0.0, 0.93, 0.42, 0.37,
-    
-            0.0,   0.0   * coef, 0.0, 0.38, 0.76, 0.33,  // triangle 3 color - #60c253
-            0.0,   0.04  * coef, 0.0, 0.38, 0.76, 0.33,
-            0.005, 0.005 * coef, 0.0, 0.38, 0.76, 0.33,
-    
-            0.005, 0.005 * coef, 0.0, 0.38, 0.76, 0.33,  // triangle 4 color - #60c253
-            0.0,   0.04  * coef, 0.0, 0.38, 0.76, 0.33,
-            0.005, 0.04  * coef, 0.0, 0.38, 0.76, 0.33,
-    
-            // LINE 1
-            -0.4, 0.4012 * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
-             0.4, 0.4    * coef, 0.0, 0.85, 0.87, 0.91,
-            -0.4, 0.4    * coef, 0.0, 0.85, 0.87, 0.91,
-    
-             0.4, 0.4    * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
-             0.4, 0.4012 * coef, 0.0, 0.85, 0.87, 0.91,
-            -0.4, 0.4012 * coef, 0.0, 0.85, 0.87, 0.91,
-    
-            // LINE 2
-            -0.4, 0.3025 * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
-             0.4, 0.3    * coef, 0.0, 0.85, 0.87, 0.91,
-            -0.4, 0.3    * coef, 0.0, 0.85, 0.87, 0.91,
-    
-             0.4, 0.3    * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
-             0.4, 0.3025 * coef, 0.0, 0.85, 0.87, 0.91,
-            -0.4, 0.3025 * coef, 0.0, 0.85, 0.87, 0.91,
-    
-            // LINE 3
-            -0.4, 0.205 * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
-             0.4, 0.2   * coef, 0.0, 0.85, 0.87, 0.91,
-            -0.4, 0.2   * coef, 0.0, 0.85, 0.87, 0.91,
-    
-             0.4, 0.2   * coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
-             0.4, 0.205 * coef, 0.0, 0.85, 0.87, 0.91,
-            -0.4, 0.205 * coef, 0.0, 0.85, 0.87, 0.91,
-    
-            // NODE 11
-             0.4, 0.4006 * coef, 0.0, 0.98, 0.68, 0.35,  // point 1
-    
-            // NODE 12
-            -0.4, 0.4006 * coef, 0.0, 0.98, 0.68, 0.35,  // point 2
-    
-            // NODE 21
-             0.4, 0.3012 * coef, 0.0, 0.98, 0.68, 0.35,  // point 1
-    
-            // NODE 22
-            -0.4, 0.3012 * coef, 0.0, 0.98, 0.68, 0.35,  // point 2
-    
-            // NODE 31
-             0.4, 0.2025 * coef, 0.0, 0.98, 0.68, 0.35,  // point 1
-    
-            // NODE 32
-            -0.4, 0.2025 * coef, 0.0, 0.98, 0.68, 0.35,  // point 2
-        ];
+    GetVerticesArray = function() {
+        let result = [];
+
+        this.SceneBuffer.Vertices.forEach((element, index) => {
+            result.push(element.X);
+            result.push(element.Y * Editor.Coef);
+            result.push(element.Z);
+
+            let currentFigure = null;
+            let currentColor = null;
+
+            this.SceneBuffer.Indices.forEach((item) => {
+                let figure = null;
+                let numberOfIndices = null;
+
+                switch (item.Figure) {
+                    case "triangles":
+                        figure = this.gl.TRIANGLES;
+                        numberOfIndices = 3;
+                        break;
+                    case "points":
+                        figure = this.gl.POINTS;
+                        numberOfIndices = 1;
+                        break;
+                    default:
+                        throw "Invalid figure";
+                }
+
+                if (index >= item.Offset && index < (numberOfIndices * item.Count))
+                    currentFigure = figure;
+            });
+
+            currentColor = (currentFigure == this.gl.TRIANGLES) ?
+                this.SceneBuffer.ObjectsColor : this.SceneBuffer.NodesColor;
+
+            result.push(currentColor.R);
+            result.push(currentColor.G);
+            result.push(currentColor.B);
+        });
+
+        return result;
+    };
+
+    DrawObjects = function() {
+        let vertices = this.GetVerticesArray();
+        if (vertices.length == 0)
+            return;
     
         let vertexBuffer = this.gl.createBuffer();
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertexBuffer);
@@ -169,13 +201,72 @@ export class Editor {
             3 * Float32Array.BYTES_PER_ELEMENT
         );
     
-        this.gl.drawArrays(this.gl.TRIANGLES, 0, 3*10);
-        this.gl.drawArrays(this.gl.POINTS, 30, 1*6);
-    }
+        this.SceneBuffer.Indices.forEach((element) => {
+            let figure = null;
+            let numberOfIndices = null;
+
+            switch (element.Figure) {
+                case "triangles":
+                    figure = this.gl.TRIANGLES;
+                    numberOfIndices = 3;
+                    break;
+                case "points":
+                    figure = this.gl.POINTS;
+                    numberOfIndices = 1;
+                    break;
+                default:
+                    throw "Invalid figure";
+            }
+
+            this.gl.drawArrays(figure, element.Offset, numberOfIndices * element.Count);
+        });
+    };
+
+    DrawSpecialObjects = function() {
+            let vertices = [
+                // X Y Z R G B
+                //Сoordinate system
+                0.0,   0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,  // triangle 1 color - #ed6a5e
+                0.04,  0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+                0.005, 0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+        
+                0.005, 0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,  // triangle 2 color - #ed6a5e
+                0.04,  0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+                0.04,  0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+        
+                0.0,   0.0   * Editor.Coef, 0.0, 0.38, 0.76, 0.33,  // triangle 3 color - #60c253
+                0.0,   0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+                0.005, 0.005 * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+        
+                0.005, 0.005 * Editor.Coef, 0.0, 0.38, 0.76, 0.33,  // triangle 4 color - #60c253
+                0.0,   0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+                0.005, 0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+            ];
+        
+            let vertexBuffer = this.gl.createBuffer();
+            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertexBuffer);
+            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(vertices), this.gl.STATIC_DRAW);
+        
+            this.gl.vertexAttribPointer(
+                this.shaderProgram.vertexPositionAttribute,
+                3,
+                this.gl.FLOAT,
+                this.gl.FALSE,
+                6 * Float32Array.BYTES_PER_ELEMENT,
+                0 * Float32Array.BYTES_PER_ELEMENT
+            );
+        
+            this.gl.vertexAttribPointer(
+                this.shaderProgram.vertexColorAttribute,
+                3,
+                this.gl.FLOAT,
+                this.gl.FALSE,
+                6 * Float32Array.BYTES_PER_ELEMENT,
+                3 * Float32Array.BYTES_PER_ELEMENT
+            );
+        
+            this.gl.drawArrays(this.gl.TRIANGLES, 0, 3*4);
+    };
 }
 
 export let Ed = new Editor();
-
-
-//editorBgColorDark: { R: 0.19, G: 0.22, B: 0.25, A: 1.0 },  // #303841
-//editorBgColorLight: { R: 1.0, G: 1.0, B: 1.0, A: 1.0 },    // #ffffff

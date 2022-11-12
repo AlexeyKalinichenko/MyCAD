@@ -15,7 +15,7 @@ export class Interface {
         ButtonSnapTo: "snap-to",
         ButtonSnapToNode:  "snap-to-node",
         ButtonSnapToAngle: "snap-to-angle",
-        ButtonNodes: "nodes",
+        ButtonNodes:       "nodes",
         ButtonThickness:  "thickness",
         ButtonThickness1: "thickness-1",
         ButtonThickness2: "thickness-2",
