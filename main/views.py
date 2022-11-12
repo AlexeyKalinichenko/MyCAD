@@ -47,15 +47,59 @@ def SendStringData(request, value):
 	return response
 
 def IsDocumentChanged(request):
-	response = JsonResponse({ "result": 0, "IsDocumentChanged": True })
+	response = JsonResponse({ "result": 0, "isChanged": True })
 	return response
 
 def GetDataForRendering(request):
-	response = JsonResponse({ "result": 0, "data": "qwerty" })
+	response = JsonResponse({
+		"result": 0,
+		"buffer": {
+			"Indices": [
+        		{ "Figure": "triangles", "Offset": 0, "Count": 6 },
+        		{ "Figure": "points", "Offset": 18, "Count": 6 }
+    		],
+    		"ObjectsColor": { "R": 0.85, "G": 0.87, "B": 0.91 },
+    		"NodesColor": { "R": 0.98, "G": 0.68, "B": 0.35 },
+    		"Vertices": [
+        		{ "X": -0.4, "Y": 0.4012, "Z": 0.0 },
+        		{ "X":  0.4, "Y":    0.4, "Z": 0.0 },
+        		{ "X": -0.4, "Y":    0.4, "Z": 0.0 },
+        		{ "X":  0.4, "Y":    0.4, "Z": 0.0 },
+        		{ "X":  0.4, "Y": 0.4012, "Z": 0.0 },
+        		{ "X": -0.4, "Y": 0.4012, "Z": 0.0 },
+        		{ "X": -0.4, "Y": 0.3025, "Z": 0.0 },
+        		{ "X":  0.4, "Y":    0.3, "Z": 0.0 },
+        		{ "X": -0.4, "Y":    0.3, "Z": 0.0 },
+        		{ "X":  0.4, "Y":    0.3, "Z": 0.0 },
+        		{ "X":  0.4, "Y": 0.3025, "Z": 0.0 },
+        		{ "X": -0.4, "Y": 0.3025, "Z": 0.0 },
+        		{ "X": -0.4, "Y":  0.205, "Z": 0.0 },
+        		{ "X":  0.4, "Y":    0.2, "Z": 0.0 },
+        		{ "X": -0.4, "Y":    0.2, "Z": 0.0 },
+        		{ "X":  0.4, "Y":    0.2, "Z": 0.0 },
+        		{ "X":  0.4, "Y":  0.205, "Z": 0.0 },
+        		{ "X": -0.4, "Y":  0.205, "Z": 0.0 },
+        		{ "X":  0.4, "Y": 0.4006, "Z": 0.0 },
+        		{ "X": -0.4, "Y": 0.4006, "Z": 0.0 },
+        		{ "X":  0.4, "Y": 0.3012, "Z": 0.0 },
+        		{ "X": -0.4, "Y": 0.3012, "Z": 0.0 },
+        		{ "X":  0.4, "Y": 0.2025, "Z": 0.0 },
+        		{ "X": -0.4, "Y": 0.2025, "Z": 0.0 } 
+    		]
+		}
+	})
 	return response
 
 def GetDocumentInfo(request):
-	response = JsonResponse({ "result": 0, "data": "qwerty" })
+	response = JsonResponse({
+		"result": 0,
+		"info": {
+			"colorTheme": "dark",
+			"thickness": "two",
+			"nodeMode": "off",
+			"objects": 123
+		}
+	})
 	return response
 
 # Old API #

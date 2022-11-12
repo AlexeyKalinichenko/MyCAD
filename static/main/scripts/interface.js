@@ -133,12 +133,22 @@ export class Interface {
         switch(element) {
             case "coord-x": domElement = document.getElementById("coord_x"); break;
             case "coord-y": domElement = document.getElementById("coord_y"); break;
+            case "objects": domElement = document.getElementById("stat"); break;
             default: throw "Invalid element";
         }
-        
+
         let foundPos = domElement.textContent.indexOf(target);
         let prefix = domElement.textContent.slice(0, foundPos+1);
-        domElement.textContent = prefix + value.toFixed(3);
+        
+        if (element == Interface.UIElementsEnum.TitleCoordX ||
+            element == Interface.UIElementsEnum.TitleCoordY)
+        {
+            domElement.textContent = prefix + value.toFixed(3);
+        }
+        else if (element == Interface.UIElementsEnum.TitleObjects)
+        {
+            domElement.textContent = prefix + value;
+        }
     };
 
     SetElementImage = function(tag, image) {

@@ -224,49 +224,49 @@ export class Editor {
     };
 
     DrawSpecialObjects = function() {
-            let vertices = [
-                // X Y Z R G B
-                //Сoordinate system
-                0.0,   0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,  // triangle 1 color - #ed6a5e
-                0.04,  0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
-                0.005, 0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
-        
-                0.005, 0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,  // triangle 2 color - #ed6a5e
-                0.04,  0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
-                0.04,  0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
-        
-                0.0,   0.0   * Editor.Coef, 0.0, 0.38, 0.76, 0.33,  // triangle 3 color - #60c253
-                0.0,   0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
-                0.005, 0.005 * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
-        
-                0.005, 0.005 * Editor.Coef, 0.0, 0.38, 0.76, 0.33,  // triangle 4 color - #60c253
-                0.0,   0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
-                0.005, 0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
-            ];
-        
-            let vertexBuffer = this.gl.createBuffer();
-            this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertexBuffer);
-            this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(vertices), this.gl.STATIC_DRAW);
-        
-            this.gl.vertexAttribPointer(
-                this.shaderProgram.vertexPositionAttribute,
-                3,
-                this.gl.FLOAT,
-                this.gl.FALSE,
-                6 * Float32Array.BYTES_PER_ELEMENT,
-                0 * Float32Array.BYTES_PER_ELEMENT
-            );
-        
-            this.gl.vertexAttribPointer(
-                this.shaderProgram.vertexColorAttribute,
-                3,
-                this.gl.FLOAT,
-                this.gl.FALSE,
-                6 * Float32Array.BYTES_PER_ELEMENT,
-                3 * Float32Array.BYTES_PER_ELEMENT
-            );
-        
-            this.gl.drawArrays(this.gl.TRIANGLES, 0, 3*4);
+        let vertices = [
+            // X Y Z R G B
+            //Сoordinate system
+            0.0,   0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,  // triangle 1 color - #ed6a5e
+            0.04,  0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+            0.005, 0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+
+            0.005, 0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,  // triangle 2 color - #ed6a5e
+            0.04,  0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+            0.04,  0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+
+            0.0,   0.0   * Editor.Coef, 0.0, 0.38, 0.76, 0.33,  // triangle 3 color - #60c253
+            0.0,   0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+            0.005, 0.005 * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+
+            0.005, 0.005 * Editor.Coef, 0.0, 0.38, 0.76, 0.33,  // triangle 4 color - #60c253
+            0.0,   0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+            0.005, 0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+        ];
+
+        let vertexBuffer = this.gl.createBuffer();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, vertexBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(vertices), this.gl.STATIC_DRAW);
+
+        this.gl.vertexAttribPointer(
+            this.shaderProgram.vertexPositionAttribute,
+            3,
+            this.gl.FLOAT,
+            this.gl.FALSE,
+            6 * Float32Array.BYTES_PER_ELEMENT,
+            0 * Float32Array.BYTES_PER_ELEMENT
+        );
+
+        this.gl.vertexAttribPointer(
+            this.shaderProgram.vertexColorAttribute,
+            3,
+            this.gl.FLOAT,
+            this.gl.FALSE,
+            6 * Float32Array.BYTES_PER_ELEMENT,
+            3 * Float32Array.BYTES_PER_ELEMENT
+        );
+
+        this.gl.drawArrays(this.gl.TRIANGLES, 0, 3*4);
     };
 }
 
