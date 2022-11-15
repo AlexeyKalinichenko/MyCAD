@@ -6,5 +6,5 @@ project(core)
 set(SOURCE_APP main.cpp document.cpp base.cpp line.cpp point.cpp session.cpp api.cpp)
 set(SOURCE_LIB document.cpp base.cpp line.cpp point.cpp session.cpp api.cpp)
 
-add_executable(${PROJECT_NAME} ${SOURCE_APP})
-#add_library(${PROJECT_NAME} SHARED ${SOURCE_LIB})
+#add_executable(${PROJECT_NAME} ${SOURCE_APP})
+add_library(${PROJECT_NAME} SHARED ${SOURCE_LIB})

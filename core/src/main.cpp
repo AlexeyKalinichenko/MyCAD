@@ -1,9 +1,6 @@
 #include "headers/document.h"
 #include "headers/session.h"
-
-//
 #include "headers/api.h"
-//
 
 int main()
 {
