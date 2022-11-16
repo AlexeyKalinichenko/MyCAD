@@ -5,14 +5,13 @@ Session::Session()
     _counter = -1;
 }
 
-DocumentId Session::CreateDocument()
-{
-    return OpenDocument(std::string());
-}
-
 DocumentId Session::OpenDocument(std::string jsonData)
 {
-    auto document = Document(jsonData);
+    Document document;
+
+    if (!jsonData.empty())
+        document.Load(jsonData);
+
     _documents.insert(std::pair<DocumentId, Document>(++_counter, document));
     return _counter;
 }

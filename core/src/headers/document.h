@@ -17,7 +17,11 @@ private:
 
 public:
     Document();
-    Document(std::string jsonData);
+
+    void Load(std::string jsonData);
+    std::string Save();
+
+    Base GetBase();
 };
 
 #endif //__DOCUMENT_H__

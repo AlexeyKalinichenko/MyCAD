@@ -15,8 +15,7 @@ private:
 public:
     Session();
 
-    DocumentId CreateDocument();
-    DocumentId OpenDocument(std::string jsonData);
+    DocumentId OpenDocument(std::string jsonData = std::string());
     void CloseDocument(DocumentId id);
 
     Document GetDocument(DocumentId id);

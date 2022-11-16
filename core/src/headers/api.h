@@ -3,6 +3,6 @@
 
 extern "C" int test_api(int counter);
 
-extern "C" int statisticsAPI(int counter);
+// todo
 
 #endif //__API_H__

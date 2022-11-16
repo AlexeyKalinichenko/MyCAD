@@ -9,6 +9,19 @@ Document::Document()
     _snapMode = SnapMode::None;
 }
 
-Document::Document(std::string jsonData)
+void Document::Load(std::string jsonData)
 {
+    // todo
+}
+
+std::string Document::Save()
+{
+    //todo
+
+    return std::string();
+}
+
+Base Document::GetBase()
+{
+    return _base;
 }
