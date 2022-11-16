@@ -3,14 +3,19 @@
 
 #include "definitions.h"
 #include "line.h"
+#include <vector>
 #include <map>
 
 class Base
 {
 private:
+    std::vector<std::map<ObjectId, Line>> _states;
+    std::vector<std::map<ObjectId, Line>>::iterator _currentState;
+    const unsigned _limit = 5;
+    int _counter;
 
 public:
-    Base() {}
+    Base();
 
     ObjectId AddObject(Line line);
     void RemoveObject(ObjectId id);
@@ -19,8 +24,6 @@ public:
     void Undo();
     void Redo();
     void Commit();
-
-    std::map<ObjectId, Line> GetCurrentState();
 };
 
 #endif //__BASE_H__

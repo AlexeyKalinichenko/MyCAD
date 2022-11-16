@@ -4,5 +4,9 @@
 using DocumentId = int;
 using ObjectId = int;
 
+enum class ColorTheme { Dark, Light };
+enum class Thickness { One, Two, Three };
+enum class NodeMode { On, Off };
+enum class SnapMode { None, Angle, Both, Node };
 
 #endif //__DEFINITIONS_H__
