@@ -5,20 +5,25 @@ Session::Session()
     _counter = -1;
 }
 
-DocumentId Session::OpenDocument(std::string jsonData)
+DocumentId Session::OpenDocument(
+    Document::Color objectColor, Document::Color nodeColor,
+    float thickness, bool nodesMode, Document::StorageData data)
 {
-    Document document;
+    Document document(objectColor, nodeColor, thickness, nodesMode);
 
-    if (!jsonData.empty())
-        document.Load(jsonData);
+    if (!data.lines.empty())
+        document.Load(data);
 
     _documents.insert(std::pair<DocumentId, Document>(++_counter, document));
     return _counter;
 }
 
-void Session::CloseDocument(DocumentId id)
+Document::StorageData Session::CloseDocument(DocumentId id)
 {
+    auto document = _documents.at(id);
     _documents.erase(id);
+
+    return document.Save();
 }
 
 Document Session::GetDocument(DocumentId id)

@@ -18,7 +18,7 @@ public:
 
     std::pair<Point, Point> GetNodes();
 
-    std::vector<Point> GetPointsForRendering(Thickness thickness);
+    std::vector<Point> GetPointsForRendering(float thickness);
 };
 
 #endif //__LINE_H__

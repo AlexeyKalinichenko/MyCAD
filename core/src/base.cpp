@@ -2,9 +2,15 @@
 
 Base::Base()
 {
-    _counter= -1;
+    _counter = -1;
     _states.push_back(std::map<ObjectId, Line>());
     _currentState = _states.begin();
+}
+
+void Base::Load(const std::vector<Line> & lines)
+{
+    for (auto it = lines.begin(); it != lines.end(); ++it)
+        _currentState->insert(std::make_pair(++_counter, *it));
 }
 
 ObjectId Base::AddObject(Line line)
@@ -21,6 +27,16 @@ void Base::RemoveObject(ObjectId id)
 Line Base::GetObject(ObjectId id)
 {
     return _currentState->at(id);
+}
+
+std::vector<Line> Base::GetObjects()
+{
+    std::vector<Line> objects;
+
+    for (auto it = _currentState->begin(); it != _currentState->end(); ++it)
+        objects.push_back(it->second);
+
+    return objects;
 }
 
 void Base::Undo()

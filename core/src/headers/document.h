@@ -7,21 +7,74 @@
 
 class Document
 {
+public:
+    struct Color
+    {
+        float red = 0.0f;
+        float green = 0.0f;
+        float blue = 0.0f;
+    };
+
+    struct Index
+    {
+        std::string figure;
+        unsigned offset;
+        unsigned count;
+
+        Index(std::string figure, unsigned offset, unsigned count)
+        {
+            this->figure = figure;
+            this->offset = offset;
+            this->count = count;
+        }
+    };
+
+    struct Vertex
+    {
+        float x;
+        float y;
+        float z;
+
+        Vertex(float x, float y, float z)
+        {
+            this->x = x;
+            this->y = y;
+            this->z = z;
+        }
+    };
+
+    struct RenderingData
+    {
+        Color objects;
+        Color nodes;
+        float thickness;
+        bool nodesMode;
+
+        std::vector<Index> indices;
+        std::vector<Vertex> vertices;
+    };
+
+    struct StorageData
+    {
+        std::vector<Line> lines;
+    };
+
 private:
-    ColorTheme _colorTheme;
-    Thickness _thickness;
-    NodeMode _nodeMode;
-    SnapMode _snapMode;
+    Color _objectColor;
+    Color _nodeColor;
+    float _thickness;
+    bool _nodesMode;
 
     Base _base;
 
 public:
     Document();
+    Document(Color objectColor, Color nodeColor, float thickness, bool nodesMode);
 
-    void Load(std::string jsonData);
-    std::string Save();
+    void Load(StorageData data);
+    StorageData Save();
 
-    Base GetBase();
+    RenderingData GetDataForRendering();
 };
 
 #endif //__DOCUMENT_H__

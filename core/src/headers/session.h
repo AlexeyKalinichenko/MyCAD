@@ -15,8 +15,12 @@ private:
 public:
     Session();
 
-    DocumentId OpenDocument(std::string jsonData = std::string());
-    void CloseDocument(DocumentId id);
+    DocumentId OpenDocument(
+        Document::Color objectColor, Document::Color nodeColor,
+        float thickness, bool nodesMode, Document::StorageData data
+    );
+
+    Document::StorageData CloseDocument(DocumentId id);
 
     Document GetDocument(DocumentId id);
 };

@@ -17,9 +17,13 @@ private:
 public:
     Base();
 
+    void Load(const std::vector<Line> & lines);
+
     ObjectId AddObject(Line line);
     void RemoveObject(ObjectId id);
+
     Line GetObject(ObjectId id);
+    std::vector<Line> GetObjects();
 
     void Undo();
     void Redo();
