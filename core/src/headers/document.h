@@ -59,6 +59,15 @@ public:
         std::vector<Line> lines;
     };
 
+    struct Info
+    {
+        Color objectColor;
+        Color nodeColor;
+        float thickness;
+        bool nodesMode;
+        int numberOfObjects;
+    };
+
 private:
     Color _objectColor;
     Color _nodeColor;
@@ -71,8 +80,16 @@ public:
     Document();
     Document(Color objectColor, Color nodeColor, float thickness, bool nodesMode);
 
+    void SetColorTheme(Color objectColor, Color nodeColor);
+    void SetThickness(float thickness);
+    void SetNodesMode(bool mode);
+
     void Load(StorageData data);
     StorageData Save();
+
+    Base GetBase();
+
+    Info GetDocumentInfo();
 
     RenderingData GetDataForRendering();
 };

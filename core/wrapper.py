@@ -18,13 +18,13 @@ elif sys.platform == 'win32':
 
 core = ctypes.CDLL(dirPath + CORE_LIBRARY)
 
-def statisticsWrapper(counter):
-	core.statisticsAPI.argtypes = [ctypes.c_int]
-	core.statisticsAPI.restype = ctypes.c_int
-	result = core.statisticsAPI(counter)
-	return result
+#def statisticsWrapper(counter):
+#	core.statisticsAPI.argtypes = [ctypes.c_int]
+#	core.statisticsAPI.restype = ctypes.c_int
+#	result = core.statisticsAPI(counter)
+#	return result
 
-if __name__ == '__main__':
-	print(statisticsWrapper(2))
-	print(statisticsWrapper(4))
-	print(statisticsWrapper(8))
+#if __name__ == '__main__':
+#	print(statisticsWrapper(2))
+#	print(statisticsWrapper(4))
+#	print(statisticsWrapper(8))

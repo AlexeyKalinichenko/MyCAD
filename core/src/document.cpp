@@ -15,6 +15,22 @@ Document::Document(Document::Color objectColor, Document::Color nodeColor, float
     _nodesMode = nodesMode;
 }
 
+void Document::SetColorTheme(Document::Color objectColor, Document::Color nodeColor)
+{
+    _objectColor = objectColor;
+    _nodeColor = nodeColor;
+}
+
+void Document::SetThickness(float thickness)
+{
+    _thickness = thickness;
+}
+
+void Document::SetNodesMode(bool mode)
+{
+    _nodesMode = mode;
+}
+
 void Document::Load(Document::StorageData data)
 {
     _base.Load(data.lines);
@@ -27,6 +43,24 @@ Document::StorageData Document::Save()
     data.lines = _base.GetObjects();
     
     return data;
+}
+
+Base Document::GetBase()
+{
+    return _base;
+}
+
+Document::Info Document::GetDocumentInfo()
+{
+    Info info;
+
+    info.objectColor = _objectColor;
+    info.nodeColor = _nodeColor;;
+    info.thickness = _thickness;
+    info.nodesMode = _nodesMode;
+    info.numberOfObjects = _base.GetObjects().size();
+
+    return info;
 }
 
 Document::RenderingData Document::GetDataForRendering()
