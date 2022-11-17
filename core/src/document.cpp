@@ -1,5 +1,5 @@
 #include "headers/document.h"
-#include <iostream>
+#include <algorithm>
 
 Document::Document()
 {
@@ -7,18 +7,16 @@ Document::Document()
     _nodesMode = false;
 }
 
-Document::Document(Document::Color objectColor, Document::Color nodeColor, float thickness, bool nodesMode)
+Document::Document(Document::ColorTheme theme, float thickness, bool nodesMode)
 {
-    _objectColor = objectColor;
-    _nodeColor = nodeColor;
+    _theme = theme;
     _thickness = thickness;
     _nodesMode = nodesMode;
 }
 
-void Document::SetColorTheme(Document::Color objectColor, Document::Color nodeColor)
+void Document::SetColorTheme(ColorTheme theme)
 {
-    _objectColor = objectColor;
-    _nodeColor = nodeColor;
+    _theme = theme;
 }
 
 void Document::SetThickness(float thickness)
@@ -54,8 +52,7 @@ Document::Info Document::GetDocumentInfo()
 {
     Info info;
 
-    info.objectColor = _objectColor;
-    info.nodeColor = _nodeColor;;
+    info.theme = _theme;
     info.thickness = _thickness;
     info.nodesMode = _nodesMode;
     info.numberOfObjects = _base.GetObjects().size();
@@ -63,20 +60,27 @@ Document::Info Document::GetDocumentInfo()
     return info;
 }
 
+void Document::SetHighlightedObjects(std::vector<ObjectId> objects)
+{
+    _highlighted = objects;
+}
+
 Document::RenderingData Document::GetDataForRendering()
 {
     RenderingData data;
 
-    data.objects = _objectColor;
-    data.nodes = _nodeColor;
+    data.theme = _theme;
     data.thickness = _thickness;
     data.nodesMode = _nodesMode;
 
-    auto objects = _base.GetObjects();
+    auto ids = _base.GetObjectIds();
 
-    for (auto object = objects.begin(); object != objects.end(); ++object)
+    for (auto id = ids.begin(); id != ids.end(); ++id)
     {
-        auto points = object->GetPointsForRendering(_thickness);
+        if (std::find(_highlighted.begin(), _highlighted.end(), *id) != _highlighted.end())
+            break;
+
+        auto points = _base.GetObject(*id).GetPointsForRendering(_thickness);
         for (auto point = points.begin(); point != points.end(); ++point)
             data.vertices.emplace_back(point->x, point->y, 0.0f);
     }
@@ -84,8 +88,24 @@ Document::RenderingData Document::GetDataForRendering()
     unsigned triangleVerticesCount = data.vertices.size();
     data.indices.emplace_back("triangles", 0, triangleVerticesCount);
 
+    unsigned highlightedTriangleVerticesCount = _highlighted.size();
+    if (!_highlighted.empty())
+    {
+        for (auto it = _highlighted.begin(); it != _highlighted.end(); ++it)
+        {
+            auto points = _base.GetObject(*it).GetPointsForRendering(_thickness);
+            for (auto point = points.begin(); point != points.end(); ++point)
+                data.vertices.emplace_back(point->x, point->y, 0.0f);
+        }
+
+        data.indices.emplace_back("triangles", triangleVerticesCount, highlightedTriangleVerticesCount);
+
+        _highlighted.clear();
+    }
+
     if (_nodesMode)
     {
+        auto objects = _base.GetObjects();
         for (auto object = objects.begin(); object != objects.end(); ++object)
         {
             auto nodes = object->GetNodes();
@@ -93,7 +113,8 @@ Document::RenderingData Document::GetDataForRendering()
             data.vertices.emplace_back(nodes.second.x, nodes.second.y, 0.0);
         }
 
-        data.indices.emplace_back("points", triangleVerticesCount, data.vertices.size() - triangleVerticesCount);
+        data.indices.emplace_back("points", triangleVerticesCount + highlightedTriangleVerticesCount,
+            data.vertices.size() - triangleVerticesCount - highlightedTriangleVerticesCount);
     }
 
     return data;

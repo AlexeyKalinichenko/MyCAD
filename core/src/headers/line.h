@@ -16,9 +16,20 @@ public:
     Line();
     Line(Point p1, Point p2);
 
-    std::pair<Point, Point> GetNodes();
+    std::pair<Point, Point> GetNodes() const;
+    Point GetFirstNode();
+    Point GetSecondNode();
 
     std::vector<Point> GetPointsForRendering(float thickness);
+
+    float GetLength();
+    float GetAngle();
+
+    std::pair<bool, int> IsNodeInArea(Point center, float radius);
+
+    bool IsPointInLine(Point point);
 };
+
+bool operator==(const Line & op1, const Line & op2);
 
 #endif //__LINE_H__

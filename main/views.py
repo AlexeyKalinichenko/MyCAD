@@ -56,9 +56,11 @@ def GetDataForRendering(request):
 		"buffer": {
 			"Indices": [
         		{ "Figure": "triangles", "Offset": 0, "Count": 6 },	# need change count
+        		{ "Figure": "triangles", "Offset": 0, "Count": 6 },	# need change count
         		{ "Figure": "points", "Offset": 18, "Count": 6 }	# need change count
     		],
     		"ObjectsColor": { "R": 0.85, "G": 0.87, "B": 0.91 },
+    		"HighlightColor": { "R": 0.98, "G": 0.68, "B": 0.35 },
     		"NodesColor": { "R": 0.98, "G": 0.68, "B": 0.35 },
 			"Thickness": 0.01,
 			"NodesMode": False,

@@ -39,6 +39,32 @@ std::vector<Line> Base::GetObjects()
     return objects;
 }
 
+std::vector<ObjectId> Base::GetObjectIds()
+{
+    std::vector<ObjectId> ids;
+
+    for (auto it = _currentState->begin(); it != _currentState->end(); ++it)
+        ids.push_back(it->first);
+
+    return ids;
+}
+
+ObjectId Base::IsObjectInBase(Line line)
+{
+    ObjectId id = -1;
+
+    for (auto it = _currentState->begin(); it != _currentState->end(); ++it)
+    {
+        if (it->second == line)
+        {
+            id = it->first;
+            break;
+        }
+    }
+
+    return id;
+}
+
 void Base::Undo()
 {
     if (_currentState == _states.begin())

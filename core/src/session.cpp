@@ -6,10 +6,10 @@ Session::Session()
 }
 
 DocumentId Session::OpenDocument(
-    Document::Color objectColor, Document::Color nodeColor,
-    float thickness, bool nodesMode, Document::StorageData data)
+    Document::ColorTheme theme, float thickness,
+    bool nodesMode, Document::StorageData data)
 {
-    Document document(objectColor, nodeColor, thickness, nodesMode);
+    Document document(theme, thickness, nodesMode);
 
     if (!data.lines.empty())
         document.Load(data);

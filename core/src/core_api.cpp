@@ -15,10 +15,10 @@ int close_session()
 	return 0;
 }
 
-int open_document(Document::Color objectColor, Document::Color nodeColor,
+int open_document(Document::ColorTheme theme,
         float thickness, bool nodesMode, Document::StorageData data)
 {
-	return pSession->OpenDocument(objectColor, nodeColor, thickness, nodesMode, data);
+	return pSession->OpenDocument(theme, thickness, nodesMode, data);
 }
 
 Document::StorageData close_document(DocumentId id)
@@ -26,10 +26,10 @@ Document::StorageData close_document(DocumentId id)
 	return pSession->CloseDocument(id);
 }
 
-int set_color_theme(DocumentId id, Document::Color objects, Document::Color nodes)
+int set_color_theme(DocumentId id, Document::ColorTheme theme)
 {
 	auto doc = pSession->GetDocument(id);
-	doc.SetColorTheme(objects, nodes);
+	doc.SetColorTheme(theme);
 	
 	return 0;
 }
@@ -94,6 +94,34 @@ int commit(DocumentId id)
 {
 	auto base = pSession->GetDocument(id).GetBase();
 	base.Commit();
+
+	return 0;
+}
+
+float get_line_angle(DocumentId docid, ObjectId objid)
+{
+	auto base = pSession->GetDocument(docid).GetBase();
+	return base.GetObject(objid).GetAngle();
+}
+
+std::vector<Line> get_list_of_objects(DocumentId docid)
+{
+	auto base = pSession->GetDocument(docid).GetBase();
+	return base.GetObjects();
+}
+
+ObjectId is_object_in_base(DocumentId docid, Line object)
+{
+	auto base = pSession->GetDocument(docid).GetBase();	
+	return base.IsObjectInBase(object);
+}
+
+int highlight_object(DocumentId docid, ObjectId objectId)
+{
+	std::vector<ObjectId> objects;
+	objects.push_back(objectId);
+
+	pSession->GetDocument(docid).SetHighlightedObjects(objects);
 
 	return 0;
 }

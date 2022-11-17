@@ -24,6 +24,9 @@ public:
 
     Line GetObject(ObjectId id);
     std::vector<Line> GetObjects();
+    std::vector<ObjectId> GetObjectIds();
+
+    ObjectId IsObjectInBase(Line line);
 
     void Undo();
     void Redo();

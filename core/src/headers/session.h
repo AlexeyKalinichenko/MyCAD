@@ -16,8 +16,8 @@ public:
     Session();
 
     DocumentId OpenDocument(
-        Document::Color objectColor, Document::Color nodeColor,
-        float thickness, bool nodesMode, Document::StorageData data
+        Document::ColorTheme theme, float thickness,
+        bool nodesMode, Document::StorageData data
     );
 
     Document::StorageData CloseDocument(DocumentId id);

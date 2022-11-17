@@ -10,4 +10,6 @@ struct Point
     Point(float x, float y);
 };
 
+bool operator==(const Point & op1, const Point & op2);
+
 #endif //__POINT_H__

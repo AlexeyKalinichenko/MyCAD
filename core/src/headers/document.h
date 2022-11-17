@@ -15,6 +15,13 @@ public:
         float blue = 0.0f;
     };
 
+    struct ColorTheme
+    {
+        Color objects;
+        Color highlight;
+        Color nodes;
+    };
+
     struct Index
     {
         std::string figure;
@@ -45,8 +52,7 @@ public:
 
     struct RenderingData
     {
-        Color objects;
-        Color nodes;
+        ColorTheme theme;
         float thickness;
         bool nodesMode;
 
@@ -61,26 +67,26 @@ public:
 
     struct Info
     {
-        Color objectColor;
-        Color nodeColor;
+        ColorTheme theme;
         float thickness;
         bool nodesMode;
         int numberOfObjects;
     };
 
 private:
-    Color _objectColor;
-    Color _nodeColor;
+    ColorTheme _theme;
     float _thickness;
     bool _nodesMode;
+
+    std::vector<ObjectId> _highlighted;
 
     Base _base;
 
 public:
     Document();
-    Document(Color objectColor, Color nodeColor, float thickness, bool nodesMode);
+    Document(ColorTheme theme, float thickness, bool nodesMode);
 
-    void SetColorTheme(Color objectColor, Color nodeColor);
+    void SetColorTheme(ColorTheme theme);
     void SetThickness(float thickness);
     void SetNodesMode(bool mode);
 
@@ -90,6 +96,8 @@ public:
     Base GetBase();
 
     Info GetDocumentInfo();
+
+    void SetHighlightedObjects(std::vector<ObjectId> objects);
 
     RenderingData GetDataForRendering();
 };
