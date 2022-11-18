@@ -4,7 +4,6 @@
 #include "definitions.h"
 #include "document.h"
 #include <map>
-#include <string>
 
 class Session
 {
@@ -15,12 +14,9 @@ private:
 public:
     Session();
 
-    DocumentId OpenDocument(
-        Document::ColorTheme theme, float thickness,
-        bool nodesMode, Document::StorageData data
-    );
+    DocumentId OpenDocument(StyleData style, StorageData data);
 
-    Document::StorageData CloseDocument(DocumentId id);
+    StorageData CloseDocument(DocumentId id);
 
     Document GetDocument(DocumentId id);
 };

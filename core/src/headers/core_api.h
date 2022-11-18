@@ -1,36 +1,37 @@
 #ifndef __API_H__
 #define __API_H__
 
+#define CORE_API extern "C"
+
 #include "definitions.h"
 #include "session.h"
-#include "document.h"
-#include "line.h"
-#include <vector>
 
-extern "C" int open_session();
-extern "C" int close_session();
+CORE_API Status mc_open_session();
+CORE_API Status mc_close_session();
 
-extern "C" DocumentId open_document(Document::ColorTheme theme,
-        float thickness, bool nodesMode, Document::StorageData data);
-extern "C" Document::StorageData close_document(DocumentId id);
+CORE_API DocumentId mc_open_document(StyleData style, StorageData data);
+CORE_API StorageData mc_close_document(DocumentId docId);
 
-extern "C" int set_color_theme(DocumentId id, Document::ColorTheme theme);
-extern "C" int set_thickness(DocumentId id, float thickness);
-extern "C" int set_nodes_mode(DocumentId id, bool mode);
+CORE_API Status mc_set_color_theme(DocumentId docId, ColorTheme theme);
+CORE_API Status mc_set_thickness(DocumentId docId, float thickness);
+CORE_API Status mc_set_nodes_mode(DocumentId docId, bool mode);
 
-extern "C" Document::Info get_document_info(DocumentId id);
-extern "C" Document::RenderingData get_rendering_data(DocumentId id);
+CORE_API RenderingData mc_get_rendering_data(DocumentId docId);
 
-extern "C" int add_object(DocumentId id, Line object);
-extern "C" int remove_object(DocumentId id, ObjectId objectId);
+CORE_API Status mc_undo(DocumentId docId);
+CORE_API Status mc_redo(DocumentId docId);
+CORE_API Status mc_commit(DocumentId docId);
 
-extern "C" int undo(DocumentId id);
-extern "C" int redo(DocumentId id);
-extern "C" int commit(DocumentId id);
+CORE_API ObjectId mc_create_line(DocumentId docId, Position start, Position end);
+CORE_API Status mc_edit_line(DocumentId docId, ObjectId objId, LineTopology index, Position pos);
+CORE_API Status mc_delete_line(DocumentId docId, ObjectId objId);
 
-extern "C" float get_line_angle(DocumentId docid, ObjectId objid);
-extern "C" std::vector<Line> get_list_of_objects(DocumentId docid);
-extern "C" ObjectId is_object_in_base(DocumentId docid, Line object);
-extern "C" int highlight_object(DocumentId docid, ObjectId objectId);
+CORE_API Position mc_get_line_node(DocumentId docId, ObjectId objId, LineTopology index);
+CORE_API float mc_get_line_length(DocumentId docId, ObjectId objId);
+CORE_API float mc_get_line_angle(DocumentId docId, ObjectId objId);
+CORE_API LineTopology mc_is_line_under_cursor(DocumentId docId, ObjectId objId, Position pos, float radius);
+
+CORE_API Objects mc_get_all_objects(DocumentId docId);
+CORE_API Status mc_highlight_object(DocumentId docId, ObjectId objId);
 
 #endif //__API_H__

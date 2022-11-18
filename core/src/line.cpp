@@ -28,6 +28,44 @@ Point Line::GetSecondNode()
     return _node2;
 }
 
+void Line::SetNode(LineTopology index, Point point)
+{
+    switch (index)
+    {
+    case LineTopology::StartNode:
+        _node1 = point;
+        break;
+    
+    case LineTopology::EndNode:
+        _node2 = point;
+        break;
+    
+    default:
+        break;
+    }
+}
+
+Point Line::GetNode(LineTopology index)
+{
+    Point result;
+
+    switch (index)
+    {
+    case LineTopology::StartNode:
+        result = _node1;
+        break;
+    
+    case LineTopology::EndNode:
+        result = _node2;
+        break;
+    
+    default:
+        break;
+    }
+
+    return result;
+}
+
 std::vector<Point> Line::GetPointsForRendering(float thickness)
 {
     float angle = atan((_node2.y - _node1.y) / (_node2.x - _node1.x));
@@ -55,10 +93,10 @@ float Line::GetAngle()
     return asin((_node2.y - _node1.y) / GetLength());
 }
 
-std::pair<bool, int> Line::IsNodeInArea(Point center, float radius)
+std::pair<bool, LineTopology> Line::IsPointInNodes(Point center, float radius)
 {
     bool result = false;
-    int nodeIndex = -1;
+    LineTopology nodeIndex = LineTopology::None;
 
     float length1 = sqrt(pow((center.x - _node1.x), 2) - pow((center.y - _node1.y), 2));
     float length2 = sqrt(pow((center.x - _node2.x), 2) - pow((center.y - _node2.y), 2));
@@ -66,12 +104,12 @@ std::pair<bool, int> Line::IsNodeInArea(Point center, float radius)
     if (length1 <= radius)
     {
         result = true;
-        nodeIndex = 0;
+        nodeIndex = LineTopology::StartNode;
     }
     else if (length2 <= radius)
     {
         result = true;
-        nodeIndex = 1;
+        nodeIndex = LineTopology::EndNode;
     }
 
     return std::make_pair(result, nodeIndex);

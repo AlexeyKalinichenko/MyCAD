@@ -7,11 +7,11 @@ Document::Document()
     _nodesMode = false;
 }
 
-Document::Document(Document::ColorTheme theme, float thickness, bool nodesMode)
+Document::Document(StyleData style)
 {
-    _theme = theme;
-    _thickness = thickness;
-    _nodesMode = nodesMode;
+    _theme = style.theme;
+    _thickness = style.thickness;
+    _nodesMode = style.nodesMode;
 }
 
 void Document::SetColorTheme(ColorTheme theme)
@@ -29,12 +29,12 @@ void Document::SetNodesMode(bool mode)
     _nodesMode = mode;
 }
 
-void Document::Load(Document::StorageData data)
+void Document::Load(StorageData data)
 {
     _base.Load(data.lines);
 }
 
-Document::StorageData Document::Save()
+StorageData Document::Save()
 {
     StorageData data;
     
@@ -48,24 +48,12 @@ Base Document::GetBase()
     return _base;
 }
 
-Document::Info Document::GetDocumentInfo()
-{
-    Info info;
-
-    info.theme = _theme;
-    info.thickness = _thickness;
-    info.nodesMode = _nodesMode;
-    info.numberOfObjects = _base.GetObjects().size();
-
-    return info;
-}
-
 void Document::SetHighlightedObjects(std::vector<ObjectId> objects)
 {
     _highlighted = objects;
 }
 
-Document::RenderingData Document::GetDataForRendering()
+RenderingData Document::GetDataForRendering()
 {
     RenderingData data;
 

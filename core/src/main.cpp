@@ -1,7 +1,7 @@
-#include "headers/definitions.h"
-#include "headers/core_api.h"
-#include "headers/document.h"
-#include "headers/session.h"
+//#include "headers/definitions.h"
+//#include "headers/core_api.h"
+//#include "headers/document.h"
+//#include "headers/session.h"
 
 int main()
 {
@@ -9,7 +9,7 @@ int main()
     //int res2 = test_api(3);
     //int res3 = test_api(6);
 
-    auto x = ColorTheme::Dark;
+    //auto x = ColorTheme::Dark;
 
     return 0;
 }

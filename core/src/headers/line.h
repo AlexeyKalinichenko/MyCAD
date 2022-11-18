@@ -16,16 +16,21 @@ public:
     Line();
     Line(Point p1, Point p2);
 
+    //
     std::pair<Point, Point> GetNodes() const;
     Point GetFirstNode();
     Point GetSecondNode();
+    //
+
+    void SetNode(LineTopology index, Point point);
+    Point GetNode(LineTopology index);
 
     std::vector<Point> GetPointsForRendering(float thickness);
 
     float GetLength();
     float GetAngle();
 
-    std::pair<bool, int> IsNodeInArea(Point center, float radius);
+    std::pair<bool, LineTopology> IsPointInNodes(Point center, float radius);
 
     bool IsPointInLine(Point point);
 };

@@ -2,126 +2,164 @@
 
 Session * pSession = nullptr;
 
-int open_session()
+Status mc_open_session()
 {
 	pSession = new Session();
-	return 0;
+	return Status::Ok;
 }
 
-int close_session()
+Status mc_close_session()
 {
 	delete pSession;
 	pSession = nullptr;
-	return 0;
+	return Status::Ok;
 }
 
-int open_document(Document::ColorTheme theme,
-        float thickness, bool nodesMode, Document::StorageData data)
+DocumentId mc_open_document(StyleData style, StorageData data)
 {
-	return pSession->OpenDocument(theme, thickness, nodesMode, data);
+	return pSession->OpenDocument(style, data);
 }
 
-Document::StorageData close_document(DocumentId id)
+StorageData mc_close_document(DocumentId docId)
 {
-	return pSession->CloseDocument(id);
+	return pSession->CloseDocument(docId);
 }
 
-int set_color_theme(DocumentId id, Document::ColorTheme theme)
+Status mc_set_color_theme(DocumentId docId, ColorTheme theme)
 {
-	auto doc = pSession->GetDocument(id);
-	doc.SetColorTheme(theme);
-	
-	return 0;
+	auto document = pSession->GetDocument(docId);
+	document.SetColorTheme(theme);
+
+	return Status::Ok;
 }
 
-int set_thickness(DocumentId id, float thickness)
+Status mc_set_thickness(DocumentId docId, float thickness)
 {
-	auto doc = pSession->GetDocument(id);
-	doc.SetThickness(thickness);
-	return 0;
+	auto document = pSession->GetDocument(docId);
+	document.SetThickness(thickness);
+	return Status::Ok;
 }
 
-int set_nodes_mode(DocumentId id, bool mode)
+Status mc_set_nodes_mode(DocumentId docId, bool mode)
 {
-	auto doc = pSession->GetDocument(id);
-	doc.SetNodesMode(mode);
-	return 0;
+	auto document = pSession->GetDocument(docId);
+	document.SetNodesMode(mode);
+	return Status::Ok;
 }
 
-Document::Info get_document_info(DocumentId id)
+RenderingData mc_get_rendering_data(DocumentId docId)
 {
-	auto doc = pSession->GetDocument(id);
-	return doc.GetDocumentInfo();
+	auto document = pSession->GetDocument(docId);
+	return document.GetDataForRendering();
 }
 
-Document::RenderingData get_rendering_data(DocumentId id)
+Status mc_undo(DocumentId docId)
 {
-	auto doc = pSession->GetDocument(id);
-	return doc.GetDataForRendering();
-}
-
-int add_object(DocumentId id, Line object)
-{
-	auto base = pSession->GetDocument(id).GetBase();
-	return base.AddObject(object);
-}
-
-int remove_object(DocumentId id, int objectId)
-{
-	auto base = pSession->GetDocument(id).GetBase();
-	base.RemoveObject(objectId);
-
-	return 0;
-}
-
-int undo(DocumentId id)
-{
-	auto base = pSession->GetDocument(id).GetBase();
+	auto base = pSession->GetDocument(docId).GetBase();
 	base.Undo();
 
-	return 0;
+	return Status::Ok;
 }
 
-int redo(DocumentId id)
+Status mc_redo(DocumentId docId)
 {
-	auto base = pSession->GetDocument(id).GetBase();
+	auto base = pSession->GetDocument(docId).GetBase();
 	base.Redo();
 
-	return 0;
+	return Status::Ok;
 }
 
-int commit(DocumentId id)
+Status mc_commit(DocumentId docId)
 {
-	auto base = pSession->GetDocument(id).GetBase();
+	auto base = pSession->GetDocument(docId).GetBase();
 	base.Commit();
 
-	return 0;
+	return Status::Ok;
 }
 
-float get_line_angle(DocumentId docid, ObjectId objid)
+ObjectId mc_create_line(DocumentId docId, Position start, Position end)
 {
-	auto base = pSession->GetDocument(docid).GetBase();
-	return base.GetObject(objid).GetAngle();
+	auto base = pSession->GetDocument(docId).GetBase();
+	auto line = Line(PositionToPoint(start), PositionToPoint(end));
+
+	return base.AddObject(line);
 }
 
-std::vector<Line> get_list_of_objects(DocumentId docid)
+Status mc_edit_line(DocumentId docId, ObjectId objId, LineTopology index, Position pos)
 {
-	auto base = pSession->GetDocument(docid).GetBase();
-	return base.GetObjects();
+	auto base = pSession->GetDocument(docId).GetBase();
+	auto line = base.GetObject(objId);
+	line.SetNode(index, PositionToPoint(pos));
+
+	return Status::Ok;
 }
 
-ObjectId is_object_in_base(DocumentId docid, Line object)
+Status mc_delete_line(DocumentId docId, ObjectId objId)
 {
-	auto base = pSession->GetDocument(docid).GetBase();	
-	return base.IsObjectInBase(object);
+	auto base = pSession->GetDocument(docId).GetBase();
+	base.RemoveObject(objId);
+
+	return Status::Ok;
 }
 
-int highlight_object(DocumentId docid, ObjectId objectId)
+Position mc_get_line_node(DocumentId docId, ObjectId objId, LineTopology index)
+{
+	auto base = pSession->GetDocument(docId).GetBase();
+	auto line = base.GetObject(objId);
+	auto point = line.GetNode(index);
+
+	return PointToPosition(point);
+}
+
+float mc_get_line_length(DocumentId docId, ObjectId objId)
+{
+	auto base = pSession->GetDocument(docId).GetBase();
+	return base.GetObject(objId).GetLength();
+}
+
+float mc_get_line_angle(DocumentId docId, ObjectId objId)
+{
+	auto base = pSession->GetDocument(docId).GetBase();
+	return base.GetObject(objId).GetAngle();
+}
+
+LineTopology mc_is_line_under_cursor(DocumentId docId, ObjectId objId, Position pos, float radius)
+{
+	LineTopology index = LineTopology::None;
+
+	auto base = pSession->GetDocument(docId).GetBase();
+	auto line = base.GetObject(objId);
+
+	auto result = line.IsPointInNodes(PositionToPoint(pos), radius);
+
+	if (result.first)
+	{
+		index = (result.second == LineTopology::StartNode) ? LineTopology::StartNode : LineTopology::EndNode;
+	}
+	else if (line.IsPointInLine(PositionToPoint(pos)))
+	{
+		index = LineTopology::Body;
+	}
+
+	return index;
+}
+
+Objects mc_get_all_objects(DocumentId docId)
+{
+	Objects result;
+
+	auto base = pSession->GetDocument(docId).GetBase();
+	result.ids = base.GetObjectIds();
+
+	return result;
+}
+
+Status mc_highlight_object(DocumentId docId, ObjectId objId)
 {
 	std::vector<ObjectId> objects;
-	objects.push_back(objectId);
+	objects.push_back(objId);
 
-	pSession->GetDocument(docid).SetHighlightedObjects(objects);
+	pSession->GetDocument(docId).SetHighlightedObjects(objects);
 
-	return 0;
+	return Status::Ok;
 }
