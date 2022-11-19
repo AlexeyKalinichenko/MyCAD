@@ -69,6 +69,12 @@ struct RenderingData
     std::vector<Vertex> vertices;
 };
 
+struct RenderingStatus
+{
+    bool needUpdate;
+    RenderingData data;
+};
+
 struct Position
 {
     float x;

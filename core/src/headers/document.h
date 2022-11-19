@@ -14,6 +14,8 @@ struct StorageData
 class Document
 {
 private:
+    bool _needToUpdate;
+
     ColorTheme _theme;
     float _thickness;
     bool _nodesMode;
@@ -37,7 +39,10 @@ public:
 
     void SetHighlightedObjects(std::vector<ObjectId> objects);
 
-    RenderingData GetDataForRendering();
+    RenderingData GetRenderingData();
+    RenderingStatus GetRenderingStatus();
+
+    void MarkAsChanged();
 };
 
 #endif //__DOCUMENT_H__

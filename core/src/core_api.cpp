@@ -52,57 +52,73 @@ Status mc_set_nodes_mode(DocumentId docId, bool mode)
 	return Status::Ok;
 }
 
-RenderingData mc_get_rendering_data(DocumentId docId)
+RenderingStatus mc_get_rendering_status(DocumentId docId)
 {
 	auto document = pSession->GetDocument(docId);
-	return document.GetDataForRendering();
+	return document.GetRenderingStatus();
 }
 
 Status mc_undo(DocumentId docId)
 {
-	auto base = pSession->GetDocument(docId).GetBase();
+	auto document = pSession->GetDocument(docId);
+	auto base = document.GetBase();
+
 	base.Undo();
+	document.MarkAsChanged();
 
 	return Status::Ok;
 }
 
 Status mc_redo(DocumentId docId)
 {
-	auto base = pSession->GetDocument(docId).GetBase();
+	auto document = pSession->GetDocument(docId);
+	auto base = document.GetBase();
+
 	base.Redo();
+	document.MarkAsChanged();
 
 	return Status::Ok;
 }
 
 Status mc_commit(DocumentId docId)
 {
-	auto base = pSession->GetDocument(docId).GetBase();
+	auto document = pSession->GetDocument(docId);
+	auto base = document.GetBase();
+
 	base.Commit();
+	document.MarkAsChanged();
 
 	return Status::Ok;
 }
 
 ObjectId mc_create_line(DocumentId docId, Position start, Position end)
 {
-	auto base = pSession->GetDocument(docId).GetBase();
+	auto document = pSession->GetDocument(docId);
+	auto base = document.GetBase();
 	auto line = Line(PositionToPoint(start), PositionToPoint(end));
+	document.MarkAsChanged();
 
 	return base.AddObject(line);
 }
 
 Status mc_edit_line(DocumentId docId, ObjectId objId, LineTopology index, Position pos)
 {
-	auto base = pSession->GetDocument(docId).GetBase();
+	auto document = pSession->GetDocument(docId);
+	auto base = document.GetBase();
 	auto line = base.GetObject(objId);
 	line.SetNode(index, PositionToPoint(pos));
+	document.MarkAsChanged();
 
 	return Status::Ok;
 }
 
 Status mc_delete_line(DocumentId docId, ObjectId objId)
 {
-	auto base = pSession->GetDocument(docId).GetBase();
+	auto document = pSession->GetDocument(docId);
+	auto base = document.GetBase();
+
 	base.RemoveObject(objId);
+	document.MarkAsChanged();
 
 	return Status::Ok;
 }

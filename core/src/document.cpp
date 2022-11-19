@@ -3,12 +3,16 @@
 
 Document::Document()
 {
+    _needToUpdate = true;
+    
     _thickness = 0.0f;
     _nodesMode = false;
 }
 
 Document::Document(StyleData style)
 {
+    _needToUpdate = true;
+    
     _theme = style.theme;
     _thickness = style.thickness;
     _nodesMode = style.nodesMode;
@@ -17,16 +21,19 @@ Document::Document(StyleData style)
 void Document::SetColorTheme(ColorTheme theme)
 {
     _theme = theme;
+    _needToUpdate = true;
 }
 
 void Document::SetThickness(float thickness)
 {
     _thickness = thickness;
+    _needToUpdate = true;
 }
 
 void Document::SetNodesMode(bool mode)
 {
     _nodesMode = mode;
+    _needToUpdate = true;
 }
 
 void Document::Load(StorageData data)
@@ -51,9 +58,10 @@ Base Document::GetBase()
 void Document::SetHighlightedObjects(std::vector<ObjectId> objects)
 {
     _highlighted = objects;
+    _needToUpdate = true;
 }
 
-RenderingData Document::GetDataForRendering()
+RenderingData Document::GetRenderingData()
 {
     RenderingData data;
 
@@ -105,4 +113,27 @@ RenderingData Document::GetDataForRendering()
     }
 
     return data;
+}
+
+RenderingStatus Document::GetRenderingStatus()
+{
+    RenderingStatus result;
+    result.data = GetRenderingData();
+
+    if (_needToUpdate)
+    {
+        result.needUpdate = true;
+        _needToUpdate = false;
+    }
+    else
+    {
+        result.needUpdate = false;
+    }
+
+    return result;
+}
+
+void Document::MarkAsChanged()
+{
+    _needToUpdate = true;
 }
