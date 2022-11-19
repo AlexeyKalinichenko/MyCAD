@@ -16,14 +16,9 @@ public:
     Line();
     Line(Point p1, Point p2);
 
-    //
-    std::pair<Point, Point> GetNodes() const;
-    Point GetFirstNode();
-    Point GetSecondNode();
-    //
-
     void SetNode(LineTopology index, Point point);
     Point GetNode(LineTopology index);
+    std::pair<Point, Point> GetNodes() const;
 
     std::vector<Point> GetPointsForRendering(float thickness);
 

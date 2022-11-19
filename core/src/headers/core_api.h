@@ -9,6 +9,7 @@
 CORE_API Status mc_open_session();
 CORE_API Status mc_close_session();
 
+CORE_API DocumentId mc_create_document(StyleData style);
 CORE_API DocumentId mc_open_document(StyleData style, StorageData data);
 CORE_API StorageData mc_close_document(DocumentId docId);
 

@@ -13,62 +13,35 @@ Line::Line(Point p1, Point p2)
     _node2 = p2;
 }
 
-std::pair<Point, Point> Line::GetNodes() const
-{
-    return std::make_pair(_node1, _node2);
-}
-
-Point Line::GetFirstNode()
-{
-    return _node1;
-}
-
-Point Line::GetSecondNode()
-{
-    return _node2;
-}
-
 void Line::SetNode(LineTopology index, Point point)
 {
-    switch (index)
-    {
-    case LineTopology::StartNode:
+    if (index == LineTopology::StartNode)
         _node1 = point;
-        break;
-    
-    case LineTopology::EndNode:
+    else if (index == LineTopology::EndNode)
         _node2 = point;
-        break;
-    
-    default:
-        break;
-    }
 }
 
 Point Line::GetNode(LineTopology index)
 {
     Point result;
 
-    switch (index)
-    {
-    case LineTopology::StartNode:
+    if (index == LineTopology::StartNode)
         result = _node1;
-        break;
-    
-    case LineTopology::EndNode:
+    else if (index == LineTopology::EndNode)
         result = _node2;
-        break;
-    
-    default:
-        break;
-    }
 
     return result;
 }
 
+std::pair<Point, Point> Line::GetNodes() const
+{
+    return std::make_pair(_node1, _node2);
+}
+
 std::vector<Point> Line::GetPointsForRendering(float thickness)
 {
-    float angle = atan((_node2.y - _node1.y) / (_node2.x - _node1.x));
+    //float angle = atan((_node2.y - _node1.y) / (_node2.x - _node1.x));
+    float angle = GetAngle();
 
     float deltaX = (thickness / 2) * sin(angle);
     float deltaY = (thickness / 2) * cos(angle);
@@ -85,12 +58,14 @@ std::vector<Point> Line::GetPointsForRendering(float thickness)
 
 float Line::GetLength()
 {
-    return sqrt(pow((_node2.x - _node1.x), 2) - pow((_node2.y - _node1.y), 2));
+    //return sqrt(pow((_node2.x - _node1.x), 2) - pow((_node2.y - _node1.y), 2));
+    return abs((_node2.y - _node1.y) / sin(GetAngle()));
 }
 
 float Line::GetAngle()
 {
-    return asin((_node2.y - _node1.y) / GetLength());
+    //return asin((_node2.y - _node1.y) / GetLength());
+    return atan((_node2.y - _node1.y) / (_node2.x - _node1.x));
 }
 
 std::pair<bool, LineTopology> Line::IsPointInNodes(Point center, float radius)
@@ -135,8 +110,8 @@ bool Line::IsPointInLine(Point point)
 
 bool operator==(const Line & op1, const Line & op2)
 {
-    auto pair1 = op1.GetNodes();
-    auto pair2 = op2.GetNodes();
+    auto nodes1 = op1.GetNodes();
+    auto nodes2 = op2.GetNodes();
 
-    return (pair1.first == pair2.first && pair1.second == pair2.second);
+    return (nodes1.first == nodes2.first && nodes1.second == nodes2.second);
 }

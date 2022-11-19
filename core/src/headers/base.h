@@ -18,15 +18,13 @@ public:
     Base();
 
     void Load(const std::vector<Line> & lines);
+    std::vector<Line> Upload();
 
     ObjectId AddObject(Line line);
     void RemoveObject(ObjectId id);
 
     Line GetObject(ObjectId id);
-    std::vector<Line> GetObjects();
-    std::vector<ObjectId> GetObjectIds();
-
-    ObjectId IsObjectInBase(Line line);
+    std::vector<ObjectId> GetObjects();
 
     void Undo();
     void Redo();

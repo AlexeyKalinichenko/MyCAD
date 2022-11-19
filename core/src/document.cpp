@@ -38,7 +38,7 @@ StorageData Document::Save()
 {
     StorageData data;
     
-    data.lines = _base.GetObjects();
+    data.lines = _base.Upload();
     
     return data;
 }
@@ -61,7 +61,7 @@ RenderingData Document::GetDataForRendering()
     data.thickness = _thickness;
     data.nodesMode = _nodesMode;
 
-    auto ids = _base.GetObjectIds();
+    auto ids = _base.GetObjects();
 
     for (auto id = ids.begin(); id != ids.end(); ++id)
     {
@@ -93,10 +93,9 @@ RenderingData Document::GetDataForRendering()
 
     if (_nodesMode)
     {
-        auto objects = _base.GetObjects();
-        for (auto object = objects.begin(); object != objects.end(); ++object)
+        for (auto id = ids.begin(); id != ids.end(); ++id)
         {
-            auto nodes = object->GetNodes();
+            auto nodes = _base.GetObject(*id).GetNodes();
             data.vertices.emplace_back(nodes.first.x, nodes.first.y, 0.0);
             data.vertices.emplace_back(nodes.second.x, nodes.second.y, 0.0);
         }

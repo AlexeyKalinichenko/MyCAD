@@ -15,6 +15,11 @@ Status mc_close_session()
 	return Status::Ok;
 }
 
+DocumentId mc_create_document(StyleData style)
+{
+	return pSession->CreateDocument(style);
+}
+
 DocumentId mc_open_document(StyleData style, StorageData data)
 {
 	return pSession->OpenDocument(style, data);
@@ -149,7 +154,7 @@ Objects mc_get_all_objects(DocumentId docId)
 	Objects result;
 
 	auto base = pSession->GetDocument(docId).GetBase();
-	result.ids = base.GetObjectIds();
+	result.ids = base.GetObjects();
 
 	return result;
 }

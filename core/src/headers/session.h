@@ -14,10 +14,9 @@ private:
 public:
     Session();
 
+    DocumentId CreateDocument(StyleData style);
     DocumentId OpenDocument(StyleData style, StorageData data);
-
     StorageData CloseDocument(DocumentId id);
-
     Document GetDocument(DocumentId id);
 };
 

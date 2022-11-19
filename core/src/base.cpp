@@ -13,6 +13,16 @@ void Base::Load(const std::vector<Line> & lines)
         _currentState->insert(std::make_pair(++_counter, *it));
 }
 
+std::vector<Line> Base::Upload()
+{
+    std::vector<Line> objects;
+
+    for (auto it = _currentState->begin(); it != _currentState->end(); ++it)
+        objects.push_back(it->second);
+
+    return objects;
+}
+
 ObjectId Base::AddObject(Line line)
 {
     _currentState->insert(std::make_pair(++_counter, line));
@@ -29,17 +39,7 @@ Line Base::GetObject(ObjectId id)
     return _currentState->at(id);
 }
 
-std::vector<Line> Base::GetObjects()
-{
-    std::vector<Line> objects;
-
-    for (auto it = _currentState->begin(); it != _currentState->end(); ++it)
-        objects.push_back(it->second);
-
-    return objects;
-}
-
-std::vector<ObjectId> Base::GetObjectIds()
+std::vector<ObjectId> Base::GetObjects()
 {
     std::vector<ObjectId> ids;
 
@@ -47,22 +47,6 @@ std::vector<ObjectId> Base::GetObjectIds()
         ids.push_back(it->first);
 
     return ids;
-}
-
-ObjectId Base::IsObjectInBase(Line line)
-{
-    ObjectId id = -1;
-
-    for (auto it = _currentState->begin(); it != _currentState->end(); ++it)
-    {
-        if (it->second == line)
-        {
-            id = it->first;
-            break;
-        }
-    }
-
-    return id;
 }
 
 void Base::Undo()
