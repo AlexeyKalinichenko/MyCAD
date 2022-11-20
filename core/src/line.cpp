@@ -30,7 +30,6 @@ std::pair<Point, Point> Line::GetNodes() const
 
 std::vector<Point> Line::GetPointsForRendering(float thickness)
 {
-    //float angle = atan((_node2.y - _node1.y) / (_node2.x - _node1.x));
     float angle = GetAngle();
 
     float deltaX = (thickness / 2) * sin(angle);
@@ -48,14 +47,32 @@ std::vector<Point> Line::GetPointsForRendering(float thickness)
 
 float Line::GetLength()
 {
-    //return sqrt(pow((_node2.x - _node1.x), 2) - pow((_node2.y - _node1.y), 2));
-    return abs((_node2.y - _node1.y) / sin(GetAngle()));
+    return sqrt(pow((_node2.x - _node1.x), 2) + pow((_node2.y - _node1.y), 2));
 }
 
 float Line::GetAngle()
 {
-    //return asin((_node2.y - _node1.y) / GetLength());
-    return atan((_node2.y - _node1.y) / (_node2.x - _node1.x));
+    float angle = 0.0f;
+
+    if (GetLength() == 0)
+        return angle;
+
+    angle = atan(abs(_node2.y - _node1.y) / abs(_node2.x - _node1.x));
+
+    if (_node2.y >= _node1.y && _node2.x < _node1.x)
+    {
+        angle = Pi - angle;
+    }
+    else if (_node2.y < _node1.y && _node2.x <= _node1.x)
+    {
+        angle = Pi + angle;
+    }
+    else if (_node2.y < _node1.y && _node2.x > _node1.x)
+    {
+        angle = 2 * Pi - angle;
+    }
+
+    return angle;
 }
 
 std::pair<bool, LineTopology> Line::IsPointInNodes(const Point & center, float radius)
@@ -63,8 +80,19 @@ std::pair<bool, LineTopology> Line::IsPointInNodes(const Point & center, float r
     bool result = false;
     LineTopology nodeIndex = LineTopology::None;
 
-    float length1 = sqrt(pow((center.x - _node1.x), 2) - pow((center.y - _node1.y), 2));
-    float length2 = sqrt(pow((center.x - _node2.x), 2) - pow((center.y - _node2.y), 2));
+    if (GetLength() == 0)
+    {
+        if (center.x == _node1.x && center.y == _node1.y)
+        {
+            result = true;
+            nodeIndex = LineTopology::StartNode;
+        }
+
+        return std::make_pair(result, nodeIndex);
+    }
+
+    float length1 = sqrt(pow((center.x - _node1.x), 2) + pow((center.y - _node1.y), 2));
+    float length2 = sqrt(pow((center.x - _node2.x), 2) + pow((center.y - _node2.y), 2));
 
     if (length1 <= radius)
     {
@@ -82,6 +110,9 @@ std::pair<bool, LineTopology> Line::IsPointInNodes(const Point & center, float r
 
 bool Line::IsPointInLine(const Point & point)
 {
+    if (GetLength() == 0)
+        return (point.x == _node1.x && point.y == _node1.y) ? true : false;
+
     bool result = false;
 
     bool condition1 = ((point.x - _node1.x) / (_node2.x - _node1.x) == (point.y - _node1.y) / (_node2.y - _node1.y));

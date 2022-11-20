@@ -1,15 +1,26 @@
-//#include "headers/definitions.h"
-//#include "headers/core_api.h"
-//#include "headers/document.h"
-//#include "headers/session.h"
+#include "headers/definitions.h"
+#include "headers/line.h"
+#include <iostream>
+
+using namespace std;
+
 
 int main()
 {
-    //int res1 = test_api(2);
-    //int res2 = test_api(3);
-    //int res3 = test_api(6);
+    Line line(Point(1, 1), Point(5, 5));
 
-    //auto x = ColorTheme::Dark;
+    auto res = line.GetPointsForRendering(0.1);
+
+    for (int i = 0; i < res.size(); ++i)
+    {
+        cout << res[i].x << " - " << res[i].y << endl;
+    }
+
+
+
+    bool check = true;
+
+    //cout << "P3: " << p3.x << " " << p3.y << endl;
 
     return 0;
 }
