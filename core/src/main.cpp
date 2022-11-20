@@ -1,26 +1,49 @@
 #include "headers/definitions.h"
+#include "headers/document.h"
 #include "headers/line.h"
+#include "headers/point.h"
 #include <iostream>
 
 using namespace std;
 
-
 int main()
 {
-    Line line(Point(1, 1), Point(5, 5));
+    Color c1;
+    c1.red = 0.1;
+    c1.green = 0.2;
+    c1.blue = 0.3;
 
-    auto res = line.GetPointsForRendering(0.1);
+    Color c2;
+    c2.red = 0.4;
+    c2.green = 0.5;
+    c2.blue = 0.6;
 
-    for (int i = 0; i < res.size(); ++i)
-    {
-        cout << res[i].x << " - " << res[i].y << endl;
-    }
+    Color c3;
+    c3.red = 0.7;
+    c3.green = 0.8;
+    c3.blue = 0.9;
+    
+    ColorTheme ct;
+    ct.objects = c1;
+    ct.highlight = c2;
+    ct.nodes = c3;
+    
+    StyleData sd;
+    sd.theme = ct;
+    sd.thickness = 0.1;
+    sd.nodesMode = true;
 
+    Line l1(Point(-5, 1), Point(5, 1));
+    Line l2(Point(-5, 2), Point(5, 2));
+    Line l3(Point(-5, 3), Point(5, 3));
 
+    StorageData data;
+    data.lines = { l1, l2, l3 };
 
-    bool check = true;
-
-    //cout << "P3: " << p3.x << " " << p3.y << endl;
+    Document doc(sd);
+    doc.Load(data);
+    doc.SetHighlightedObjects({1});
+    RenderingData rd = doc.GetRenderingData();
 
     return 0;
 }

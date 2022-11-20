@@ -65,7 +65,7 @@ RenderingData Document::GetRenderingData()
     for (auto id = ids.begin(); id != ids.end(); ++id)
     {
         if (std::find(_highlighted.begin(), _highlighted.end(), *id) != _highlighted.end())
-            break;
+            continue;
 
         auto points = _base.GetObject(*id).GetPointsForRendering(_thickness);
         for (auto point = points.begin(); point != points.end(); ++point)
@@ -75,7 +75,7 @@ RenderingData Document::GetRenderingData()
     unsigned triangleVerticesCount = data.vertices.size();
     data.indices.emplace_back("triangles", 0, triangleVerticesCount);
 
-    unsigned highlightedTriangleVerticesCount = _highlighted.size();
+    unsigned highlightedTriangleVerticesCount = _highlighted.size() * 6;
     if (!_highlighted.empty())
     {
         for (auto it = _highlighted.begin(); it != _highlighted.end(); ++it)
