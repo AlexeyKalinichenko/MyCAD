@@ -1,7 +1,7 @@
 #include "headers/point.h"
 
-Point::Point() { x = 0.0; y = 0.0; }
-Point::Point(float x, float y) { this->x = x; this->y = y; }
+Point::Point() : Point(0.0, 0.0) {}
+Point::Point(float value1, float value2) : x(value1), y(value2) {}
 
 bool operator==(const Point & op1, const Point & op2)
 {

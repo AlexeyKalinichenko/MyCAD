@@ -26,18 +26,18 @@ private:
 
 public:
     Document();
-    Document(StyleData style);
+    Document(const StyleData & style);
 
-    void SetColorTheme(ColorTheme theme);
+    void SetColorTheme(const ColorTheme & theme);
     void SetThickness(float thickness);
     void SetNodesMode(bool mode);
 
-    void Load(StorageData data);
+    void Load(const StorageData & data);
     StorageData Save();
 
-    Base GetBase();
+    Base & GetBase();
 
-    void SetHighlightedObjects(std::vector<ObjectId> objects);
+    void SetHighlightedObjects(const std::vector<ObjectId> & objects);
 
     RenderingData GetRenderingData();
     RenderingStatus GetRenderingStatus();

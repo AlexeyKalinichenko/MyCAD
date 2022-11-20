@@ -1,24 +1,16 @@
 #include "headers/document.h"
 #include <algorithm>
 
-Document::Document()
-{
-    _needToUpdate = true;
-    
-    _thickness = 0.0f;
-    _nodesMode = false;
-}
+Document::Document() : _needToUpdate(true), _thickness(0.0f), _nodesMode(false) {}
 
-Document::Document(StyleData style)
+Document::Document(const StyleData & style) : _needToUpdate(true)
 {
-    _needToUpdate = true;
-    
     _theme = style.theme;
     _thickness = style.thickness;
     _nodesMode = style.nodesMode;
 }
 
-void Document::SetColorTheme(ColorTheme theme)
+void Document::SetColorTheme(const ColorTheme & theme)
 {
     _theme = theme;
     _needToUpdate = true;
@@ -36,7 +28,7 @@ void Document::SetNodesMode(bool mode)
     _needToUpdate = true;
 }
 
-void Document::Load(StorageData data)
+void Document::Load(const StorageData & data)
 {
     _base.Load(data.lines);
 }
@@ -44,18 +36,17 @@ void Document::Load(StorageData data)
 StorageData Document::Save()
 {
     StorageData data;
-    
     data.lines = _base.Upload();
-    
+
     return data;
 }
 
-Base Document::GetBase()
+Base & Document::GetBase()
 {
     return _base;
 }
 
-void Document::SetHighlightedObjects(std::vector<ObjectId> objects)
+void Document::SetHighlightedObjects(const std::vector<ObjectId> & objects)
 {
     _highlighted = objects;
     _needToUpdate = true;

@@ -14,10 +14,10 @@ private:
 public:
     Session();
 
-    DocumentId CreateDocument(StyleData style);
-    DocumentId OpenDocument(StyleData style, StorageData data);
+    DocumentId CreateDocument(const StyleData & style);
+    DocumentId OpenDocument(const StyleData & style, const StorageData & data);
     StorageData CloseDocument(DocumentId id);
-    Document GetDocument(DocumentId id);
+    Document & GetDocument(DocumentId id);
 };
 
 #endif //__SESSION_H__

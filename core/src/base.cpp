@@ -1,8 +1,7 @@
 #include "headers/base.h"
 
-Base::Base()
+Base::Base() : _counter(-1)
 {
-    _counter = -1;
     _states.push_back(std::map<ObjectId, Line>());
     _currentState = _states.begin();
 }
@@ -23,7 +22,7 @@ std::vector<Line> Base::Upload()
     return objects;
 }
 
-ObjectId Base::AddObject(Line line)
+ObjectId Base::AddObject(const Line & line)
 {
     _currentState->insert(std::make_pair(++_counter, line));
     return _counter;
@@ -34,7 +33,7 @@ void Base::RemoveObject(ObjectId id)
     _currentState->erase(id);
 }
 
-Line Base::GetObject(ObjectId id)
+Line & Base::GetObject(ObjectId id)
 {
     return _currentState->at(id);
 }

@@ -20,10 +20,10 @@ public:
     void Load(const std::vector<Line> & lines);
     std::vector<Line> Upload();
 
-    ObjectId AddObject(Line line);
+    ObjectId AddObject(const Line & line);
     void RemoveObject(ObjectId id);
 
-    Line GetObject(ObjectId id);
+    Line & GetObject(ObjectId id);
     std::vector<ObjectId> GetObjects();
 
     void Undo();

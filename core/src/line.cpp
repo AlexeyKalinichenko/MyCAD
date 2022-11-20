@@ -1,19 +1,9 @@
 #include "headers/line.h"
 #include <cmath>
 
-Line::Line()
-{
-    _node1 = Point();
-    _node2 = Point();
-}
+Line::Line(Point p1, Point p2) : _node1(p1), _node2(p2) {}
 
-Line::Line(Point p1, Point p2)
-{
-    _node1 = p1;
-    _node2 = p2;
-}
-
-void Line::SetNode(LineTopology index, Point point)
+void Line::SetNode(LineTopology index, const Point & point)
 {
     if (index == LineTopology::StartNode)
         _node1 = point;
@@ -68,7 +58,7 @@ float Line::GetAngle()
     return atan((_node2.y - _node1.y) / (_node2.x - _node1.x));
 }
 
-std::pair<bool, LineTopology> Line::IsPointInNodes(Point center, float radius)
+std::pair<bool, LineTopology> Line::IsPointInNodes(const Point & center, float radius)
 {
     bool result = false;
     LineTopology nodeIndex = LineTopology::None;
@@ -90,7 +80,7 @@ std::pair<bool, LineTopology> Line::IsPointInNodes(Point center, float radius)
     return std::make_pair(result, nodeIndex);
 }
 
-bool Line::IsPointInLine(Point point)
+bool Line::IsPointInLine(const Point & point)
 {
     bool result = false;
 

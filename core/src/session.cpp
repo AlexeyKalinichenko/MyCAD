@@ -1,11 +1,8 @@
 #include "headers/session.h"
 
-Session::Session() 
-{
-    _counter = -1;
-}
+Session::Session() : _counter(-1) {}
 
-DocumentId Session::CreateDocument(StyleData style)
+DocumentId Session::CreateDocument(const StyleData & style)
 {
     Document document(style);
 
@@ -13,7 +10,7 @@ DocumentId Session::CreateDocument(StyleData style)
     return _counter;
 }
 
-DocumentId Session::OpenDocument(StyleData style, StorageData data)
+DocumentId Session::OpenDocument(const StyleData & style, const StorageData & data)
 {
     Document document(style);
     document.Load(data);
@@ -30,7 +27,7 @@ StorageData Session::CloseDocument(DocumentId id)
     return document.Save();
 }
 
-Document Session::GetDocument(DocumentId id)
+Document & Session::GetDocument(DocumentId id)
 {
-    return _documents[id];
+    return _documents.at(id);
 }
