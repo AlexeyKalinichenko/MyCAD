@@ -1,4 +1,5 @@
 #include "headers/definitions.h"
+#include "headers/core_api.h"
 #include "headers/document.h"
 #include "headers/line.h"
 #include "headers/point.h"
@@ -8,6 +9,7 @@ using namespace std;
 
 int main()
 {
+    /*
     Color c1;
     c1.red = 0.1;
     c1.green = 0.2;
@@ -33,17 +35,82 @@ int main()
     sd.thickness = 0.1;
     sd.nodesMode = true;
 
-    Line l1(Point(-5, 1), Point(5, 1));
-    Line l2(Point(-5, 2), Point(5, 2));
-    Line l3(Point(-5, 3), Point(5, 3));
+    mc_open_session();
+    DocumentId d1 = mc_create_document(sd);
 
-    StorageData data;
-    data.lines = { l1, l2, l3 };
+    mc_set_color_theme(d1, ct);
+    mc_set_thickness(d1, 0.15);
+    mc_set_nodes_mode(d1, true);
 
-    Document doc(sd);
-    doc.Load(data);
-    doc.SetHighlightedObjects({1});
-    RenderingData rd = doc.GetRenderingData();
+    ObjectId l1 = mc_create_line(d1, PointToPosition(Point(1, 1)), PointToPosition(Point(5, 1)));
+    ObjectId l2 = mc_create_line(d1, PointToPosition(Point(1, 2)), PointToPosition(Point(5, 2)));
+    ObjectId l3 = mc_create_line(d1, PointToPosition(Point(1, 5)), PointToPosition(Point(5, 5)));
+
+    mc_commit(d1);
+    
+    mc_edit_line(d1, l1, LineTopology::StartNode, PointToPosition(Point(10, 10)));
+    mc_delete_line(d1, l3);
+
+    Position pos1 = mc_get_line_node(d1, l2, LineTopology::StartNode);
+
+    float len1 = mc_get_line_length(d1, l1);
+    float ang1 = mc_get_line_angle(d1, l1);
+
+    LineTopology top1 = mc_is_line_under_cursor(d1, l1, PointToPosition(Point(3, 1)), 0.5);
+
+    Objects objs = mc_get_all_objects(d1);
+
+    mc_highlight_object(d1, l1);
+
+    mc_commit(d1);
+
+    RenderingStatus rd1 = mc_get_rendering_status(d1);
+
+    StorageData sd1 = mc_close_document(d1);
+
+    DocumentId d2 = mc_open_document(sd, sd1);
+    DocumentId d3 = mc_open_document(sd, sd1);
+
+    ObjectId l4 = mc_create_line(d3, PointToPosition(Point(2, 2)), PointToPosition(Point(3, 3)));
+    mc_commit(d3);
+
+    ObjectId l5 = mc_create_line(d3, PointToPosition(Point(3, 3)), PointToPosition(Point(4, 4)));
+    mc_commit(d3);
+
+    mc_undo(d3);
+    mc_redo(d3);
+    mc_undo(d3);
+
+    ObjectId l6 = mc_create_line(d3, PointToPosition(Point(1, 1)), PointToPosition(Point(10, 10)));
+    mc_commit(d3);
+
+    StorageData sd2 = mc_close_document(d3);
+
+    mc_close_session();
+    */
+
+    //
+
+    
+    Base b;
+    Base b1;
+
+    Line l1(Point(1, 1), Point(2, 2));
+    Line l2(Point(3, 3), Point(4, 4));
+    Line l3(Point(5, 5), Point(6, 6));
+
+    ObjectId obj1 = b.AddObject(l1);
+    b.Commit();
+
+    ObjectId obj2 = b.AddObject(l2);
+    ObjectId obj3 = b.AddObject(l3);
+    b.Commit();
+
+    ObjectId obj4 = b.AddObject(l3);
+    b.Commit();
+
+    std::vector<Line> uv = b.Upload();
+    b1.Load(uv);
 
     return 0;
 }

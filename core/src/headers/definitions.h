@@ -12,6 +12,8 @@ enum class LineTopology { None = -1, StartNode, EndNode, Body };
 
 const float Pi = 3.14159265358979323846;
 
+const unsigned HistoryLimit = 5;
+
 struct Color
 {
     float red = 0.0f;

@@ -1,22 +1,23 @@
 #include "headers/base.h"
 
-Base::Base() : _counter(-1)
-{
-    _states.push_back(std::map<ObjectId, Line>());
-    _currentState = _states.begin();
-}
+Base::Base() : _objectsCounter(-1), _stepsCounter(-1) {}
 
 void Base::Load(const std::vector<Line> & lines)
 {
     for (auto it = lines.begin(); it != lines.end(); ++it)
-        _currentState->insert(std::make_pair(++_counter, *it));
+        _state.insert(std::make_pair(++_objectsCounter, *it));
+
+    _history.emplace_back(_state);
+    _stepsCounter = 0;
 }
 
 std::vector<Line> Base::Upload()
 {
     std::vector<Line> objects;
 
-    for (auto it = _currentState->begin(); it != _currentState->end(); ++it)
+    auto lastState = _history.end() - 1;
+
+    for (auto it = lastState->begin(); it != lastState->end(); ++it)
         objects.push_back(it->second);
 
     return objects;
@@ -24,25 +25,25 @@ std::vector<Line> Base::Upload()
 
 ObjectId Base::AddObject(const Line & line)
 {
-    _currentState->insert(std::make_pair(++_counter, line));
-    return _counter;
+    _state.insert(std::make_pair(++_objectsCounter, line));
+    return _objectsCounter;
 }
 
 void Base::RemoveObject(ObjectId id)
 {
-    _currentState->erase(id);
+    _state.erase(id);
 }
 
 Line & Base::GetObject(ObjectId id)
 {
-    return _currentState->at(id);
+    return _state.at(id);
 }
 
 std::vector<ObjectId> Base::GetObjects()
 {
     std::vector<ObjectId> ids;
 
-    for (auto it = _currentState->begin(); it != _currentState->end(); ++it)
+    for (auto it = _state.begin(); it != _state.end(); ++it)
         ids.push_back(it->first);
 
     return ids;
@@ -50,35 +51,44 @@ std::vector<ObjectId> Base::GetObjects()
 
 void Base::Undo()
 {
-    if (_currentState == _states.begin())
+    if (_stepsCounter == -1 || _stepsCounter == 0)
         return;
 
-    --_currentState;
+    _state = _history.at(--_stepsCounter);
 }
 
 void Base::Redo()
 {
-    if (_currentState == _states.end() - 1)
+    if (_stepsCounter == _history.size() - 1)
         return;
 
-    ++_currentState;
+    _state = _history.at(++_stepsCounter);
 }
 
 void Base::Commit()
 {
-    auto state = *_currentState;
-
-    if (_currentState == _states.end() - 1)
+    if (_stepsCounter == -1)
     {
-        if (_currentState->size() == _limit)
-            _states.erase(_states.begin());
+        _history.emplace_back(_state);
+        _stepsCounter = 0;
+    }
+    else if (_stepsCounter == _history.size() - 1)
+    {
+        if (_history.size() == HistoryLimit)
+            _history.erase(_history.begin());
+        else
+            ++_stepsCounter;
+
+        _history.emplace_back(_state);
     }
     else
     {
-        std::vector<std::map<ObjectId, Line>> erased(_states.begin(), _currentState + 1);
-        _states = erased;
-    }
+        std::vector<std::map<ObjectId, Line>> erased;
+        for (int i = 0; i <= _stepsCounter; ++i)
+            erased.emplace_back(_history.at(i));
 
-    _states.emplace_back(state);
-    _currentState = --_states.end();
+        _history = erased;
+        _history.emplace_back(_state);
+        ++_stepsCounter;
+    }
 }

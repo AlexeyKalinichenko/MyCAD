@@ -9,10 +9,10 @@
 class Base
 {
 private:
-    std::vector<std::map<ObjectId, Line>> _states;
-    std::vector<std::map<ObjectId, Line>>::iterator _currentState;
-    const unsigned _limit = 5;
-    int _counter;
+    std::vector<std::map<ObjectId, Line>> _history;
+    std::map<ObjectId, Line> _state;
+    int _objectsCounter;
+    int _stepsCounter;
 
 public:
     Base();
