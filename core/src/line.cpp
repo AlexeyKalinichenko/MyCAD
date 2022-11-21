@@ -1,5 +1,6 @@
 #include "headers/line.h"
 #include <cmath>
+#include <algorithm>
 
 Line::Line(Point p1, Point p2) : _node1(p1), _node2(p2) {}
 
@@ -111,22 +112,21 @@ std::pair<bool, LineTopology> Line::IsPointInNodes(const Point & center, float r
 bool Line::IsPointInLine(const Point & point)
 {
     if (GetLength() == 0)
-        return (point.x == _node1.x && point.y == _node1.y) ? true : false;
+        return (point.x == _node1.x && point.y == _node1.y);
 
-    bool result = false;
+    bool xInside = (std::max(_node1.x, _node2.x) >= point.x) && (std::min(_node1.x, _node2.x) <= point.x);
+    bool yInside = (std::max(_node1.y, _node2.y) >= point.y) && (std::min(_node1.y, _node2.y) <= point.y);
 
-    bool condition1 = ((point.x - _node1.x) / (_node2.x - _node1.x) == (point.y - _node1.y) / (_node2.y - _node1.y));
+    if (!xInside || !yInside)
+        return false;
 
-    bool condition2 = (((_node2.x >= _node1.x) && (point.x >= _node1.x) && (point.x <= _node2.x)) ||
-        ((_node2.x < _node1.x) && (point.x >= _node2.x) && (point.x <= _node1.x)));
+    if (_node1.x == _node2.x)
+        return (point.x == _node1.x);
 
-    bool condition3 = (((_node2.y >= _node1.y) && (point.y >= _node1.y) && (point.y <= _node2.y)) ||
-        ((_node2.y < _node1.y) && (point.y >= _node2.y) && (point.y <= _node1.y)));
+    if (_node1.y == _node2.y)
+        return (point.y == _node1.y);
 
-    if (condition1 && condition2 && condition3)
-        result = true;
-
-    return result;
+    return ((point.x - _node1.x) / (_node2.x - _node1.x) == (point.y - _node1.y) / (_node2.y - _node1.y));
 }
 
 bool operator==(const Line & op1, const Line & op2)

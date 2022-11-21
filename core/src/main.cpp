@@ -41,21 +41,21 @@ int main()
     mc_set_thickness(d1, 0.15);
     mc_set_nodes_mode(d1, true);
 
-    ObjectId l1 = mc_create_line(d1, PointToPosition(Point(1, 1)), PointToPosition(Point(5, 1)));
+    ObjectId l1 = mc_create_line(d1, PointToPosition(Point(1, 1)), PointToPosition(Point(5, 5)));
     ObjectId l2 = mc_create_line(d1, PointToPosition(Point(1, 2)), PointToPosition(Point(5, 2)));
     ObjectId l3 = mc_create_line(d1, PointToPosition(Point(1, 5)), PointToPosition(Point(5, 5)));
 
     mc_commit(d1);
     
-    mc_edit_line(d1, l1, LineTopology::StartNode, PointToPosition(Point(10, 10)));
+    mc_edit_line(d1, l2, LineTopology::StartNode, PointToPosition(Point(10, 10)));
     mc_delete_line(d1, l3);
 
     Position pos1 = mc_get_line_node(d1, l2, LineTopology::StartNode);
 
-    float len1 = mc_get_line_length(d1, l1);
-    float ang1 = mc_get_line_angle(d1, l1);
+    float length = mc_get_line_length(d1, l1);
+    float ang1e = mc_get_line_angle(d1, l1);
 
-    LineTopology top1 = mc_is_line_under_cursor(d1, l1, PointToPosition(Point(3, 1)), 0.5);
+    LineTopology top1 = mc_is_line_under_cursor(d1, l1, PointToPosition(Point(3, 3)), 0.5);
 
     Objects objs = mc_get_all_objects(d1);
 
