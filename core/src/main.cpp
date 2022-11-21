@@ -9,7 +9,6 @@ using namespace std;
 
 int main()
 {
-    /*
     Color c1;
     c1.red = 0.1;
     c1.green = 0.2;
@@ -24,12 +23,12 @@ int main()
     c3.red = 0.7;
     c3.green = 0.8;
     c3.blue = 0.9;
-    
+
     ColorTheme ct;
     ct.objects = c1;
     ct.highlight = c2;
     ct.nodes = c3;
-    
+
     StyleData sd;
     sd.theme = ct;
     sd.thickness = 0.1;
@@ -87,30 +86,6 @@ int main()
     StorageData sd2 = mc_close_document(d3);
 
     mc_close_session();
-    */
-
-    //
-
-    
-    Base b;
-    Base b1;
-
-    Line l1(Point(1, 1), Point(2, 2));
-    Line l2(Point(3, 3), Point(4, 4));
-    Line l3(Point(5, 5), Point(6, 6));
-
-    ObjectId obj1 = b.AddObject(l1);
-    b.Commit();
-
-    ObjectId obj2 = b.AddObject(l2);
-    ObjectId obj3 = b.AddObject(l3);
-    b.Commit();
-
-    ObjectId obj4 = b.AddObject(l3);
-    b.Commit();
-
-    std::vector<Line> uv = b.Upload();
-    b1.Load(uv);
 
     return 0;
 }

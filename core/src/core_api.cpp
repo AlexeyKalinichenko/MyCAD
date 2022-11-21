@@ -32,7 +32,7 @@ StorageData mc_close_document(DocumentId docId)
 
 Status mc_set_color_theme(DocumentId docId, ColorTheme theme)
 {
-	auto document = pSession->GetDocument(docId);
+	Document & document = pSession->GetDocument(docId);
 	document.SetColorTheme(theme);
 
 	return Status::Ok;
@@ -40,28 +40,28 @@ Status mc_set_color_theme(DocumentId docId, ColorTheme theme)
 
 Status mc_set_thickness(DocumentId docId, float thickness)
 {
-	auto document = pSession->GetDocument(docId);
+	Document & document = pSession->GetDocument(docId);
 	document.SetThickness(thickness);
 	return Status::Ok;
 }
 
 Status mc_set_nodes_mode(DocumentId docId, bool mode)
 {
-	auto document = pSession->GetDocument(docId);
+	Document & document = pSession->GetDocument(docId);
 	document.SetNodesMode(mode);
 	return Status::Ok;
 }
 
 RenderingStatus mc_get_rendering_status(DocumentId docId)
 {
-	auto document = pSession->GetDocument(docId);
+	Document & document = pSession->GetDocument(docId);
 	return document.GetRenderingStatus();
 }
 
 Status mc_undo(DocumentId docId)
 {
-	auto document = pSession->GetDocument(docId);
-	auto base = document.GetBase();
+	Document & document = pSession->GetDocument(docId);
+	Base & base = document.GetBase();
 
 	base.Undo();
 	document.MarkAsChanged();
@@ -71,8 +71,8 @@ Status mc_undo(DocumentId docId)
 
 Status mc_redo(DocumentId docId)
 {
-	auto document = pSession->GetDocument(docId);
-	auto base = document.GetBase();
+	Document & document = pSession->GetDocument(docId);
+	Base & base = document.GetBase();
 
 	base.Redo();
 	document.MarkAsChanged();
@@ -82,8 +82,8 @@ Status mc_redo(DocumentId docId)
 
 Status mc_commit(DocumentId docId)
 {
-	auto document = pSession->GetDocument(docId);
-	auto base = document.GetBase();
+	Document & document = pSession->GetDocument(docId);
+	Base & base = document.GetBase();
 
 	base.Commit();
 	document.MarkAsChanged();
@@ -93,9 +93,9 @@ Status mc_commit(DocumentId docId)
 
 ObjectId mc_create_line(DocumentId docId, Position start, Position end)
 {
-	auto document = pSession->GetDocument(docId);
-	auto base = document.GetBase();
-	auto line = Line(PositionToPoint(start), PositionToPoint(end));
+	Document & document = pSession->GetDocument(docId);
+	Base & base = document.GetBase();
+	Line line = Line(PositionToPoint(start), PositionToPoint(end));
 	document.MarkAsChanged();
 
 	return base.AddObject(line);
@@ -103,9 +103,9 @@ ObjectId mc_create_line(DocumentId docId, Position start, Position end)
 
 Status mc_edit_line(DocumentId docId, ObjectId objId, LineTopology index, Position pos)
 {
-	auto document = pSession->GetDocument(docId);
-	auto base = document.GetBase();
-	auto line = base.GetObject(objId);
+	Document & document = pSession->GetDocument(docId);
+	Base & base = document.GetBase();
+	Line & line = base.GetObject(objId);
 	line.SetNode(index, PositionToPoint(pos));
 	document.MarkAsChanged();
 
@@ -114,8 +114,8 @@ Status mc_edit_line(DocumentId docId, ObjectId objId, LineTopology index, Positi
 
 Status mc_delete_line(DocumentId docId, ObjectId objId)
 {
-	auto document = pSession->GetDocument(docId);
-	auto base = document.GetBase();
+	Document & document = pSession->GetDocument(docId);
+	Base & base = document.GetBase();
 
 	base.RemoveObject(objId);
 	document.MarkAsChanged();
@@ -125,8 +125,8 @@ Status mc_delete_line(DocumentId docId, ObjectId objId)
 
 Position mc_get_line_node(DocumentId docId, ObjectId objId, LineTopology index)
 {
-	auto base = pSession->GetDocument(docId).GetBase();
-	auto line = base.GetObject(objId);
+	Base & base = pSession->GetDocument(docId).GetBase();
+	Line & line = base.GetObject(objId);
 	auto point = line.GetNode(index);
 
 	return PointToPosition(point);
@@ -134,13 +134,13 @@ Position mc_get_line_node(DocumentId docId, ObjectId objId, LineTopology index)
 
 float mc_get_line_length(DocumentId docId, ObjectId objId)
 {
-	auto base = pSession->GetDocument(docId).GetBase();
+	Base & base = pSession->GetDocument(docId).GetBase();
 	return base.GetObject(objId).GetLength();
 }
 
 float mc_get_line_angle(DocumentId docId, ObjectId objId)
 {
-	auto base = pSession->GetDocument(docId).GetBase();
+	Base & base = pSession->GetDocument(docId).GetBase();
 	return base.GetObject(objId).GetAngle();
 }
 
@@ -148,8 +148,8 @@ LineTopology mc_is_line_under_cursor(DocumentId docId, ObjectId objId, Position 
 {
 	LineTopology index = LineTopology::None;
 
-	auto base = pSession->GetDocument(docId).GetBase();
-	auto line = base.GetObject(objId);
+	Base & base = pSession->GetDocument(docId).GetBase();
+	Line & line = base.GetObject(objId);
 
 	auto result = line.IsPointInNodes(PositionToPoint(pos), radius);
 
@@ -169,7 +169,7 @@ Objects mc_get_all_objects(DocumentId docId)
 {
 	Objects result;
 
-	auto base = pSession->GetDocument(docId).GetBase();
+	Base & base = pSession->GetDocument(docId).GetBase();
 	result.ids = base.GetObjects();
 
 	return result;
