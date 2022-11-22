@@ -15,8 +15,8 @@ public:
     Session();
 
     DocumentId CreateDocument(const StyleData & style);
-    DocumentId OpenDocument(const StyleData & style, const StorageData & data);
-    StorageData CloseDocument(DocumentId id);
+    DocumentId OpenDocument(const StyleData & style, const StorageDataInt & data);
+    StorageDataInt CloseDocument(DocumentId id);
     Document & GetDocument(DocumentId id);
 };
 

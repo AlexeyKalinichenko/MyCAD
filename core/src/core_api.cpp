@@ -3,11 +3,10 @@
 
 Session * pSession = nullptr;
 
-std::vector<float> StorageDataBuffer;
+std::vector<Line> StorageDataBuffer;
 std::vector<ObjectId> ObjectsBuffer;
-std::vector<float> RenderingColorsBuffer;
-std::vector<unsigned> indicesBuffer;
-std::vector<float> verticesBuffer;
+std::vector<Index> IndicesBuffer;
+std::vector<Vertex> VerticesBuffer;
 
 Status mc_open_session()
 {
@@ -22,103 +21,36 @@ Status mc_close_session()
 	return Status::Ok;
 }
 
-DocumentId mc_create_document(StyleDataExt style)
+DocumentId mc_create_document(StyleData style)
 {
-	StyleData styleData;
-
-	styleData.theme.objects.red = style.objects[0];
-	styleData.theme.objects.green = style.objects[1];
-	styleData.theme.objects.blue = style.objects[2];
-
-	styleData.theme.highlight.red = style.highlight[0];
-	styleData.theme.highlight.green = style.highlight[1];
-	styleData.theme.highlight.blue = style.highlight[2];
-
-	styleData.theme.nodes.red = style.nodes[0];
-	styleData.theme.nodes.green = style.nodes[1];
-	styleData.theme.nodes.blue = style.nodes[2];
-
-	styleData.thickness = style.thickness;
-	styleData.nodesMode = style.nodesMode;
-
-	return pSession->CreateDocument(styleData);
+	return pSession->CreateDocument(style);
 }
 
-DocumentId mc_open_document(StyleDataExt style, StorageDataExt data)
+DocumentId mc_open_document(StyleData style, StorageData data)
 {
-	StyleData styleData;
+	StorageDataInt storageData;
+	storageData.lines.assign(data.lines, data.lines + data.size);
 
-	styleData.theme.objects.red = style.objects[0];
-	styleData.theme.objects.green = style.objects[1];
-	styleData.theme.objects.blue = style.objects[2];
-
-	styleData.theme.highlight.red = style.highlight[0];
-	styleData.theme.highlight.green = style.highlight[1];
-	styleData.theme.highlight.blue = style.highlight[2];
-
-	styleData.theme.nodes.red = style.nodes[0];
-	styleData.theme.nodes.green = style.nodes[1];
-	styleData.theme.nodes.blue = style.nodes[2];
-
-	styleData.thickness = style.thickness;
-	styleData.nodesMode = style.nodesMode;
-
-	StorageData storageData;
-
-	for (int i = 0; i < data.size; ++i)
-	{
-		if (i == 0 || i % 4 == 0)
-			storageData.lines.emplace_back(Point(data.lines[i], data.lines[i+1]),
-				Point(data.lines[i+2], data.lines[i+3]));
-		else
-			continue;
-	}
-
-	return pSession->OpenDocument(styleData, storageData);
+	return pSession->OpenDocument(style, storageData);
 }
 
-StorageDataExt mc_close_document(DocumentId docId)
+StorageData mc_close_document(DocumentId docId)
 {
-	StorageData storage = pSession->CloseDocument(docId);
+	StorageDataInt storageInt = pSession->CloseDocument(docId);
 
-	StorageDataBuffer.clear();
+	StorageDataBuffer = storageInt.lines;
 
-	for (auto it = storage.lines.begin(); it != storage.lines.end(); ++it)
-	{
-		auto pair = it->GetNodes();
-		StorageDataBuffer.push_back(pair.first.x);
-		StorageDataBuffer.push_back(pair.first.y);
-		StorageDataBuffer.push_back(pair.second.x);
-		StorageDataBuffer.push_back(pair.second.y);
-	}
+	StorageData storage;
+	storage.lines = StorageDataBuffer.data();
+	storage.size = StorageDataBuffer.size();
 
-	StorageDataExt storageExt;
-
-	storageExt.lines = StorageDataBuffer.data();
-	storageExt.size = StorageDataBuffer.size();
-
-	return storageExt;
+	return storage;
 }
 
-Status mc_set_color_theme(DocumentId docId, ColorThemeExt theme)
+Status mc_set_color_theme(DocumentId docId, ColorTheme theme)
 {
 	Document & document = pSession->GetDocument(docId);
-	
-	ColorTheme colorTheme;
-
-	colorTheme.objects.red = theme.objects[0];
-	colorTheme.objects.green = theme.objects[1];
-	colorTheme.objects.blue = theme.objects[2];
-
-	colorTheme.highlight.red = theme.highlight[0];
-	colorTheme.highlight.green = theme.highlight[1];
-	colorTheme.highlight.blue = theme.highlight[2];
-	
-	colorTheme.nodes.red = theme.nodes[0];
-	colorTheme.nodes.green = theme.nodes[1];
-	colorTheme.nodes.blue = theme.nodes[2];
-
-	document.SetColorTheme(colorTheme);
+	document.SetColorTheme(theme);
 
 	return Status::Ok;
 }
@@ -137,56 +69,28 @@ Status mc_set_nodes_mode(DocumentId docId, bool mode)
 	return Status::Ok;
 }
 
-RenderingStatusExt mc_get_rendering_status(DocumentId docId)
+RenderingStatus mc_get_rendering_status(DocumentId docId)
 {
 	Document & document = pSession->GetDocument(docId);
-	RenderingStatus status = document.GetRenderingStatus();
+	RenderingStatusInt statusInt = document.GetRenderingStatus();
 
-	RenderingStatusExt statusExt;
-	statusExt.needUpdate = status.needUpdate;
+	RenderingStatus status;
+	status.needUpdate = statusInt.needUpdate;
 
-	RenderingColorsBuffer.clear();
-	RenderingColorsBuffer = {
-		status.data.theme.objects.red,
-		status.data.theme.objects.green,
-		status.data.theme.objects.blue,
-		status.data.theme.highlight.red,
-		status.data.theme.highlight.green,
-		status.data.theme.highlight.blue,
-		status.data.theme.nodes.red,
-		status.data.theme.nodes.green,
-		status.data.theme.nodes.blue
-	};
+	status.data.theme = statusInt.data.theme;
+	status.data.thickness = statusInt.data.thickness;
+	status.data.nodesMode = statusInt.data.nodesMode;
 
-	statusExt.objects = RenderingColorsBuffer.data();
-	statusExt.highlight = RenderingColorsBuffer.data() + 3;
-	statusExt.nodes = RenderingColorsBuffer.data() + 6;
+	IndicesBuffer = statusInt.data.indices;
+	VerticesBuffer = statusInt.data.vertices;
 
-	statusExt.thickness = status.data.thickness;
-	statusExt.nodesMode = status.data.nodesMode;
+	status.data.indices = IndicesBuffer.data();
+	status.data.iSize = IndicesBuffer.size();
 
-	indicesBuffer.clear();
-	for (auto it = status.data.indices.begin(); it != status.data.indices.end(); ++it)
-	{
-		indicesBuffer.push_back((it->figure == "triangles") ? 0 : 1);
-		indicesBuffer.push_back(it->offset);
-		indicesBuffer.push_back(it->count);
-	}
-	statusExt.indices = indicesBuffer.data();
-	statusExt.indicesSize = indicesBuffer.size();
+	status.data.vertices = VerticesBuffer.data();
+    status.data.vSize = VerticesBuffer.size();
 
-	verticesBuffer.clear();
-	for (auto it = status.data.vertices.begin(); it != status.data.vertices.end(); ++it)
-	{
-		verticesBuffer.push_back(it->x);
-		verticesBuffer.push_back(it->y);
-		verticesBuffer.push_back(it->z);
-	}
-
-	statusExt.vertices = verticesBuffer.data();
-    statusExt.verticesSize = verticesBuffer.size();
-
-	return statusExt;
+	return status;
 }
 
 Status mc_undo(DocumentId docId)
@@ -301,8 +205,7 @@ Objects mc_get_all_objects(DocumentId docId)
 	Base & base = pSession->GetDocument(docId).GetBase();
 	std::vector<ObjectId> objects = base.GetObjects();
 
-	ObjectsBuffer.clear();
-	ObjectsBuffer.assign(objects.begin(), objects.end());
+	ObjectsBuffer = objects;
 
 	Objects result;
 	result.data = ObjectsBuffer.data();

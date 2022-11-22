@@ -9,15 +9,15 @@
 CORE_API Status mc_open_session();
 CORE_API Status mc_close_session();
 
-CORE_API DocumentId mc_create_document(StyleDataExt style);
-CORE_API DocumentId mc_open_document(StyleDataExt style, StorageDataExt data);
-CORE_API StorageDataExt mc_close_document(DocumentId docId);
+CORE_API DocumentId mc_create_document(StyleData style);
+CORE_API DocumentId mc_open_document(StyleData style, StorageData data);
+CORE_API StorageData mc_close_document(DocumentId docId);
 
-CORE_API Status mc_set_color_theme(DocumentId docId, ColorThemeExt theme);
+CORE_API Status mc_set_color_theme(DocumentId docId, ColorTheme theme);
 CORE_API Status mc_set_thickness(DocumentId docId, float thickness);
 CORE_API Status mc_set_nodes_mode(DocumentId docId, bool mode);
 
-CORE_API RenderingStatusExt mc_get_rendering_status(DocumentId docId);
+CORE_API RenderingStatus mc_get_rendering_status(DocumentId docId);
 
 CORE_API Status mc_undo(DocumentId docId);
 CORE_API Status mc_redo(DocumentId docId);

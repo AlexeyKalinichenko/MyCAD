@@ -10,7 +10,7 @@ DocumentId Session::CreateDocument(const StyleData & style)
     return _counter;
 }
 
-DocumentId Session::OpenDocument(const StyleData & style, const StorageData & data)
+DocumentId Session::OpenDocument(const StyleData & style, const StorageDataInt & data)
 {
     Document document(style);
     document.Load(data);
@@ -19,7 +19,7 @@ DocumentId Session::OpenDocument(const StyleData & style, const StorageData & da
     return _counter;
 }
 
-StorageData Session::CloseDocument(DocumentId id)
+StorageDataInt Session::CloseDocument(DocumentId id)
 {
     auto document = _documents.at(id);
     _documents.erase(id);

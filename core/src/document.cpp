@@ -28,14 +28,14 @@ void Document::SetNodesMode(bool mode)
     _needToUpdate = true;
 }
 
-void Document::Load(const StorageData & data)
+void Document::Load(const StorageDataInt & data)
 {
     _base.Load(data.lines);
 }
 
-StorageData Document::Save()
+StorageDataInt Document::Save()
 {
-    StorageData data;
+    StorageDataInt data;
     data.lines = _base.Upload();
 
     return data;
@@ -52,9 +52,9 @@ void Document::SetHighlightedObjects(const std::vector<ObjectId> & objects)
     _needToUpdate = true;
 }
 
-RenderingData Document::GetRenderingData()
+RenderingDataInt Document::GetRenderingData()
 {
-    RenderingData data;
+    RenderingDataInt data;
 
     data.theme = _theme;
     data.thickness = _thickness;
@@ -69,11 +69,11 @@ RenderingData Document::GetRenderingData()
 
         auto points = _base.GetObject(*id).GetPointsForRendering(_thickness);
         for (auto point = points.begin(); point != points.end(); ++point)
-            data.vertices.emplace_back(point->x, point->y, 0.0f);
+            data.vertices.push_back(CreateVertex(point->x, point->y, 0.0f));
     }
 
     unsigned triangleVerticesCount = data.vertices.size();
-    data.indices.emplace_back("triangles", 0, triangleVerticesCount);
+    data.indices.push_back(CreateIndex(Figures::Triangles, 0, triangleVerticesCount));
 
     unsigned highlightedTriangleVerticesCount = _highlighted.size() * 6;
     if (!_highlighted.empty())
@@ -82,10 +82,10 @@ RenderingData Document::GetRenderingData()
         {
             auto points = _base.GetObject(*it).GetPointsForRendering(_thickness);
             for (auto point = points.begin(); point != points.end(); ++point)
-                data.vertices.emplace_back(point->x, point->y, 0.0f);
+                data.vertices.push_back(CreateVertex(point->x, point->y, 0.0f));
         }
 
-        data.indices.emplace_back("triangles", triangleVerticesCount, highlightedTriangleVerticesCount);
+        data.indices.push_back(CreateIndex(Figures::Triangles, triangleVerticesCount, highlightedTriangleVerticesCount));
 
         _highlighted.clear();
     }
@@ -95,20 +95,20 @@ RenderingData Document::GetRenderingData()
         for (auto id = ids.begin(); id != ids.end(); ++id)
         {
             auto nodes = _base.GetObject(*id).GetNodes();
-            data.vertices.emplace_back(nodes.first.x, nodes.first.y, 0.0);
-            data.vertices.emplace_back(nodes.second.x, nodes.second.y, 0.0);
+            data.vertices.push_back(CreateVertex(nodes.first.x, nodes.first.y, 0.0));
+            data.vertices.push_back(CreateVertex(nodes.second.x, nodes.second.y, 0.0));
         }
 
-        data.indices.emplace_back("points", triangleVerticesCount + highlightedTriangleVerticesCount,
-            data.vertices.size() - triangleVerticesCount - highlightedTriangleVerticesCount);
+        data.indices.push_back(CreateIndex(Figures::Points, triangleVerticesCount + highlightedTriangleVerticesCount,
+            data.vertices.size() - triangleVerticesCount - highlightedTriangleVerticesCount));
     }
 
     return data;
 }
 
-RenderingStatus Document::GetRenderingStatus()
+RenderingStatusInt Document::GetRenderingStatus()
 {
-    RenderingStatus result;
+    RenderingStatusInt result;
     result.data = GetRenderingData();
 
     if (_needToUpdate)
@@ -127,4 +127,24 @@ RenderingStatus Document::GetRenderingStatus()
 void Document::MarkAsChanged()
 {
     _needToUpdate = true;
+}
+
+Index CreateIndex(Figures figure, unsigned offset, unsigned count)
+{
+    Index index;
+    index.figure = figure;
+    index.offset = offset;
+    index.count = count;
+
+    return index;
+}
+
+Vertex CreateVertex(float x, float y, float z)
+{
+    Vertex index;
+    index.x = x;
+    index.y = y;
+    index.z = z;
+
+    return index;
 }

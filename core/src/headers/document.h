@@ -8,13 +8,13 @@
 
 struct StorageData
 {
-    std::vector<Line> lines;
+    Line * lines;
+    unsigned size;
 };
 
-struct StorageDataExt
+struct StorageDataInt
 {
-    float * lines;
-    unsigned size;
+    std::vector<Line> lines;
 };
 
 class Document
@@ -38,17 +38,20 @@ public:
     void SetThickness(float thickness);
     void SetNodesMode(bool mode);
 
-    void Load(const StorageData & data);
-    StorageData Save();
+    void Load(const StorageDataInt & data);
+    StorageDataInt Save();
 
     Base & GetBase();
 
     void SetHighlightedObjects(const std::vector<ObjectId> & objects);
 
-    RenderingData GetRenderingData();
-    RenderingStatus GetRenderingStatus();
+    RenderingDataInt GetRenderingData();
+    RenderingStatusInt GetRenderingStatus();
 
     void MarkAsChanged();
 };
+
+Index CreateIndex(Figures figure, unsigned offset, unsigned count);
+Vertex CreateVertex(float x, float y, float z);
 
 #endif //__DOCUMENT_H__

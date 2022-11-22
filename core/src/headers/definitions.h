@@ -9,6 +9,7 @@ using ObjectId = int;
 
 enum class Status { Ok, Cancel };
 enum class LineTopology { None = -1, StartNode, EndNode, Body };
+enum class Figures { Triangles, Points };
 
 const float Pi = 3.14159265358979323846;
 
@@ -28,13 +29,6 @@ struct ColorTheme
     Color nodes;
 };
 
-struct ColorThemeExt
-{
-    float * objects;
-    float * highlight;
-    float * nodes;
-};
-
 struct StyleData
 {
     ColorTheme theme;
@@ -42,27 +36,11 @@ struct StyleData
     bool nodesMode;
 };
 
-struct StyleDataExt
-{
-    float * objects;
-    float * highlight;
-    float * nodes;
-    float thickness;
-    bool nodesMode;
-};
-
 struct Index
 {
-    std::string figure;
+    Figures figure;
     unsigned offset;
     unsigned count;
-
-    Index(std::string figure, unsigned offset, unsigned count)
-    {
-        this->figure = figure;
-        this->offset = offset;
-        this->count = count;
-    }
 };
 
 struct Vertex
@@ -70,16 +48,9 @@ struct Vertex
     float x;
     float y;
     float z;
-
-    Vertex(float x, float y, float z)
-    {
-        this->x = x;
-        this->y = y;
-        this->z = z;
-    }
 };
 
-struct RenderingData
+struct RenderingDataInt
 {
     ColorTheme theme;
     float thickness;
@@ -89,28 +60,29 @@ struct RenderingData
     std::vector<Vertex> vertices;
 };
 
+struct RenderingData
+{
+    ColorTheme theme;
+    float thickness;
+    bool nodesMode;
+
+    Index * indices;
+    unsigned iSize;
+
+    Vertex * vertices;
+    unsigned vSize;
+};
+
+struct RenderingStatusInt
+{
+    bool needUpdate;
+    RenderingDataInt data;
+};
+
 struct RenderingStatus
 {
     bool needUpdate;
     RenderingData data;
-};
-
-struct RenderingStatusExt
-{
-    bool needUpdate;
-
-    float * objects;
-    float * highlight;
-    float * nodes;
-
-    float thickness;
-    bool nodesMode;
-
-    unsigned * indices;
-    unsigned indicesSize;
-
-    float * vertices;
-    unsigned verticesSize;
 };
 
 struct Position
