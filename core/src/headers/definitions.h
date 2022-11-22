@@ -36,6 +36,18 @@ struct StyleData
     bool nodesMode;
 };
 
+struct Position
+{
+    float x;
+    float y;
+};
+
+struct Cut
+{
+    Position start;
+    Position end;
+};
+
 struct Index
 {
     Figures figure;
@@ -83,12 +95,6 @@ struct RenderingStatus
 {
     bool needUpdate;
     RenderingData data;
-};
-
-struct Position
-{
-    float x;
-    float y;
 };
 
 struct Objects

@@ -148,3 +148,25 @@ Vertex CreateVertex(float x, float y, float z)
 
     return index;
 }
+
+Cut LineToCut(const Line & line)
+{
+    auto pair = line.GetNodes();
+    
+    Cut cut;
+    cut.start.x = pair.first.x;
+    cut.start.y = pair.first.y;
+    cut.end.x = pair.second.x;
+    cut.end.y = pair.second.y;
+
+    return cut;
+}
+
+Line CutToLine(const Cut & cut)
+{
+    Line line;
+    line.SetNode(LineTopology::StartNode, Point(cut.start.x, cut.start.y));
+    line.SetNode(LineTopology::EndNode, Point(cut.end.x, cut.end.y));
+
+    return line;
+}

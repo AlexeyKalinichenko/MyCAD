@@ -6,15 +6,15 @@
 #include "line.h"
 #include <vector>
 
-struct StorageData
-{
-    Line * lines;
-    unsigned size;
-};
-
 struct StorageDataInt
 {
     std::vector<Line> lines;
+};
+
+struct StorageData
+{
+    Cut * cuts;
+    unsigned size;
 };
 
 class Document
@@ -53,5 +53,8 @@ public:
 
 Index CreateIndex(Figures figure, unsigned offset, unsigned count);
 Vertex CreateVertex(float x, float y, float z);
+
+Cut LineToCut(const Line & line);
+Line CutToLine(const Cut & cut);
 
 #endif //__DOCUMENT_H__

@@ -3,7 +3,7 @@
 
 Session * pSession = nullptr;
 
-std::vector<Line> StorageDataBuffer;
+std::vector<Cut> StorageDataBuffer;
 std::vector<ObjectId> ObjectsBuffer;
 std::vector<Index> IndicesBuffer;
 std::vector<Vertex> VerticesBuffer;
@@ -29,7 +29,9 @@ DocumentId mc_create_document(StyleData style)
 DocumentId mc_open_document(StyleData style, StorageData data)
 {
 	StorageDataInt storageData;
-	storageData.lines.assign(data.lines, data.lines + data.size);
+
+	for (int i = 0; i < data.size; ++i)
+		storageData.lines.push_back(CutToLine(data.cuts[i]));
 
 	return pSession->OpenDocument(style, storageData);
 }
@@ -38,10 +40,14 @@ StorageData mc_close_document(DocumentId docId)
 {
 	StorageDataInt storageInt = pSession->CloseDocument(docId);
 
-	StorageDataBuffer = storageInt.lines;
+	StorageDataBuffer.clear();;
+
+	for (auto it = storageInt.lines.begin(); it != storageInt.lines.end(); ++it)
+		StorageDataBuffer.push_back(LineToCut(*it));
 
 	StorageData storage;
-	storage.lines = StorageDataBuffer.data();
+
+	storage.cuts = StorageDataBuffer.data();
 	storage.size = StorageDataBuffer.size();
 
 	return storage;
