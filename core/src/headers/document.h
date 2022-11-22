@@ -11,6 +11,12 @@ struct StorageData
     std::vector<Line> lines;
 };
 
+struct StorageDataExt
+{
+    float * lines;
+    unsigned size;
+};
+
 class Document
 {
 private:

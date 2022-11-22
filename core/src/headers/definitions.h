@@ -28,6 +28,13 @@ struct ColorTheme
     Color nodes;
 };
 
+struct ColorThemeExt
+{
+    float * objects;
+    float * highlight;
+    float * nodes;
+};
+
 struct StyleData
 {
     ColorTheme theme;
@@ -35,8 +42,17 @@ struct StyleData
     bool nodesMode;
 };
 
+struct StyleDataExt
+{
+    float * objects;
+    float * highlight;
+    float * nodes;
+    float thickness;
+    bool nodesMode;
+};
+
 struct Index
- {
+{
     std::string figure;
     unsigned offset;
     unsigned count;
@@ -79,6 +95,24 @@ struct RenderingStatus
     RenderingData data;
 };
 
+struct RenderingStatusExt
+{
+    bool needUpdate;
+
+    float * objects;
+    float * highlight;
+    float * nodes;
+
+    float thickness;
+    bool nodesMode;
+
+    unsigned * indices;
+    unsigned indicesSize;
+
+    float * vertices;
+    unsigned verticesSize;
+};
+
 struct Position
 {
     float x;
@@ -87,7 +121,8 @@ struct Position
 
 struct Objects
 {
-    std::vector<ObjectId> ids;
+    ObjectId * data;
+    unsigned size;
 };
 
 #endif //__DEFINITIONS_H__

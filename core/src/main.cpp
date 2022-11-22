@@ -9,28 +9,19 @@ using namespace std;
 
 int main()
 {
-    Color c1;
-    c1.red = 0.1;
-    c1.green = 0.2;
-    c1.blue = 0.3;
+    float objects[3] { 0.1, 0.2, 0.3 };
+    float highlight[3] { 0.4, 0.5, 0.6 };
+    float nodes[3] { 0.7, 0.8, 0.9 };
 
-    Color c2;
-    c2.red = 0.4;
-    c2.green = 0.5;
-    c2.blue = 0.6;
+    ColorThemeExt ct;
+    ct.objects = objects;
+    ct.highlight = highlight;
+    ct.nodes = nodes;
 
-    Color c3;
-    c3.red = 0.7;
-    c3.green = 0.8;
-    c3.blue = 0.9;
-
-    ColorTheme ct;
-    ct.objects = c1;
-    ct.highlight = c2;
-    ct.nodes = c3;
-
-    StyleData sd;
-    sd.theme = ct;
+    StyleDataExt sd;
+    sd.objects = objects;
+    sd.highlight = highlight;
+    sd.nodes = nodes;
     sd.thickness = 0.1;
     sd.nodesMode = true;
 
@@ -63,9 +54,9 @@ int main()
 
     mc_commit(d1);
 
-    RenderingStatus rd1 = mc_get_rendering_status(d1);
+    RenderingStatusExt rd1 = mc_get_rendering_status(d1);
 
-    StorageData sd1 = mc_close_document(d1);
+    StorageDataExt sd1 = mc_close_document(d1);
 
     DocumentId d2 = mc_open_document(sd, sd1);
     DocumentId d3 = mc_open_document(sd, sd1);
@@ -83,7 +74,7 @@ int main()
     ObjectId l6 = mc_create_line(d3, PointToPosition(Point(1, 1)), PointToPosition(Point(10, 10)));
     mc_commit(d3);
 
-    StorageData sd2 = mc_close_document(d3);
+    StorageDataExt sd2 = mc_close_document(d3);
 
     mc_close_session();
 
