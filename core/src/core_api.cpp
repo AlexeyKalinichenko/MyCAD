@@ -36,6 +36,12 @@ DocumentId mc_open_document(StyleData style, StorageData data)
 	return pSession->OpenDocument(style, storageData);
 }
 
+unsigned mc_get_storage_buffer_size(DocumentId docId)
+{
+	StorageDataInt storageInt = pSession->CloseDocument(docId);
+	return storageInt.lines.size();
+}
+
 StorageData mc_close_document(DocumentId docId)
 {
 	StorageDataInt storageInt = pSession->CloseDocument(docId);
@@ -75,28 +81,42 @@ Status mc_set_nodes_mode(DocumentId docId, bool mode)
 	return Status::Ok;
 }
 
-RenderingStatus mc_get_rendering_status(DocumentId docId)
+unsigned mc_get_vertices_buffer_size(DocumentId docId)
 {
 	Document & document = pSession->GetDocument(docId);
-	RenderingStatusInt statusInt = document.GetRenderingStatus();
+	RenderingDataInt dataInt = document.GetRenderingData();
+	return dataInt.vertices.size();
+}
 
-	RenderingStatus status;
-	status.needUpdate = statusInt.needUpdate;
+unsigned mc_get_indices_buffer_size(DocumentId docId)
+{
+	Document & document = pSession->GetDocument(docId);
+	RenderingDataInt dataInt = document.GetRenderingData();
+	return dataInt.indices.size();
+}
 
-	status.data.theme = statusInt.data.theme;
-	status.data.thickness = statusInt.data.thickness;
-	status.data.nodesMode = statusInt.data.nodesMode;
+RenderingData mc_get_rendering_status(DocumentId docId)
+{
+	Document & document = pSession->GetDocument(docId);
+	RenderingDataInt dataInt = document.GetRenderingData();
 
-	IndicesBuffer = statusInt.data.indices;
-	VerticesBuffer = statusInt.data.vertices;
+	RenderingData data;
+	data.needUpdate = dataInt.needUpdate;
 
-	status.data.indices = IndicesBuffer.data();
-	status.data.iSize = IndicesBuffer.size();
+	data.theme = dataInt.theme;
+	data.thickness = dataInt.thickness;
+	data.nodesMode = dataInt.nodesMode;
 
-	status.data.vertices = VerticesBuffer.data();
-    status.data.vSize = VerticesBuffer.size();
+	IndicesBuffer = dataInt.indices;
+	VerticesBuffer = dataInt.vertices;
 
-	return status;
+	data.indices = IndicesBuffer.data();
+	data.iSize = IndicesBuffer.size();
+
+	data.vertices = VerticesBuffer.data();
+    data.vSize = VerticesBuffer.size();
+
+	return data;
 }
 
 Status mc_undo(DocumentId docId)
@@ -204,6 +224,14 @@ LineTopology mc_is_line_under_cursor(DocumentId docId, ObjectId objId, Position 
 	}
 
 	return index;
+}
+
+unsigned mc_get_objects_buffer_size(DocumentId docId)
+{
+	Base & base = pSession->GetDocument(docId).GetBase();
+	std::vector<ObjectId> objects = base.GetObjects();
+
+	return objects.size();
 }
 
 Objects mc_get_all_objects(DocumentId docId)

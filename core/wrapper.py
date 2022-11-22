@@ -45,10 +45,24 @@ class CPosition(ctypes.Structure):
 		("y", ctypes.c_float)
 	]
 
-class Cut(ctypes.Structure):
+class CCut(ctypes.Structure):
 	_fields_ = [
 		("start", CPosition),
 		("end", CPosition)
+	]
+
+class CIndex(ctypes.Structure):
+	_fields_ = [
+		("figure", ctypes.c_int),
+		("offset", ctypes.c_uint),
+		("count", ctypes.c_uint)
+	]
+
+class CVertex(ctypes.Structure):
+	_fields_ = [
+		("x", ctypes.c_float),
+		("y", ctypes.c_float),
+		("z", ctypes.c_float)
 	]
 
 def OpenSessionAPI():
@@ -67,7 +81,7 @@ def CreateDocumentAPI(style):
 def OpenDocumentAPI(style, data):
 	class CStorageData(ctypes.Structure):
 		_fields_ = [
-		("cuts", Cut * len(data)),
+		("cuts", CCut * len(data)),
 		("size", ctypes.c_uint)
 	]
 	
@@ -75,7 +89,23 @@ def OpenDocumentAPI(style, data):
 	core.mc_open_document.restype = ctypes.c_int
 	return core.mc_open_document(style, data)
 
-def mc_close_document(): pass
+def GetStorageBufferSizeAPI(docId):
+	core.mc_get_storage_buffer_size.argtypes = [ctypes.c_int]
+	core.mc_get_storage_buffer_size.restype = ctypes.c_uint
+	return core.mc_get_storage_buffer_size(docId)
+
+def CloseDocumentAPI(docId):
+	size = GetStorageBufferSizeAPI(docId)
+
+	class CStorageData(ctypes.Structure):
+		_fields_ = [
+		("cuts", CCut * size),
+		("size", ctypes.c_uint)
+	]
+
+	core.mc_close_document.argtypes = [ctypes.c_int]
+	core.mc_close_document.restype = CStorageData
+	return core.mc_close_document(docId)
 
 def SetColorThemeAPI(docId, theme):
 	core.mc_set_color_theme.argtypes = [ctypes.c_int, CColorTheme]
@@ -92,7 +122,35 @@ def SetNodesModeAPI(docId, mode):
 	core.mc_set_nodes_mode.restype = ctypes.c_int
 	return core.mc_set_nodes_mode(docId, mode)
 
-def mc_get_rendering_status(): pass
+def GetVerticesBufferSizeAPI(docId):
+	core.mc_get_vertices_buffer_size.argtypes = [ctypes.c_int]
+	core.mc_get_vertices_buffer_size.restype = ctypes.c_uint
+	return core.mc_get_vertices_buffer_size(docId)
+
+def GetIndicesBufferSizeAPI(docId):
+	core.mc_get_indices_buffer_size.argtypes = [ctypes.c_int]
+	core.mc_get_indices_buffer_size.restype = ctypes.c_uint
+	return core.mc_get_indices_buffer_size(docId)
+
+def GetRenderingStatusAPI(docId):
+	vSize = GetVerticesBufferSizeAPI(docId)
+	iSize = GetIndicesBufferSizeAPI(docId)
+
+	class CRenderingData(ctypes.Structure):
+		_fields_ = [
+		("needUpdate", ctypes.c_bool),
+		("theme", CColorTheme),
+		("thickness", ctypes.c_float),
+		("nodesMode", ctypes.c_bool),
+		("indices", CIndex * iSize),
+		("iSize", ctypes.c_uint),
+		("vertices", CVertex * vSize),
+		("vSize", ctypes.c_uint)
+	]
+		
+	core.mc_get_rendering_status.argtypes = [ctypes.c_int]
+	core.mc_get_rendering_status.restype = CRenderingData
+	return core.mc_get_rendering_status(docId)
 
 def UndoAPI(docId):
 	core.mc_undo.argtypes = [ctypes.c_int]
@@ -144,7 +202,24 @@ def IsLineUnderCursorAPI(docId, objId, pos, radius):
 	core.mc_is_line_under_cursor.restype = ctypes.c_int
 	return core.mc_is_line_under_cursor(docId, objId, pos, radius)
 
-def mc_get_all_objects(docId): pass
+def GetObjectsBufferSizeAPI(docId):
+	core.mc_get_objects_buffer_size.argtypes = [ctypes.c_int]
+	core.mc_get_objects_buffer_size.restype = ctypes.c_uint
+	return core.mc_get_objects_buffer_size(docId)
+
+def GetAllObjectsAPI(docId):
+	size = GetObjectsBufferSizeAPI(docId)
+
+	class CObjects(ctypes.Structure):
+		_fields_ = [
+		("data", ctypes.c_int * size),
+		("size", ctypes.c_uint)
+	]
+
+	core.mc_get_all_objects.argtypes = [ctypes.c_int]
+	core.mc_get_all_objects.restype = CObjects
+
+	return core.mc_get_all_objects(docId)
 
 def HighlightObjectAPI(docId, objId):
 	core.mc_highlight_object.argtypes = [ctypes.c_int, ctypes.c_int]

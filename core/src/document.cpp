@@ -56,6 +56,7 @@ RenderingDataInt Document::GetRenderingData()
 {
     RenderingDataInt data;
 
+    data.needUpdate = GetRenderingStatus();
     data.theme = _theme;
     data.thickness = _thickness;
     data.nodesMode = _nodesMode;
@@ -106,19 +107,14 @@ RenderingDataInt Document::GetRenderingData()
     return data;
 }
 
-RenderingStatusInt Document::GetRenderingStatus()
+bool Document::GetRenderingStatus()
 {
-    RenderingStatusInt result;
-    result.data = GetRenderingData();
+    bool result = false;
 
     if (_needToUpdate)
     {
-        result.needUpdate = true;
+        result = true;
         _needToUpdate = false;
-    }
-    else
-    {
-        result.needUpdate = false;
     }
 
     return result;

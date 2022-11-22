@@ -64,6 +64,8 @@ struct Vertex
 
 struct RenderingDataInt
 {
+    bool needUpdate;
+
     ColorTheme theme;
     float thickness;
     bool nodesMode;
@@ -74,6 +76,8 @@ struct RenderingDataInt
 
 struct RenderingData
 {
+    bool needUpdate;
+
     ColorTheme theme;
     float thickness;
     bool nodesMode;
@@ -83,18 +87,6 @@ struct RenderingData
 
     Vertex * vertices;
     unsigned vSize;
-};
-
-struct RenderingStatusInt
-{
-    bool needUpdate;
-    RenderingDataInt data;
-};
-
-struct RenderingStatus
-{
-    bool needUpdate;
-    RenderingData data;
 };
 
 struct Objects

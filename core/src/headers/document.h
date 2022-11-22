@@ -46,7 +46,7 @@ public:
     void SetHighlightedObjects(const std::vector<ObjectId> & objects);
 
     RenderingDataInt GetRenderingData();
-    RenderingStatusInt GetRenderingStatus();
+    bool GetRenderingStatus();
 
     void MarkAsChanged();
 };
