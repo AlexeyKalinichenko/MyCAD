@@ -84,10 +84,18 @@ def OpenDocumentAPI(style, data):
 		("cuts", CCut * len(data)),
 		("size", ctypes.c_uint)
 	]
-	
+
+	starageData = CStorageData()
+
+	for index, value in enumerate(data):
+		starageData.cuts[index] = value
+
+	starageData.size = len(data)
+
 	core.mc_open_document.argtypes = [CStyleData, CStorageData]
 	core.mc_open_document.restype = ctypes.c_int
-	return core.mc_open_document(style, data)
+
+	return core.mc_open_document(style, starageData)
 
 def GetStorageBufferSizeAPI(docId):
 	core.mc_get_storage_buffer_size.argtypes = [ctypes.c_int]

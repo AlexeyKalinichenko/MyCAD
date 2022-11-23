@@ -38,7 +38,8 @@ DocumentId mc_open_document(StyleData style, StorageData data)
 
 unsigned mc_get_storage_buffer_size(DocumentId docId)
 {
-	StorageDataInt storageInt = pSession->CloseDocument(docId);
+	Document & document = pSession->GetDocument(docId);
+	StorageDataInt storageInt = document.Save();
 	return storageInt.lines.size();
 }
 
