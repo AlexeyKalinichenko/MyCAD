@@ -99,13 +99,15 @@ def CloseDocumentAPI(docId):
 
 	class CStorageData(ctypes.Structure):
 		_fields_ = [
-		("cuts", CCut * size),
+		("cuts", ctypes.POINTER(CCut * size)),
 		("size", ctypes.c_uint)
 	]
 
 	core.mc_close_document.argtypes = [ctypes.c_int]
 	core.mc_close_document.restype = CStorageData
-	return core.mc_close_document(docId)
+	response = core.mc_close_document(docId)
+
+	return [i for i in response.cuts.contents]
 
 def SetColorThemeAPI(docId, theme):
 	core.mc_set_color_theme.argtypes = [ctypes.c_int, CColorTheme]
@@ -142,15 +144,26 @@ def GetRenderingStatusAPI(docId):
 		("theme", CColorTheme),
 		("thickness", ctypes.c_float),
 		("nodesMode", ctypes.c_bool),
-		("indices", CIndex * iSize),
+		("indices", ctypes.POINTER(CIndex * iSize)),
 		("iSize", ctypes.c_uint),
-		("vertices", CVertex * vSize),
+		("vertices", ctypes.POINTER(CVertex * vSize)),
 		("vSize", ctypes.c_uint)
 	]
 		
 	core.mc_get_rendering_status.argtypes = [ctypes.c_int]
 	core.mc_get_rendering_status.restype = CRenderingData
-	return core.mc_get_rendering_status(docId)
+	response = core.mc_get_rendering_status(docId)
+
+	result = {
+			"needUpdate": response.needUpdate,
+			"theme": response.theme,
+			"thickness": response.thickness,
+			"nodesMode": response.nodesMode,
+			"indices": [i for i in response.indices.contents],
+			"vertices": [i for i in response.vertices.contents]
+		}
+
+	return result
 
 def UndoAPI(docId):
 	core.mc_undo.argtypes = [ctypes.c_int]
@@ -212,14 +225,15 @@ def GetAllObjectsAPI(docId):
 
 	class CObjects(ctypes.Structure):
 		_fields_ = [
-		("data", ctypes.c_int * size),
+		("data", ctypes.POINTER(ctypes.c_int * size)),
 		("size", ctypes.c_uint)
 	]
 
 	core.mc_get_all_objects.argtypes = [ctypes.c_int]
 	core.mc_get_all_objects.restype = CObjects
+	objs = core.mc_get_all_objects(docId)
 
-	return core.mc_get_all_objects(docId)
+	return [i for i in objs.data.contents]
 
 def HighlightObjectAPI(docId, objId):
 	core.mc_highlight_object.argtypes = [ctypes.c_int, ctypes.c_int]
@@ -228,7 +242,72 @@ def HighlightObjectAPI(docId, objId):
 
 
 if __name__ == '__main__':
-	res1 = OpenSessionAPI()
-	res2 = CloseSessionAPI()
+	
+	c1 = CColor(0.1, 0.2, 0.3)
+	c2 = CColor(0.4, 0.5, 0.6)
+	c3 = CColor(0.7, 0.8, 0.9)
+	ct = CColorTheme(c1, c2, c3)
+	sd = CStyleData(ct, 0.1, True)
+
+	OpenSessionAPI()
+
+	doc1 = CreateDocumentAPI(sd)
+
+	SetColorThemeAPI(doc1, ct)
+	SetThicknessAPI(doc1, 0.15)
+	SetNodesModeAPI(doc1, True)
+
+	line1 = CreateLineAPI(doc1, CPosition(1, 1), CPosition(5, 5))
+	line2 = CreateLineAPI(doc1, CPosition(1, 2), CPosition(5, 2))
+	line3 = CreateLineAPI(doc1, CPosition(1, 5), CPosition(5, 5))
+
+	CommitAPI(doc1)
+
+	EditLineAPI(doc1, line2, 0, CPosition(10, 10))
+	DeleteLineAPI(doc1, line3)
+
+	pos1 = GetLineNodeAPI(doc1, line2, 0)
+
+	length = GetLineLengthAPI(doc1, line1)
+	ang1e = GetLineAngleAPI(doc1, line1)
+
+	top = IsLineUnderCursorAPI(doc1, line1, CPosition(3, 3), 0.5)
+
+	objs = GetAllObjectsAPI(doc1)
+
+	HighlightObjectAPI(doc1, line1)
+
+	CommitAPI(doc1)
+
+	renderingData = GetRenderingStatusAPI(doc1)
+
+	needUpdate = renderingData['needUpdate']
+	theme = renderingData['theme']
+	thickness = renderingData['thickness']
+	nodesMode = renderingData['nodesMode']
+	indices = renderingData['indices']
+	vertices = renderingData['vertices']
+
+	storageData1 = CloseDocumentAPI(doc1)
+
+	doc2 = OpenDocumentAPI(sd, storageData1)
+	doc3 = OpenDocumentAPI(sd, storageData1)
+
+	line31 = CreateLineAPI(doc3, CPosition(2, 2), CPosition(3, 3))
+	CommitAPI(doc1)
+
+	line32 = CreateLineAPI(doc3, CPosition(3, 3), CPosition(4, 4))
+	CommitAPI(doc1)
+
+	UndoAPI(doc1)
+	RedoAPI(doc1)
+	UndoAPI(doc1)
+
+	line33 = CreateLineAPI(doc3, CPosition(1, 1), CPosition(10, 10))
+	CommitAPI(doc1)
+
+	storageData2 = CloseDocumentAPI(doc3)
+
+	CloseSessionAPI()
 
 	check = True

@@ -63,7 +63,7 @@ int main()
 
     mc_commit(d1);
 
-    RenderingStatus rd1 = mc_get_rendering_status(d1);
+    RenderingData rd1 = mc_get_rendering_status(d1);
 
     StorageData sd1 = mc_close_document(d1);
 

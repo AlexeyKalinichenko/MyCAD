@@ -46,7 +46,7 @@ StorageData mc_close_document(DocumentId docId)
 {
 	StorageDataInt storageInt = pSession->CloseDocument(docId);
 
-	StorageDataBuffer.clear();;
+	StorageDataBuffer.clear();
 
 	for (auto it = storageInt.lines.begin(); it != storageInt.lines.end(); ++it)
 		StorageDataBuffer.push_back(LineToCut(*it));
