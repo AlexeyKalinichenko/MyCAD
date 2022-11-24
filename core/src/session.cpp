@@ -10,7 +10,7 @@ DocumentId Session::CreateDocument(const StyleData & style)
     return _counter;
 }
 
-DocumentId Session::OpenDocument(const StyleData & style, const StorageDataInt & data)
+DocumentId Session::OpenDocument(const StyleData & style, const std::vector<Line> & data)
 {
     Document document(style);
     document.Load(data);
@@ -19,7 +19,7 @@ DocumentId Session::OpenDocument(const StyleData & style, const StorageDataInt &
     return _counter;
 }
 
-StorageDataInt Session::CloseDocument(DocumentId id)
+std::vector<Line> Session::CloseDocument(DocumentId id)
 {
     auto document = _documents.at(id);
     _documents.erase(id);

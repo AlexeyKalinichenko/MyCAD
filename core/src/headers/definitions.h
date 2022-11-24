@@ -83,16 +83,21 @@ struct RenderingData
     bool nodesMode;
 
     Index * indices;
-    unsigned iSize;
-
     Vertex * vertices;
-    unsigned vSize;
 };
 
-struct Objects
+struct RenderingBuffersSizes
 {
-    ObjectId * data;
-    unsigned size;
+    unsigned indicesSize;
+    unsigned verticesSize;
 };
+
+/*
+struct cTest
+{
+    int one;
+    int two;
+};
+*/
 
 #endif //__DEFINITIONS_H__

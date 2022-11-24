@@ -28,17 +28,14 @@ void Document::SetNodesMode(bool mode)
     _needToUpdate = true;
 }
 
-void Document::Load(const StorageDataInt & data)
+void Document::Load(const std::vector<Line> & lines)
 {
-    _base.Load(data.lines);
+    _base.Load(lines);
 }
 
-StorageDataInt Document::Save()
+std::vector<Line> Document::Save()
 {
-    StorageDataInt data;
-    data.lines = _base.Upload();
-
-    return data;
+    return _base.Upload();;
 }
 
 Base & Document::GetBase()

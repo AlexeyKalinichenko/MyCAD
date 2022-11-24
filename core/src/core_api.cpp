@@ -1,12 +1,20 @@
 #include "headers/core_api.h"
 #include <vector>
 
+//
+//#include <iostream>
+//
+
 Session * pSession = nullptr;
 
 std::vector<Cut> StorageDataBuffer;
 std::vector<ObjectId> ObjectsBuffer;
 std::vector<Index> IndicesBuffer;
 std::vector<Vertex> VerticesBuffer;
+
+//
+//std::vector<cTest> testBuffer;
+//
 
 Status mc_open_session()
 {
@@ -26,38 +34,33 @@ DocumentId mc_create_document(StyleData style)
 	return pSession->CreateDocument(style);
 }
 
-DocumentId mc_open_document(StyleData style, StorageData data)
+DocumentId mc_open_document(StyleData style, Cut * data, unsigned size)
 {
-	StorageDataInt storageData;
+	std::vector<Line> lines;
 
-	for (int i = 0; i < data.size; ++i)
-		storageData.lines.push_back(CutToLine(data.cuts[i]));
+	for (int i = 0; i < size; ++i)
+		lines.push_back(CutToLine(data[i]));
 
-	return pSession->OpenDocument(style, storageData);
+	return pSession->OpenDocument(style, lines);
 }
 
 unsigned mc_get_storage_buffer_size(DocumentId docId)
 {
 	Document & document = pSession->GetDocument(docId);
-	StorageDataInt storageInt = document.Save();
-	return storageInt.lines.size();
+	std::vector<Line> lines = document.Save();
+	return lines.size();
 }
 
-StorageData mc_close_document(DocumentId docId)
+Cut * mc_close_document(DocumentId docId)
 {
-	StorageDataInt storageInt = pSession->CloseDocument(docId);
+	std::vector<Line> lines = pSession->CloseDocument(docId);
 
 	StorageDataBuffer.clear();
 
-	for (auto it = storageInt.lines.begin(); it != storageInt.lines.end(); ++it)
+	for (auto it = lines.begin(); it != lines.end(); ++it)
 		StorageDataBuffer.push_back(LineToCut(*it));
 
-	StorageData storage;
-
-	storage.cuts = StorageDataBuffer.data();
-	storage.size = StorageDataBuffer.size();
-
-	return storage;
+	return StorageDataBuffer.data();
 }
 
 Status mc_set_color_theme(DocumentId docId, ColorTheme theme)
@@ -82,21 +85,19 @@ Status mc_set_nodes_mode(DocumentId docId, bool mode)
 	return Status::Ok;
 }
 
-unsigned mc_get_vertices_buffer_size(DocumentId docId)
+RenderingBuffersSizes mc_get_rendering_buffers_sizes(DocumentId docId)
 {
 	Document & document = pSession->GetDocument(docId);
 	RenderingDataInt dataInt = document.GetRenderingData();
-	return dataInt.vertices.size();
+
+	RenderingBuffersSizes sizes;
+	sizes.indicesSize = dataInt.indices.size();
+	sizes.verticesSize = dataInt.vertices.size();
+
+	return sizes;
 }
 
-unsigned mc_get_indices_buffer_size(DocumentId docId)
-{
-	Document & document = pSession->GetDocument(docId);
-	RenderingDataInt dataInt = document.GetRenderingData();
-	return dataInt.indices.size();
-}
-
-RenderingData mc_get_rendering_status(DocumentId docId)
+RenderingData mc_get_rendering_data(DocumentId docId)
 {
 	Document & document = pSession->GetDocument(docId);
 	RenderingDataInt dataInt = document.GetRenderingData();
@@ -112,10 +113,7 @@ RenderingData mc_get_rendering_status(DocumentId docId)
 	VerticesBuffer = dataInt.vertices;
 
 	data.indices = IndicesBuffer.data();
-	data.iSize = IndicesBuffer.size();
-
 	data.vertices = VerticesBuffer.data();
-    data.vSize = VerticesBuffer.size();
 
 	return data;
 }
@@ -235,18 +233,14 @@ unsigned mc_get_objects_buffer_size(DocumentId docId)
 	return objects.size();
 }
 
-Objects mc_get_all_objects(DocumentId docId)
+ObjectId * mc_get_all_objects(DocumentId docId)
 {
 	Base & base = pSession->GetDocument(docId).GetBase();
 	std::vector<ObjectId> objects = base.GetObjects();
 
 	ObjectsBuffer = objects;
 
-	Objects result;
-	result.data = ObjectsBuffer.data();
-	result.size = ObjectsBuffer.size();
-
-	return result;
+	return ObjectsBuffer.data();
 }
 
 Status mc_highlight_object(DocumentId docId, ObjectId objId)
@@ -258,3 +252,35 @@ Status mc_highlight_object(DocumentId docId, ObjectId objId)
 
 	return Status::Ok;
 }
+
+/*
+int testApi(cTest * arr, unsigned size)
+{
+	for (int i = 0; i < size; ++i)
+	{
+		std::cout << "One: " << arr[i].one << std::endl;
+		std::cout << "Two: " << arr[i].two << std::endl;
+	}
+	
+	
+	return 123;
+}
+
+cTest * test2Api()
+{
+	cTest t1;
+	t1.one = 1;
+	t1.two = 2;
+
+	cTest t2;
+	t2.one = 3;
+	t2.two = 4;
+
+	cTest t3;
+	t3.one = 5;
+	t3.two = 6;
+	
+	testBuffer = { t1, t2, t3 };
+	return testBuffer.data();
+}
+*/

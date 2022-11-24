@@ -6,17 +6,6 @@
 #include "line.h"
 #include <vector>
 
-struct StorageDataInt
-{
-    std::vector<Line> lines;
-};
-
-struct StorageData
-{
-    Cut * cuts;
-    unsigned size;
-};
-
 class Document
 {
 private:
@@ -38,8 +27,8 @@ public:
     void SetThickness(float thickness);
     void SetNodesMode(bool mode);
 
-    void Load(const StorageDataInt & data);
-    StorageDataInt Save();
+    void Load(const std::vector<Line> & lines);
+    std::vector<Line> Save();
 
     Base & GetBase();
 

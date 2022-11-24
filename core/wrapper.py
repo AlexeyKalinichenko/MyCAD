@@ -105,17 +105,11 @@ def GetStorageBufferSizeAPI(docId):
 def CloseDocumentAPI(docId):
 	size = GetStorageBufferSizeAPI(docId)
 
-	class CStorageData(ctypes.Structure):
-		_fields_ = [
-		("cuts", ctypes.POINTER(CCut * size)),
-		("size", ctypes.c_uint)
-	]
-
 	core.mc_close_document.argtypes = [ctypes.c_int]
-	core.mc_close_document.restype = CStorageData
+	core.mc_close_document.restype = ctypes.POINTER(CCut * size)
 	response = core.mc_close_document(docId)
 
-	return [i for i in response.cuts.contents]
+	return [i for i in response.contents]
 
 def SetColorThemeAPI(docId, theme):
 	core.mc_set_color_theme.argtypes = [ctypes.c_int, CColorTheme]
@@ -132,19 +126,21 @@ def SetNodesModeAPI(docId, mode):
 	core.mc_set_nodes_mode.restype = ctypes.c_int
 	return core.mc_set_nodes_mode(docId, mode)
 
-def GetVerticesBufferSizeAPI(docId):
-	core.mc_get_vertices_buffer_size.argtypes = [ctypes.c_int]
-	core.mc_get_vertices_buffer_size.restype = ctypes.c_uint
-	return core.mc_get_vertices_buffer_size(docId)
+def GetRenderingBuffersSizesAPI(docId):
+	class CRenderingBuffersSizes(ctypes.Structure):
+		_fields_ = [
+		("indicesSize", ctypes.c_uint),
+		("verticesSize", ctypes.c_uint),
+	]
 
-def GetIndicesBufferSizeAPI(docId):
-	core.mc_get_indices_buffer_size.argtypes = [ctypes.c_int]
-	core.mc_get_indices_buffer_size.restype = ctypes.c_uint
-	return core.mc_get_indices_buffer_size(docId)
+	core.mc_get_rendering_buffers_sizes.argtypes = [ctypes.c_int]
+	core.mc_get_rendering_buffers_sizes.restype = CRenderingBuffersSizes
+	response = core.mc_get_rendering_buffers_sizes(docId)
 
-def GetRenderingStatusAPI(docId):
-	vSize = GetVerticesBufferSizeAPI(docId)
-	iSize = GetIndicesBufferSizeAPI(docId)
+	return [response.indicesSize, response.verticesSize]
+
+def GetRenderingDataAPI(docId):
+	[iSize, vSize] = GetRenderingBuffersSizesAPI(docId)
 
 	class CRenderingData(ctypes.Structure):
 		_fields_ = [
@@ -153,14 +149,12 @@ def GetRenderingStatusAPI(docId):
 		("thickness", ctypes.c_float),
 		("nodesMode", ctypes.c_bool),
 		("indices", ctypes.POINTER(CIndex * iSize)),
-		("iSize", ctypes.c_uint),
-		("vertices", ctypes.POINTER(CVertex * vSize)),
-		("vSize", ctypes.c_uint)
+		("vertices", ctypes.POINTER(CVertex * vSize))
 	]
-		
-	core.mc_get_rendering_status.argtypes = [ctypes.c_int]
-	core.mc_get_rendering_status.restype = CRenderingData
-	response = core.mc_get_rendering_status(docId)
+
+	core.mc_get_rendering_data.argtypes = [ctypes.c_int]
+	core.mc_get_rendering_data.restype = CRenderingData
+	response = core.mc_get_rendering_data(docId)
 
 	result = {
 			"needUpdate": response.needUpdate,
@@ -231,22 +225,41 @@ def GetObjectsBufferSizeAPI(docId):
 def GetAllObjectsAPI(docId):
 	size = GetObjectsBufferSizeAPI(docId)
 
-	class CObjects(ctypes.Structure):
-		_fields_ = [
-		("data", ctypes.POINTER(ctypes.c_int * size)),
-		("size", ctypes.c_uint)
-	]
-
 	core.mc_get_all_objects.argtypes = [ctypes.c_int]
-	core.mc_get_all_objects.restype = CObjects
+	core.mc_get_all_objects.restype = ctypes.POINTER(ctypes.c_int * size)
 	objs = core.mc_get_all_objects(docId)
 
-	return [i for i in objs.data.contents]
+	return [i for i in objs.contents]
 
 def HighlightObjectAPI(docId, objId):
 	core.mc_highlight_object.argtypes = [ctypes.c_int, ctypes.c_int]
 	core.mc_highlight_object.restype = ctypes.c_int
 	return core.mc_highlight_object(docId, objId)
+
+
+#class pTest(ctypes.Structure):
+#	_fields_ = [
+#		("one", ctypes.c_int),
+#		("two", ctypes.c_int)
+#	]
+#
+#def testWrapper(data):
+#	arrayType = pTest * len(data)
+#	arr = arrayType()
+#
+#	for index, value in enumerate(data):
+#		item = pTest(value.one, value.two)
+#		arr[index] = item
+#
+#	core.testApi.argtypes = [arrayType, ctypes.c_uint]
+#	core.testApi.restype = ctypes.c_int
+#	result = core.testApi(arr, len(data))
+#
+#	return result
+#
+#def test2Wrapper():
+#	core.test2Api.restype = ctypes.POINTER(pTest * 3)
+#	return core.test2Api()
 
 
 if __name__ == '__main__':
@@ -287,7 +300,7 @@ if __name__ == '__main__':
 
 	CommitAPI(doc1)
 
-	renderingData = GetRenderingStatusAPI(doc1)
+	renderingData = GetRenderingDataAPI(doc1)
 
 	needUpdate = renderingData['needUpdate']
 	theme = renderingData['theme']
@@ -317,5 +330,13 @@ if __name__ == '__main__':
 	storageData2 = CloseDocumentAPI(doc3)
 
 	CloseSessionAPI()
+	
+#	lst = [pTest(11, 22), pTest(33, 44)]
+#	result = testWrapper(lst)
+#	data = test2Wrapper()
+#	lst2 = [i for i in data.contents]
+#	for item in lst2:
+#		print(item.one)
+#		print(item.two)
 
 	check = True
