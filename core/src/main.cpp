@@ -57,18 +57,26 @@ int main()
 
     LineTopology top1 = mc_is_line_under_cursor(d1, l1, PointToPosition(Point(3, 3)), 0.5);
 
-    Objects objs = mc_get_all_objects(d1);
+    unsigned objsSize = mc_get_objects_buffer_size(d1);
+    ObjectId * oObjs = mc_get_all_objects(d1);
+    std::vector<ObjectId> objs(oObjs, oObjs + objsSize);
 
     mc_highlight_object(d1, l1);
 
     mc_commit(d1);
 
-    RenderingData rd1 = mc_get_rendering_status(d1);
+    RenderingBuffersSizes sizes = mc_get_rendering_buffers_sizes(d1);
+    RenderingData rd1 = mc_get_rendering_data(d1);
 
-    StorageData sd1 = mc_close_document(d1);
+    std::vector<Index> indices(rd1.indices, rd1.indices + sizes.indicesSize);
+    std::vector<Vertex> vertices(rd1.vertices, rd1.vertices + sizes.verticesSize);
 
-    DocumentId d2 = mc_open_document(sd, sd1);
-    DocumentId d3 = mc_open_document(sd, sd1);
+    unsigned storageSize1 = mc_get_storage_buffer_size(d1);
+    Cut * sd1 = mc_close_document(d1);
+    std::vector<Cut> cuts1(sd1, sd1 + storageSize1);
+
+    DocumentId d2 = mc_open_document(sd, sd1, storageSize1);
+    DocumentId d3 = mc_open_document(sd, sd1, storageSize1);
 
     ObjectId l4 = mc_create_line(d3, PointToPosition(Point(2, 2)), PointToPosition(Point(3, 3)));
     mc_commit(d3);
@@ -83,7 +91,9 @@ int main()
     ObjectId l6 = mc_create_line(d3, PointToPosition(Point(1, 1)), PointToPosition(Point(10, 10)));
     mc_commit(d3);
 
-    StorageData sd2 = mc_close_document(d3);
+    unsigned storageSize2 = mc_get_storage_buffer_size(d3);
+    Cut * sd2 = mc_close_document(d3);
+    std::vector<Cut> cuts2(sd2, sd2 + storageSize2);
 
     mc_close_session();
 
