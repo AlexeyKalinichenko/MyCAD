@@ -46,7 +46,7 @@ int main()
     ObjectId l3 = mc_create_line(d1, PointToPosition(Point(1, 5)), PointToPosition(Point(5, 5)));
 
     mc_commit(d1);
-    
+
     mc_edit_line(d1, l2, LineTopology::StartNode, PointToPosition(Point(10, 10)));
     mc_delete_line(d1, l3);
 
@@ -58,8 +58,13 @@ int main()
     LineTopology top1 = mc_is_line_under_cursor(d1, l1, PointToPosition(Point(3, 3)), 0.5);
 
     unsigned objsSize = mc_get_objects_buffer_size(d1);
-    ObjectId * oObjs = mc_get_all_objects(d1);
-    std::vector<ObjectId> objs(oObjs, oObjs + objsSize);
+    ObjectId * pObjs = mc_get_all_objects(d1);
+    std::vector<ObjectId> objs(pObjs, pObjs + objsSize);
+
+    std::cout << "Objects:" << std::endl;
+    for (auto it = objs.begin(); it != objs.end(); ++it)
+        std::cout << "ID: " << *it << std::endl;
+    std::cout << std::endl;
 
     mc_highlight_object(d1, l1);
 
@@ -71,9 +76,27 @@ int main()
     std::vector<Index> indices(rd1.indices, rd1.indices + sizes.indicesSize);
     std::vector<Vertex> vertices(rd1.vertices, rd1.vertices + sizes.verticesSize);
 
+    std::cout << "Indices:" << std::endl;
+    for (auto it = indices.begin(); it != indices.end(); ++it)
+        std::cout << "Figures: " << (int)it->figure << ", Offset: " << it->offset << ", Count: " << it->count << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "Vertices:" << std::endl;
+    for (auto it = vertices.begin(); it != vertices.end(); ++it)
+        std::cout << "X: " << it->x << ", Y: " << it->y << ", Z: " << it->z << std::endl;
+    std::cout << std::endl;
+
     unsigned storageSize1 = mc_get_storage_buffer_size(d1);
     Cut * sd1 = mc_close_document(d1);
     std::vector<Cut> cuts1(sd1, sd1 + storageSize1);
+
+    std::cout << "Cuts:" << std::endl;
+    for (auto it = cuts1.begin(); it != cuts1.end(); ++it)
+    {
+        std::cout << "X1: " << it->start.x << ", Y1: " << it->start.y << std::endl;
+        std::cout << "X2: " << it->end.x << ", Y2: " << it->end.y << std::endl;
+    }
+    std::cout << std::endl;
 
     DocumentId d2 = mc_open_document(sd, sd1, storageSize1);
     DocumentId d3 = mc_open_document(sd, sd1, storageSize1);
@@ -94,6 +117,14 @@ int main()
     unsigned storageSize2 = mc_get_storage_buffer_size(d3);
     Cut * sd2 = mc_close_document(d3);
     std::vector<Cut> cuts2(sd2, sd2 + storageSize2);
+
+    std::cout << "Cuts:" << std::endl;
+    for (auto it = cuts1.begin(); it != cuts1.end(); ++it)
+    {
+        std::cout << "X1: " << it->start.x << ", Y1: " << it->start.y << std::endl;
+        std::cout << "X2: " << it->end.x << ", Y2: " << it->end.y << std::endl;
+    }
+    std::cout << std::endl;
 
     mc_close_session();
 
