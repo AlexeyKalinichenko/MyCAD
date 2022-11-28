@@ -1,20 +1,12 @@
 #include "headers/core_api.h"
 #include <vector>
 
-//
-//#include <iostream>
-//
-
 Session * pSession = nullptr;
 
 std::vector<Cut> StorageDataBuffer;
 std::vector<ObjectId> ObjectsBuffer;
 std::vector<Index> IndicesBuffer;
 std::vector<Vertex> VerticesBuffer;
-
-//
-//std::vector<cTest> testBuffer;
-//
 
 Status mc_open_session()
 {
@@ -252,35 +244,3 @@ Status mc_highlight_object(DocumentId docId, ObjectId objId)
 
 	return Status::Ok;
 }
-
-/*
-int testApi(cTest * arr, unsigned size)
-{
-	for (int i = 0; i < size; ++i)
-	{
-		std::cout << "One: " << arr[i].one << std::endl;
-		std::cout << "Two: " << arr[i].two << std::endl;
-	}
-	
-	
-	return 123;
-}
-
-cTest * test2Api()
-{
-	cTest t1;
-	t1.one = 1;
-	t1.two = 2;
-
-	cTest t2;
-	t2.one = 3;
-	t2.two = 4;
-
-	cTest t3;
-	t3.one = 5;
-	t3.two = 6;
-	
-	testBuffer = { t1, t2, t3 };
-	return testBuffer.data();
-}
-*/

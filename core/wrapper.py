@@ -79,23 +79,16 @@ def CreateDocumentAPI(style):
 	return core.mc_create_document(style)
 
 def OpenDocumentAPI(style, data):
-	class CStorageData(ctypes.Structure):
-		_fields_ = [
-		("cuts", CCut * len(data)),
-		("size", ctypes.c_uint)
-	]
-
-	starageData = CStorageData()
+	arrayType = CCut * len(data)
+	arr = arrayType()
 
 	for index, value in enumerate(data):
-		starageData.cuts[index] = value
+		arr[index] = value
 
-	starageData.size = len(data)
-
-	core.mc_open_document.argtypes = [CStyleData, CStorageData]
+	core.mc_open_document.argtypes = [CStyleData, arrayType, ctypes.c_uint]
 	core.mc_open_document.restype = ctypes.c_int
 
-	return core.mc_open_document(style, starageData)
+	return core.mc_open_document(style, arr, len(data))
 
 def GetStorageBufferSizeAPI(docId):
 	core.mc_get_storage_buffer_size.argtypes = [ctypes.c_int]
@@ -237,31 +230,6 @@ def HighlightObjectAPI(docId, objId):
 	return core.mc_highlight_object(docId, objId)
 
 
-#class pTest(ctypes.Structure):
-#	_fields_ = [
-#		("one", ctypes.c_int),
-#		("two", ctypes.c_int)
-#	]
-#
-#def testWrapper(data):
-#	arrayType = pTest * len(data)
-#	arr = arrayType()
-#
-#	for index, value in enumerate(data):
-#		item = pTest(value.one, value.two)
-#		arr[index] = item
-#
-#	core.testApi.argtypes = [arrayType, ctypes.c_uint]
-#	core.testApi.restype = ctypes.c_int
-#	result = core.testApi(arr, len(data))
-#
-#	return result
-#
-#def test2Wrapper():
-#	core.test2Api.restype = ctypes.POINTER(pTest * 3)
-#	return core.test2Api()
-
-
 if __name__ == '__main__':
 	
 	c1 = CColor(0.1, 0.2, 0.3)
@@ -309,34 +277,24 @@ if __name__ == '__main__':
 	indices = renderingData['indices']
 	vertices = renderingData['vertices']
 
-	storageData1 = CloseDocumentAPI(doc1)
+	storageArray = CloseDocumentAPI(doc1)
 
-	doc2 = OpenDocumentAPI(sd, storageData1)
-	doc3 = OpenDocumentAPI(sd, storageData1)
+	doc2 = OpenDocumentAPI(sd, storageArray)
+	doc3 = OpenDocumentAPI(sd, storageArray)
 
 	line31 = CreateLineAPI(doc3, CPosition(2, 2), CPosition(3, 3))
-	CommitAPI(doc1)
+	CommitAPI(doc3)
 
 	line32 = CreateLineAPI(doc3, CPosition(3, 3), CPosition(4, 4))
-	CommitAPI(doc1)
+	CommitAPI(doc3)
 
-	UndoAPI(doc1)
-	RedoAPI(doc1)
-	UndoAPI(doc1)
+	UndoAPI(doc3)
+	RedoAPI(doc3)
+	UndoAPI(doc3)
 
 	line33 = CreateLineAPI(doc3, CPosition(1, 1), CPosition(10, 10))
-	CommitAPI(doc1)
+	CommitAPI(doc3)
 
-	storageData2 = CloseDocumentAPI(doc3)
+	storageArray2 = CloseDocumentAPI(doc3)
 
 	CloseSessionAPI()
-	
-#	lst = [pTest(11, 22), pTest(33, 44)]
-#	result = testWrapper(lst)
-#	data = test2Wrapper()
-#	lst2 = [i for i in data.contents]
-#	for item in lst2:
-#		print(item.one)
-#		print(item.two)
-
-	check = True
