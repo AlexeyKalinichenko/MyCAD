@@ -49,7 +49,7 @@ void Document::SetHighlightedObjects(const std::vector<ObjectId> & objects)
     _needToUpdate = true;
 }
 
-RenderingDataInt Document::GetRenderingData()
+RenderingDataInt Document::GetRenderingData(bool clearHighlightedObjects)
 {
     RenderingDataInt data;
 
@@ -85,7 +85,8 @@ RenderingDataInt Document::GetRenderingData()
 
         data.indices.push_back(CreateIndex(Figures::Triangles, triangleVerticesCount, highlightedTriangleVerticesCount));
 
-        _highlighted.clear();
+        if (clearHighlightedObjects)
+            _highlighted.clear();
     }
 
     if (_nodesMode)

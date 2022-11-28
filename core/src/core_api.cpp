@@ -80,7 +80,7 @@ Status mc_set_nodes_mode(DocumentId docId, bool mode)
 RenderingBuffersSizes mc_get_rendering_buffers_sizes(DocumentId docId)
 {
 	Document & document = pSession->GetDocument(docId);
-	RenderingDataInt dataInt = document.GetRenderingData();
+	RenderingDataInt dataInt = document.GetRenderingData(false);
 
 	RenderingBuffersSizes sizes;
 	sizes.indicesSize = dataInt.indices.size();
@@ -92,7 +92,7 @@ RenderingBuffersSizes mc_get_rendering_buffers_sizes(DocumentId docId)
 RenderingData mc_get_rendering_data(DocumentId docId)
 {
 	Document & document = pSession->GetDocument(docId);
-	RenderingDataInt dataInt = document.GetRenderingData();
+	RenderingDataInt dataInt = document.GetRenderingData(true);
 
 	RenderingData data;
 	data.needUpdate = dataInt.needUpdate;
