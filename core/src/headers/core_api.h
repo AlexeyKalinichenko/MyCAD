@@ -19,7 +19,7 @@ CORE_API Status mc_set_thickness(DocumentId docId, float thickness);
 CORE_API Status mc_set_nodes_mode(DocumentId docId, bool mode);
 
 CORE_API RenderingBuffersSizes mc_get_rendering_buffers_sizes(DocumentId docId);
-CORE_API RenderingData mc_get_rendering_data(DocumentId docId);//CHECK
+CORE_API RenderingData mc_get_rendering_data(DocumentId docId);
 
 CORE_API Status mc_undo(DocumentId docId);
 CORE_API Status mc_redo(DocumentId docId);
