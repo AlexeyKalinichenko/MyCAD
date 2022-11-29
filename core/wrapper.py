@@ -122,9 +122,9 @@ def SetNodesModeAPI(docId, mode):
 def GetRenderingBuffersSizesAPI(docId):
 	class CRenderingBuffersSizes(ctypes.Structure):
 		_fields_ = [
-		("indicesSize", ctypes.c_uint),
-		("verticesSize", ctypes.c_uint),
-	]
+			("indicesSize", ctypes.c_uint),
+			("verticesSize", ctypes.c_uint),
+		]
 
 	core.mc_get_rendering_buffers_sizes.argtypes = [ctypes.c_int]
 	core.mc_get_rendering_buffers_sizes.restype = CRenderingBuffersSizes
@@ -137,26 +137,26 @@ def GetRenderingDataAPI(docId):
 
 	class CRenderingData(ctypes.Structure):
 		_fields_ = [
-		("needUpdate", ctypes.c_bool),
-		("theme", CColorTheme),
-		("thickness", ctypes.c_float),
-		("nodesMode", ctypes.c_bool),
-		("indices", ctypes.POINTER(CIndex * iSize)),
-		("vertices", ctypes.POINTER(CVertex * vSize))
-	]
+			("needUpdate", ctypes.c_bool),
+			("theme", CColorTheme),
+			("thickness", ctypes.c_float),
+			("nodesMode", ctypes.c_bool),
+			("indices", ctypes.POINTER(CIndex * iSize)),
+			("vertices", ctypes.POINTER(CVertex * vSize))
+		]
 
 	core.mc_get_rendering_data.argtypes = [ctypes.c_int]
 	core.mc_get_rendering_data.restype = CRenderingData
 	response = core.mc_get_rendering_data(docId)
 
 	result = {
-			"needUpdate": response.needUpdate,
-			"theme": response.theme,
-			"thickness": response.thickness,
-			"nodesMode": response.nodesMode,
-			"indices": [i for i in response.indices.contents],
-			"vertices": [i for i in response.vertices.contents]
-		}
+		"needUpdate": response.needUpdate,
+		"theme": response.theme,
+		"thickness": response.thickness,
+		"nodesMode": response.nodesMode,
+		"indices": [i for i in response.indices.contents],
+		"vertices": [i for i in response.vertices.contents]
+	}
 
 	return result
 
