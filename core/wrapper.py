@@ -33,7 +33,7 @@ class CColorTheme(ctypes.Structure):
 	]
 
 class CStyleData(ctypes.Structure):
-    _fields_ = [
+	_fields_ = [
 		("theme", CColorTheme),
 		("thickness", ctypes.c_float),
 		("nodesMode", ctypes.c_bool)
@@ -100,9 +100,9 @@ def CloseDocumentAPI(docId):
 
 	core.mc_close_document.argtypes = [ctypes.c_int]
 	core.mc_close_document.restype = ctypes.POINTER(CCut * size)
-	response = core.mc_close_document(docId)
+	result = core.mc_close_document(docId)
 
-	return [i for i in response.contents]
+	return [i for i in result.contents]
 
 def SetColorThemeAPI(docId, theme):
 	core.mc_set_color_theme.argtypes = [ctypes.c_int, CColorTheme]
@@ -128,9 +128,9 @@ def GetRenderingBuffersSizesAPI(docId):
 
 	core.mc_get_rendering_buffers_sizes.argtypes = [ctypes.c_int]
 	core.mc_get_rendering_buffers_sizes.restype = CRenderingBuffersSizes
-	response = core.mc_get_rendering_buffers_sizes(docId)
+	result = core.mc_get_rendering_buffers_sizes(docId)
 
-	return [response.indicesSize, response.verticesSize]
+	return [result.indicesSize, result.verticesSize]
 
 def GetRenderingDataAPI(docId):
 	[iSize, vSize] = GetRenderingBuffersSizesAPI(docId)
@@ -147,15 +147,15 @@ def GetRenderingDataAPI(docId):
 
 	core.mc_get_rendering_data.argtypes = [ctypes.c_int]
 	core.mc_get_rendering_data.restype = CRenderingData
-	response = core.mc_get_rendering_data(docId)
+	data = core.mc_get_rendering_data(docId)
 
 	result = {
-		"needUpdate": response.needUpdate,
-		"theme": response.theme,
-		"thickness": response.thickness,
-		"nodesMode": response.nodesMode,
-		"indices": [i for i in response.indices.contents],
-		"vertices": [i for i in response.vertices.contents]
+		"needUpdate": data.needUpdate,
+		"theme": data.theme,
+		"thickness": data.thickness,
+		"nodesMode": data.nodesMode,
+		"indices": [i for i in data.indices.contents],
+		"vertices": [i for i in data.vertices.contents]
 	}
 
 	return result

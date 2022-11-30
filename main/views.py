@@ -18,26 +18,186 @@ def index(request):
 	context = { 'url': deploy['url'] }
 	return HttpResponse(template.render(context, request))
 
-def OpenDocument(request):
-	pass
+'''
+{
+	"theme": {
+		"objects": {
+			"red": 0.1,
+			"green": 0.2,
+			"blue": 0.3
+		},
+		"highlight": {
+			"red": 0.4,
+			"green": 0.5,
+			"blue": 0.6
+		},
+		"nodes": {
+			"red": 0.7,
+			"green": 0.8,
+			"blue": 0.9
+		}
+	},
+	"thickness": 0.15,
+	"nodesMode": true
+}
+'''
 
-def CloseDocument(request):
-	pass
+'''
+{
+	"cuts": [
+		{
+			"start": {
+				"x": 1,
+				"y": 2
+			},
+			"end": {
+				"x": 3,
+				"y": 4
+			}
+		}
+	]
+}
+'''
+
+def OpenDocument(request):
+	if request.method == 'POST':
+		styleJson = request.POST['data']
+		styleObject = json.loads(styleJson)
+
+		objects = wrapper.CColor()
+		objects.red = styleObject['theme']['objects']['red']
+		objects.green = styleObject['theme']['objects']['green']
+		objects.blue = styleObject['theme']['objects']['blue']
+
+		highlight = wrapper.CColor()
+		highlight.red = styleObject['theme']['highlight']['red']
+		highlight.green = styleObject['theme']['highlight']['green']
+		highlight.blue = styleObject['theme']['highlight']['blue']
+
+		nodes = wrapper.CColor()
+		nodes.red = styleObject['theme']['nodes']['red']
+		nodes.green = styleObject['theme']['nodes']['green']
+		nodes.blue = styleObject['theme']['nodes']['blue']
+
+		theme = wrapper.CColorTheme()
+		theme.objects = objects
+		theme.highlight = highlight
+		theme.nodes = nodes
+
+		style = wrapper.CStyleData()
+		style.theme = theme
+		style.thickness = styleObject['thickness']
+		style.nodesMode = styleObject['nodesMode']
+
+		result = wrapper.OpenSessionAPI()
+
+		filePath = os.path.join(os.getcwd(), 'data', 'document.json')
+		f = open(filePath, "r")
+		dataJson = f.read()
+		f.close()
+
+		if len(dataJson) == 0:
+			docId = wrapper.CreateDocumentAPI(style)
+		else:
+			dataObject = json.loads(dataJson)
+
+			data = []
+			for cut in dataObject['cuts']:
+				data.append(wrapper.CCut(wrapper.CPosition(cut['start']['x'], cut['start']['y']),
+					wrapper.CPosition(cut['end']['x'], cut['end']['y'])))
+
+			docId = wrapper.OpenDocumentAPI(style, data)
+
+		response = JsonResponse({ "result": result, "docId": docId })
+		return response
+
+def CloseDocument(request, docId):
+	data = wrapper.CloseDocumentAPI(docId)
+
+	dataObject = {}
+	dataObject['cuts'] = []
+
+	for item in data:
+		cut = {}
+		cut['start'] = {}
+		cut['start']['x'] = item.start.x
+		cut['start']['y'] = item.start.y
+		cut['end'] = {}
+		cut['end']['x'] = item.end.x
+		cut['end']['y'] = item.end.y
+
+		dataObject['cuts'].append(cut)
+
+	dataJson = json.dumps(dataObject)
+
+	filePath = os.path.join(os.getcwd(), 'data', 'document.json')
+	f = open(filePath, "w")
+	f.write(dataJson)
+	f.close()
+
+	result = wrapper.CloseSessionAPI()
+
+	response = JsonResponse({ "result": result })
+	return response
 
 def SetStyleData(request):
-	pass
+	if request.method == 'POST':
+		docId = request.POST['docId']
+
+		styleJson = request.POST['data']
+		styleObject = json.loads(styleJson)
+
+		result = 0
+
+		if 'theme' in styleObject:
+			objects = wrapper.CColor()
+			objects.red = styleObject['theme']['objects']['red']
+			objects.green = styleObject['theme']['objects']['green']
+			objects.blue = styleObject['theme']['objects']['blue']
+
+			highlight = wrapper.CColor()
+			highlight.red = styleObject['theme']['highlight']['red']
+			highlight.green = styleObject['theme']['highlight']['green']
+			highlight.blue = styleObject['theme']['highlight']['blue']
+
+			nodes = wrapper.CColor()
+			nodes.red = styleObject['theme']['nodes']['red']
+			nodes.green = styleObject['theme']['nodes']['green']
+			nodes.blue = styleObject['theme']['nodes']['blue']
+
+			theme = wrapper.CColorTheme()
+			theme.objects = objects
+			theme.highlight = highlight
+			theme.nodes = nodes
+
+			result = wrapper.SetColorThemeAPI(docId, theme)
+
+		elif 'thickness' in styleObject:
+			result = wrapper.SetThicknessAPI(docId, styleObject['thickness'])
+
+		elif 'nodesMode' in styleObject:
+			result = wrapper.SetNodesModeAPI(docId, styleObject['nodesMode'])
+
+		response = JsonResponse({ "result": result })
+		return response
 
 def GetRenderingData(request, docId):
 	pass
 
 def Undo(request, docId):
-	pass
+	result = wrapper.UndoAPI(docId)
+	response = JsonResponse({ "result": result })
+	return response
 
 def Redo(request, docId):
-	pass
+	result = wrapper.RedoAPI(docId)
+	response = JsonResponse({ "result": result })
+	return response
 
 def Commit(request, docId):
-	pass
+	result = wrapper.CommitAPI(docId)
+	response = JsonResponse({ "result": result })
+	return response
 
 def CreateLine(request):
 	pass

@@ -5,27 +5,26 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     path('OpenDocument/', views.OpenDocument, name='OpenDocument'),
-    path('CloseDocument/', views.CloseDocument, name='CloseDocument'),
+    path('CloseDocument/<int:docId>/', views.CloseDocument, name='CloseDocument'),
 
     path('SetStyleData/', views.SetStyleData, name='SetStyleData'),
-
-    path('GetRenderingData/<int:docId>/', views.GetRenderingData, name='GetRenderingData'),
+    path('GetRenderingData/<int:docId>/', views.GetRenderingData, name='GetRenderingData'), #todo
 
     path('Undo/<int:docId>/', views.Undo, name='Undo'),
     path('Redo/<int:docId>/', views.Redo, name='Redo'),
     path('Commit/<int:docId>/', views.Commit, name='Commit'),
 
-    path('CreateLine/', views.CreateLine, name='CreateLine'),
-    path('EditLine/', views.EditLine, name='EditLine'),
-    path('DeleteLine/', views.DeleteLine, name='DeleteLine'),
+    path('CreateLine/', views.CreateLine, name='CreateLine'), #todo
+    path('EditLine/', views.EditLine, name='EditLine'), #todo
+    path('DeleteLine/', views.DeleteLine, name='DeleteLine'), #todo
 
-    path('GetLineNode/<int:docId>/<int:objId>/<int:index>/', views.GetLineNode, name='GetLineNode'),
-    path('GetLineLength/<int:docId>/<int:objId>/', views.GetLineLength, name='GetLineLength'),
-    path('GetLineAngle/<int:docId>/<int:objId>/', views.GetLineAngle, name='GetLineAngle'),
-    path('IsLineUnderCursor/', views.IsLineUnderCursor, name='IsLineUnderCursor'),
+    path('GetLineNode/<int:docId>/<int:objId>/<int:index>/', views.GetLineNode, name='GetLineNode'), #todo
+    path('GetLineLength/<int:docId>/<int:objId>/', views.GetLineLength, name='GetLineLength'), #todo
+    path('GetLineAngle/<int:docId>/<int:objId>/', views.GetLineAngle, name='GetLineAngle'), #todo
+    path('IsLineUnderCursor/', views.IsLineUnderCursor, name='IsLineUnderCursor'), #todo
 
-    path('GetAllObjects/<int:docId>/', views.GetAllObjects, name='GetAllObjects'),
-    path('HighlightObject/<int:docId>/<int:objId>/', views.HighlightObject, name='HighlightObject'),
+    path('GetAllObjects/<int:docId>/', views.GetAllObjects, name='GetAllObjects'), #todo
+    path('HighlightObject/<int:docId>/<int:objId>/', views.HighlightObject, name='HighlightObject'), #todo
 
 
     # Old1 API #
