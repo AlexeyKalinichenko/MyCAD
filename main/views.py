@@ -183,8 +183,91 @@ def SetStyleData(request):
 		response = JsonResponse({ "result": result })
 		return response
 
+#OUT
+'''
+{
+	"result": 0,
+	"data": {
+		"Indices": [
+			{ "Figure": "triangles", "Offset": 0, "Count": 6 },
+			{ "Figure": "triangles", "Offset": 0, "Count": 6 },
+			{ "Figure": "points", "Offset": 18, "Count": 6 }
+		],
+		"ObjectsColor": { "R": 0.85, "G": 0.87, "B": 0.91 },
+		"HighlightColor": { "R": 0.98, "G": 0.68, "B": 0.35 },
+		"NodesColor": { "R": 0.98, "G": 0.68, "B": 0.35 },
+		"Thickness": 0.01,
+		"NodesMode": false,
+		"Vertices": [
+			{ "X": -0.4, "Y": 0.4012, "Z": 0.0 },
+			{ "X":  0.4, "Y":    0.4, "Z": 0.0 },
+			{ "X": -0.4, "Y":    0.4, "Z": 0.0 },
+			{ "X":  0.4, "Y":    0.4, "Z": 0.0 },
+			{ "X":  0.4, "Y": 0.4012, "Z": 0.0 },
+			{ "X": -0.4, "Y": 0.4012, "Z": 0.0 },
+			{ "X": -0.4, "Y": 0.3025, "Z": 0.0 },
+			{ "X":  0.4, "Y":    0.3, "Z": 0.0 },
+			{ "X": -0.4, "Y":    0.3, "Z": 0.0 },
+			{ "X":  0.4, "Y":    0.3, "Z": 0.0 },
+			{ "X":  0.4, "Y": 0.3025, "Z": 0.0 },
+			{ "X": -0.4, "Y": 0.3025, "Z": 0.0 },
+			{ "X": -0.4, "Y":  0.205, "Z": 0.0 },
+			{ "X":  0.4, "Y":    0.2, "Z": 0.0 },
+			{ "X": -0.4, "Y":    0.2, "Z": 0.0 },
+			{ "X":  0.4, "Y":    0.2, "Z": 0.0 },
+			{ "X":  0.4, "Y":  0.205, "Z": 0.0 },
+			{ "X": -0.4, "Y":  0.205, "Z": 0.0 },
+			{ "X":  0.4, "Y": 0.4006, "Z": 0.0 },
+			{ "X": -0.4, "Y": 0.4006, "Z": 0.0 },
+			{ "X":  0.4, "Y": 0.3012, "Z": 0.0 },
+			{ "X": -0.4, "Y": 0.3012, "Z": 0.0 },
+			{ "X":  0.4, "Y": 0.2025, "Z": 0.0 },
+			{ "X": -0.4, "Y": 0.2025, "Z": 0.0 } 
+		]
+	}
+}
+'''
+
 def GetRenderingData(request, docId):
-	pass
+	sourceData = wrapper.GetRenderingDataAPI(docId)
+
+	targetData = {}
+	targetData['ObjectsColor'] = {}
+	targetData['ObjectsColor']['R'] = sourceData['theme'].objects.red
+	targetData['ObjectsColor']['G'] = sourceData['theme'].objects.green
+	targetData['ObjectsColor']['B'] = sourceData['theme'].objects.blue
+
+	targetData['HighlightColor'] = {}
+	targetData['HighlightColor']['R'] = sourceData['theme'].highlight.red
+	targetData['HighlightColor']['G'] = sourceData['theme'].highlight.green
+	targetData['HighlightColor']['B'] = sourceData['theme'].highlight.blue
+
+	targetData['NodesColor'] = {}
+	targetData['NodesColor']['R'] = sourceData['theme'].nodes.red
+	targetData['NodesColor']['G'] = sourceData['theme'].nodes.green
+	targetData['NodesColor']['B'] = sourceData['theme'].nodes.blue
+
+	targetData['Thickness'] = sourceData['thickness']
+	targetData['NodesMode'] = sourceData['nodesMode']
+
+	targetData['Indices'] = []
+	for item in sourceData['indices']:
+		index = {}
+		index['Figure'] = 'triangles' if item.figure == 0 else 'points' 
+		index['Offset'] = item.offset
+		index['Count'] = item.count
+		targetData['Indices'].append(index)
+
+	targetData['Vertices'] = []
+	for item in sourceData['vertices']:
+		vertex = {}
+		vertex['X'] = item.x
+		vertex['Y'] = item.y
+		vertex['Z'] = item.z
+		targetData['Vertices'].append(vertex)
+
+	response = JsonResponse({ "result": 0, "data": targetData })
+	return response
 
 def Undo(request, docId):
 	result = wrapper.UndoAPI(docId)

@@ -8,7 +8,7 @@ urlpatterns = [
     path('CloseDocument/<int:docId>/', views.CloseDocument, name='CloseDocument'),
 
     path('SetStyleData/', views.SetStyleData, name='SetStyleData'),
-    path('GetRenderingData/<int:docId>/', views.GetRenderingData, name='GetRenderingData'), #todo
+    path('GetRenderingData/<int:docId>/', views.GetRenderingData, name='GetRenderingData'),
 
     path('Undo/<int:docId>/', views.Undo, name='Undo'),
     path('Redo/<int:docId>/', views.Redo, name='Redo'),
