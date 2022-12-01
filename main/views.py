@@ -18,6 +18,7 @@ def index(request):
 	context = { 'url': deploy['url'] }
 	return HttpResponse(template.render(context, request))
 
+#IN
 '''
 {
 	"theme": {
@@ -42,6 +43,7 @@ def index(request):
 }
 '''
 
+#IN
 '''
 {
 	"cuts": [
@@ -199,32 +201,142 @@ def Commit(request, docId):
 	response = JsonResponse({ "result": result })
 	return response
 
+#IN
+'''
+{
+	"positions": [
+		{
+			"x": 1,
+			"y": 2
+		},
+		{
+			"x": 3,
+			"y": 4
+		}
+	]
+}
+'''
+
 def CreateLine(request):
-	pass
+	if request.method != 'POST':
+		return
+
+	docId = request.POST['docId']
+	data = json.loads(request.POST['data'])
+
+	start = wrapper.CPosition(data['positions'][0]['x'], data['positions'][0]['y'])
+	end = wrapper.CPosition(data['positions'][1]['x'], data['positions'][1]['y'])
+
+	objId = wrapper.CreateLineAPI(docId, start, end)
+
+	response = JsonResponse({ "result": 0, "objId": objId })
+	return response
+
+#IN
+'''
+{
+	"index": 1,
+	"position": {
+		"x": 1,
+		"y": 2
+	}
+}
+'''
 
 def EditLine(request):
-	pass
+	if request.method != 'POST':
+		return
 
-def DeleteLine(request):
-	pass
+	docId = request.POST['docId']
+	objId = request.POST['objId']
+	data = json.loads(request.POST['data'])
+
+	pos = wrapper.CPosition(data['position']['x'], data['position']['y'])
+
+	result = wrapper.EditLineAPI(docId, objId, data['index'], pos)
+
+	response = JsonResponse({ "result": result })
+	return response
+
+def DeleteLine(request, docId, objId):
+	result = wrapper.DeleteLineAPI(docId, objId)
+	response = JsonResponse({ "result": result })
+	return response
+
+#OUT
+'''
+{
+	"result": 0,
+	"position": {
+		"x": 1,
+		"y": 2
+	}
+}
+'''
 
 def GetLineNode(request, docId, objId, index):
-	pass
+	node = wrapper.GetLineNodeAPI(docId, objId, index)
+
+	pos = {}
+	pos['x'] = node.x
+	pos['y'] = node.y
+
+	response = JsonResponse({ "result": 0, "position": pos })
+	return response
 
 def GetLineLength(request, docId, objId):
-	pass
+	length = wrapper.GetLineLengthAPI(docId, objId)
+	response = JsonResponse({ "result": 0, "length": length })
+	return response
 
 def GetLineAngle(request, docId, objId):
-	pass
+	angle = wrapper.GetLineAngleAPI(docId, objId)
+	response = JsonResponse({ "result": 0, "angle": angle })
+	return response
+
+#IN
+'''
+{
+	"radius": 0.15,
+	"position": {
+		"x": 1,
+		"y": 2
+	}
+}
+'''
 
 def IsLineUnderCursor(request):
-	pass
+	if request.method != 'POST':
+		return
+
+	docId = request.POST['docId']
+	objId = request.POST['objId']
+	data = json.loads(request.POST['data'])
+
+	pos = wrapper.CPosition(data['position']['x'], data['position']['y'])
+
+	topology = wrapper.IsLineUnderCursorAPI(docId, objId, pos, data['radius'])
+
+	response = JsonResponse({ "result": 0, "topology": topology })
+	return response
+
+#OUT
+'''
+{
+	"result": 0,
+	"objects": [0, 1, 2, 3]
+}
+'''
 
 def GetAllObjects(request, docId):
-	pass
+	objects = wrapper.GetAllObjectsAPI(docId)
+	response = JsonResponse({ "result": 0, "objects": objects })
+	return response
 
 def HighlightObject(request, docId, objId):
-	pass
+	result = wrapper.HighlightObjectAPI(docId, objId)
+	response = JsonResponse({ "result": result })
+	return response
 
 ################
 

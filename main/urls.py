@@ -14,17 +14,17 @@ urlpatterns = [
     path('Redo/<int:docId>/', views.Redo, name='Redo'),
     path('Commit/<int:docId>/', views.Commit, name='Commit'),
 
-    path('CreateLine/', views.CreateLine, name='CreateLine'), #todo
-    path('EditLine/', views.EditLine, name='EditLine'), #todo
-    path('DeleteLine/', views.DeleteLine, name='DeleteLine'), #todo
+    path('CreateLine/', views.CreateLine, name='CreateLine'),
+    path('EditLine/', views.EditLine, name='EditLine'),
+    path('DeleteLine/<int:docId>/<int:objId>/', views.DeleteLine, name='DeleteLine'),
 
-    path('GetLineNode/<int:docId>/<int:objId>/<int:index>/', views.GetLineNode, name='GetLineNode'), #todo
-    path('GetLineLength/<int:docId>/<int:objId>/', views.GetLineLength, name='GetLineLength'), #todo
-    path('GetLineAngle/<int:docId>/<int:objId>/', views.GetLineAngle, name='GetLineAngle'), #todo
-    path('IsLineUnderCursor/', views.IsLineUnderCursor, name='IsLineUnderCursor'), #todo
+    path('GetLineNode/<int:docId>/<int:objId>/<int:index>/', views.GetLineNode, name='GetLineNode'),
+    path('GetLineLength/<int:docId>/<int:objId>/', views.GetLineLength, name='GetLineLength'),
+    path('GetLineAngle/<int:docId>/<int:objId>/', views.GetLineAngle, name='GetLineAngle'),
+    path('IsLineUnderCursor/', views.IsLineUnderCursor, name='IsLineUnderCursor'),
 
-    path('GetAllObjects/<int:docId>/', views.GetAllObjects, name='GetAllObjects'), #todo
-    path('HighlightObject/<int:docId>/<int:objId>/', views.HighlightObject, name='HighlightObject'), #todo
+    path('GetAllObjects/<int:docId>/', views.GetAllObjects, name='GetAllObjects'),
+    path('HighlightObject/<int:docId>/<int:objId>/', views.HighlightObject, name='HighlightObject')
 
 
     # Old1 API #
