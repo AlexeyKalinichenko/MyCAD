@@ -39,7 +39,7 @@ export class Connector {
         xhr.open("GET", requestUrl, false);
         xhr.send();
 
-        console.log("Response: " + xhr.responseText);    
+        console.log("Response: " + xhr.responseText);
         return JSON.parse(xhr.responseText);
     };
 

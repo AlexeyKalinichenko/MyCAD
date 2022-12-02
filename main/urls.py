@@ -8,7 +8,7 @@ urlpatterns = [
     path('CloseDocument/<int:docId>/', views.CloseDocument, name='CloseDocument'),
 
     path('SetStyleData/', views.SetStyleData, name='SetStyleData'),
-    path('GetRenderingData/<int:docId>/', views.GetRenderingData, name='GetRenderingData'),
+    path('GetRenderingData/<int:docId>/', views.GetRenderingData, name='GetRenderingData'), #check
 
     path('Undo/<int:docId>/', views.Undo, name='Undo'),
     path('Redo/<int:docId>/', views.Redo, name='Redo'),
@@ -18,11 +18,11 @@ urlpatterns = [
     path('EditLine/', views.EditLine, name='EditLine'),
     path('DeleteLine/<int:docId>/<int:objId>/', views.DeleteLine, name='DeleteLine'),
 
-    path('GetLineNode/<int:docId>/<int:objId>/<int:index>/', views.GetLineNode, name='GetLineNode'),
-    path('GetLineLength/<int:docId>/<int:objId>/', views.GetLineLength, name='GetLineLength'),
-    path('GetLineAngle/<int:docId>/<int:objId>/', views.GetLineAngle, name='GetLineAngle'),
-    path('IsLineUnderCursor/', views.IsLineUnderCursor, name='IsLineUnderCursor'),
+    path('GetLineNode/<int:docId>/<int:objId>/<int:index>/', views.GetLineNode, name='GetLineNode'), #check
+    path('GetLineLength/<int:docId>/<int:objId>/', views.GetLineLength, name='GetLineLength'), #check
+    path('GetLineAngle/<int:docId>/<int:objId>/', views.GetLineAngle, name='GetLineAngle'), #check
+    path('IsLineUnderCursor/', views.IsLineUnderCursor, name='IsLineUnderCursor'), #check
 
-    path('GetAllObjects/<int:docId>/', views.GetAllObjects, name='GetAllObjects'),
-    path('HighlightObject/<int:docId>/<int:objId>/', views.HighlightObject, name='HighlightObject')
+    path('GetAllObjects/<int:docId>/', views.GetAllObjects, name='GetAllObjects'), #check
+    path('HighlightObject/<int:docId>/<int:objId>/', views.HighlightObject, name='HighlightObject') #check
 ]
