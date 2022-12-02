@@ -47,6 +47,9 @@ Cut * mc_close_document(DocumentId docId)
 {
 	std::vector<Line> lines = pSession->CloseDocument(docId);
 
+	if (lines.empty())
+		return nullptr;
+
 	StorageDataBuffer.clear();
 
 	for (auto it = lines.begin(); it != lines.end(); ++it)

@@ -100,9 +100,13 @@ def CloseDocumentAPI(docId):
 
 	core.mc_close_document.argtypes = [ctypes.c_int]
 	core.mc_close_document.restype = ctypes.POINTER(CCut * size)
-	result = core.mc_close_document(docId)
+	cuts = core.mc_close_document(docId)
 
-	return [i for i in result.contents]
+	result = []
+	if cuts:
+		result = [i for i in cuts.contents]
+
+	return result
 
 def SetColorThemeAPI(docId, theme):
 	core.mc_set_color_theme.argtypes = [ctypes.c_int, CColorTheme]
