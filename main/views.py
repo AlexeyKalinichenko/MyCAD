@@ -144,7 +144,7 @@ def CloseDocument(request, docId):
 
 def SetStyleData(request):
 	if request.method == 'POST':
-		docId = request.POST['docId']
+		docId = int(request.POST['docId'])
 
 		styleJson = request.POST['data']
 		styleObject = json.loads(styleJson)
@@ -304,7 +304,7 @@ def CreateLine(request):
 	if request.method != 'POST':
 		return
 
-	docId = request.POST['docId']
+	docId = int(request.POST['docId'])
 	data = json.loads(request.POST['data'])
 
 	start = wrapper.CPosition(data['positions'][0]['x'], data['positions'][0]['y'])
@@ -330,8 +330,8 @@ def EditLine(request):
 	if request.method != 'POST':
 		return
 
-	docId = request.POST['docId']
-	objId = request.POST['objId']
+	docId = int(request.POST['docId'])
+	objId = int(request.POST['objId'])
 	data = json.loads(request.POST['data'])
 
 	pos = wrapper.CPosition(data['position']['x'], data['position']['y'])
@@ -392,8 +392,8 @@ def IsLineUnderCursor(request):
 	if request.method != 'POST':
 		return
 
-	docId = request.POST['docId']
-	objId = request.POST['objId']
+	docId = int(request.POST['docId'])
+	objId = int(request.POST['objId'])
 	data = json.loads(request.POST['data'])
 
 	pos = wrapper.CPosition(data['position']['x'], data['position']['y'])
