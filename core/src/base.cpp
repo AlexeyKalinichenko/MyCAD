@@ -15,10 +15,13 @@ std::vector<Line> Base::Upload()
 {
     std::vector<Line> objects;
 
-    auto lastState = _history.end() - 1;
+    if (!_history.empty())
+    {
+        auto lastState = _history.end() - 1;
 
-    for (auto it = lastState->begin(); it != lastState->end(); ++it)
-        objects.push_back(it->second);
+        for (auto it = lastState->begin(); it != lastState->end(); ++it)
+            objects.push_back(it->second);
+    }
 
     return objects;
 }
