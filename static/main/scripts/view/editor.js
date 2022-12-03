@@ -271,3 +271,70 @@ export class Editor {
 }
 
 export let Ed = new Editor();
+
+/*
+let vertices = [
+    // X Y Z R G B
+    //Сoordinate system
+    0.0,   0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,  // triangle 1 color - #ed6a5e
+    0.04,  0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+    0.005, 0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+
+    0.005, 0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,  // triangle 2 color - #ed6a5e
+    0.04,  0.0   * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+    0.04,  0.005 * Editor.Coef, 0.0, 0.93, 0.42, 0.37,
+
+    0.0,   0.0   * Editor.Coef, 0.0, 0.38, 0.76, 0.33,  // triangle 3 color - #60c253
+    0.0,   0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+    0.005, 0.005 * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+
+    0.005, 0.005 * Editor.Coef, 0.0, 0.38, 0.76, 0.33,  // triangle 4 color - #60c253
+    0.0,   0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+    0.005, 0.04  * Editor.Coef, 0.0, 0.38, 0.76, 0.33,
+
+    // LINE 1
+    -0.4, 0.4012 * Editor.Coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
+     0.4, 0.4    * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+    -0.4, 0.4    * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+
+     0.4, 0.4    * Editor.Coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
+     0.4, 0.4012 * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+    -0.4, 0.4012 * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+
+    // LINE 2
+    -0.4, 0.3025 * Editor.Coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
+     0.4, 0.3    * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+    -0.4, 0.3    * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+
+     0.4, 0.3    * Editor.Coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
+     0.4, 0.3025 * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+    -0.4, 0.3025 * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+
+    // LINE 3
+    -0.4, 0.205 * Editor.Coef, 0.0, 0.85, 0.87, 0.91,  // triangle 1
+     0.4, 0.2   * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+    -0.4, 0.2   * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+
+     0.4, 0.2   * Editor.Coef, 0.0, 0.85, 0.87, 0.91,  // triangle 2
+     0.4, 0.205 * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+    -0.4, 0.205 * Editor.Coef, 0.0, 0.85, 0.87, 0.91,
+
+    // NODE 11
+     0.4, 0.4006 * Editor.Coef, 0.0, 0.98, 0.68, 0.35,  // point 1
+
+    // NODE 12
+    -0.4, 0.4006 * Editor.Coef, 0.0, 0.98, 0.68, 0.35,  // point 2
+
+    // NODE 21
+     0.4, 0.3012 * Editor.Coef, 0.0, 0.98, 0.68, 0.35,  // point 1
+
+    // NODE 22
+    -0.4, 0.3012 * Editor.Coef, 0.0, 0.98, 0.68, 0.35,  // point 2
+
+    // NODE 31
+     0.4, 0.2025 * Editor.Coef, 0.0, 0.98, 0.68, 0.35,  // point 1
+
+    // NODE 32
+    -0.4, 0.2025 * Editor.Coef, 0.0, 0.98, 0.68, 0.35,  // point 2
+];
+*/
