@@ -13,13 +13,12 @@ void Base::Load(const std::vector<Line> & lines)
 
 std::vector<Line> Base::Upload()
 {
-    std::vector<Line> objects;
+   std::vector<Line> objects;
 
     if (!_history.empty())
     {
-        auto lastState = _history.end() - 1;
-
-        for (auto it = lastState->begin(); it != lastState->end(); ++it)
+        std::map<ObjectId, Line> lastState = _history.at(_stepsCounter);
+        for (auto it = lastState.begin(); it != lastState.end(); ++it)
             objects.push_back(it->second);
     }
 
