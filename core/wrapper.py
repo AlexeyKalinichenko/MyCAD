@@ -158,8 +158,8 @@ def GetRenderingDataAPI(docId):
 		"theme": data.theme,
 		"thickness": data.thickness,
 		"nodesMode": data.nodesMode,
-		"indices": [i for i in data.indices.contents],
-		"vertices": [i for i in data.vertices.contents]
+		"indices": [i for i in data.indices.contents] if data.indices else [],
+		"vertices": [i for i in data.vertices.contents] if data.vertices else []
 	}
 
 	return result
@@ -226,7 +226,11 @@ def GetAllObjectsAPI(docId):
 	core.mc_get_all_objects.restype = ctypes.POINTER(ctypes.c_int * size)
 	objs = core.mc_get_all_objects(docId)
 
-	return [i for i in objs.contents]
+	result = []
+	if objs:
+		result = [i for i in objs.contents]
+
+	return result
 
 def HighlightObjectAPI(docId, objId):
 	core.mc_highlight_object.argtypes = [ctypes.c_int, ctypes.c_int]

@@ -104,6 +104,13 @@ RenderingData mc_get_rendering_data(DocumentId docId)
 	data.thickness = dataInt.thickness;
 	data.nodesMode = dataInt.nodesMode;
 
+	if (dataInt.indices.empty())
+	{
+		data.indices = nullptr;
+		data.vertices = nullptr;
+		return data;
+	}
+	
 	IndicesBuffer = dataInt.indices;
 	VerticesBuffer = dataInt.vertices;
 
@@ -224,7 +231,6 @@ unsigned mc_get_objects_buffer_size(DocumentId docId)
 {
 	Base & base = pSession->GetDocument(docId).GetBase();
 	std::vector<ObjectId> objects = base.GetObjects();
-
 	return objects.size();
 }
 
@@ -232,6 +238,9 @@ ObjectId * mc_get_all_objects(DocumentId docId)
 {
 	Base & base = pSession->GetDocument(docId).GetBase();
 	std::vector<ObjectId> objects = base.GetObjects();
+
+	if (objects.empty())
+		return nullptr;
 
 	ObjectsBuffer = objects;
 

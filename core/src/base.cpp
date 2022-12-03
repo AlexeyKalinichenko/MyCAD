@@ -46,8 +46,11 @@ std::vector<ObjectId> Base::GetObjects()
 {
     std::vector<ObjectId> ids;
 
-    for (auto it = _state.begin(); it != _state.end(); ++it)
-        ids.push_back(it->first);
+    if (!_state.empty())
+    {
+        for (auto it = _state.begin(); it != _state.end(); ++it)
+            ids.push_back(it->first);
+    }
 
     return ids;
 }

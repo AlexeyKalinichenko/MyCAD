@@ -59,6 +59,8 @@ RenderingDataInt Document::GetRenderingData(bool clearHighlightedObjects)
     data.nodesMode = _nodesMode;
 
     auto ids = _base.GetObjects();
+    if (ids.empty())
+        return data;
 
     for (auto id = ids.begin(); id != ids.end(); ++id)
     {
