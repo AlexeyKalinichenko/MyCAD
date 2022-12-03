@@ -153,8 +153,50 @@ function requestDeleteLine()
     getRequest(command);
 }
 
+function requestGetLineNode()
+{
+	let command = url + 'GetLineNode/0/1/0/';
+    getRequest(command);
+}
 
+function requestGetLineLength()
+{
+	let command = url + 'GetLineLength/0/0/';
+    getRequest(command);
+}
 
+function requestGetLineAngle()
+{
+	let command = url + 'GetLineAngle/0/0/';
+    getRequest(command);
+}
+
+function requestIsLineUnderCursor()
+{
+	let command = url + 'IsLineUnderCursor/';
+	let data = { radius: 0.5, position: { x: 3, y: 3 } };
+    let body = 'docId=' + encodeURIComponent(0) + '&objId=' + encodeURIComponent(0) +
+		'&data=' + encodeURIComponent(JSON.stringify(data));
+	postRequest(command, body)
+}
+
+function GetAllObjects()
+{
+	let command = url + 'GetAllObjects/0/';
+    getRequest(command);
+}
+
+function HighlightObject()
+{
+	let command = url + 'HighlightObject/0/0/';
+    getRequest(command);
+}
+
+function requestGetRenderingData()
+{
+	let command = url + 'GetRenderingData/0/';
+    getRequest(command);
+}
 
 function requestCloseDocument()
 {
@@ -181,6 +223,14 @@ requestCommit();
 requestUndo();
 requestRedo();
 
-requestCloseDocument();
+requestGetLineNode();
+requestGetLineLength();
+requestGetLineAngle();
+requestIsLineUnderCursor();
 
-let check = true;
+GetAllObjects();
+HighlightObject();
+
+requestGetRenderingData();
+
+requestCloseDocument();
