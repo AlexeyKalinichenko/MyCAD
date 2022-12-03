@@ -61,4 +61,4 @@ export class Connector {
     };
 }
 
-export let Cn = new Connector();
+//export let Cn = new Connector();
