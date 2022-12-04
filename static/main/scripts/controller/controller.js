@@ -49,6 +49,16 @@ export class Controller {
     {
         curOperation.MouseEvent(x, y);
     };
+
+    CheckOperationStatus = function()
+    {
+        // todo
+    };
+
+    RollbackOperation = function()
+    {
+        // todo
+    };
 }
 
 export let Cn = new Controller();
