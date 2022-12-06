@@ -97,3 +97,14 @@ void Base::Commit()
         ++_stepsCounter;
     }
 }
+
+void Base::Rollback()
+{
+    if (_history.empty())
+    {
+        _state.clear();
+        return;
+    }
+
+    _state = _history.at(_stepsCounter);
+}

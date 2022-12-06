@@ -13,6 +13,7 @@ urlpatterns = [
     path('Undo/<int:docId>/', views.Undo, name='Undo'),
     path('Redo/<int:docId>/', views.Redo, name='Redo'),
     path('Commit/<int:docId>/', views.Commit, name='Commit'),
+    path('Rollback/<int:docId>/', views.Commit, name='Rollback'),
 
     path('CreateLine/', views.CreateLine, name='CreateLine'),
     path('EditLine/', views.EditLine, name='EditLine'),

@@ -16,7 +16,8 @@ export class Connector {
         HighlightObject: "HighlightObject/2",
         Undo:   "Undo/1",
         Redo:   "Redo/1",
-        Commit: "Commit/1"
+        Commit: "Commit/1",
+        Rollback: "Rollback/1"
     };
 
     static ServerResponseEnum = {

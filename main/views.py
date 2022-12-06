@@ -284,6 +284,11 @@ def Commit(request, docId):
 	response = JsonResponse({ "result": result })
 	return response
 
+def Rollback(request, docId):
+	result = wrapper.RollbackAPI(docId)
+	response = JsonResponse({ "result": result })
+	return response
+
 #IN
 '''
 {

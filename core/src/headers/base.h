@@ -29,6 +29,7 @@ public:
     void Undo();
     void Redo();
     void Commit();
+    void Rollback();
 };
 
 #endif //__BASE_H__

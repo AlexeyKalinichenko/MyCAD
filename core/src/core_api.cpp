@@ -153,6 +153,17 @@ Status mc_commit(DocumentId docId)
 	return Status::Ok;
 }
 
+Status mc_rollback(DocumentId docId)
+{
+	Document & document = pSession->GetDocument(docId);
+	Base & base = document.GetBase();
+
+	base.Rollback();
+	document.MarkAsChanged();
+
+	return Status::Ok;
+}
+
 ObjectId mc_create_line(DocumentId docId, Position start, Position end)
 {
 	Document & document = pSession->GetDocument(docId);

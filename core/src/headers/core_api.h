@@ -24,6 +24,7 @@ CORE_API RenderingData mc_get_rendering_data(DocumentId docId);
 CORE_API Status mc_undo(DocumentId docId);
 CORE_API Status mc_redo(DocumentId docId);
 CORE_API Status mc_commit(DocumentId docId);
+CORE_API Status mc_rollback(DocumentId docId);
 
 CORE_API ObjectId mc_create_line(DocumentId docId, Position start, Position end);
 CORE_API Status mc_edit_line(DocumentId docId, ObjectId objId, LineTopology index, Position pos);

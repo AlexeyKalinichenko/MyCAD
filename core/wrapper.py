@@ -179,6 +179,11 @@ def CommitAPI(docId):
 	core.mc_commit.restype = ctypes.c_int
 	return core.mc_commit(docId)
 
+def RollbackAPI(docId):
+	core.mc_rollback.argtypes = [ctypes.c_int]
+	core.mc_rollback.restype = ctypes.c_int
+	return core.mc_rollback(docId)
+
 def CreateLineAPI(docId, start, end):
 	core.mc_create_line.argtypes = [ctypes.c_int, CPosition, CPosition]
 	core.mc_create_line.restype = ctypes.c_int
