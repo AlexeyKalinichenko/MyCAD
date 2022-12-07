@@ -68,7 +68,7 @@ export class ApplicationController {
 
     RollbackOperation = function()
     {
-        Ct.RequestGet(Connector.RequestEnum.Rollback, [0]); // todo: doc ID
+        Ct.RequestGet(Connector.RequestEnum.Rollback, [0]); // document ID
     };
 
     Operate = function()

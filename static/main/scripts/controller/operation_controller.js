@@ -22,6 +22,8 @@ export class OperationController {
     curButton = ButtonId.None;
     curMousePos = { x: null, y: null };
 
+    result = "";
+
     Run = function()
     {
         this.curStep = 0;
@@ -61,6 +63,11 @@ export class OperationController {
     };
 
     GetStatus = function() { return this.curStatus; }
+
+    GetResult = function()
+    {
+        return (curStatus == OperationStatus.Completed) ? result : "";
+    }
 
     Operate = function() {};
 }
