@@ -1,6 +1,6 @@
 import {OperationController} from "./operation_controller.js";
-import {Connector, Ct} from "./connector.js";
-import "./operations";
+import {Connector, Cn} from "./connector.js";
+import "./operations.js";
 
 export class ApplicationController {
 
@@ -20,7 +20,7 @@ export class ApplicationController {
 
     curOperation = null;
 
-    curButton = ButtonId.None;
+    curButton = OperationController.ButtonId.None;
     curMousePos = { x: null, y: null };
 
     RunOperation = function(opId)
@@ -71,17 +71,20 @@ export class ApplicationController {
 
     SetIntData = function(data)
     {
-        this.curOperation.SetIntData(data);
+        if (this.curOperation)
+            this.curOperation.SetIntData(data);
     };
 
     SetDoubleData = function(data)
     {
-        this.curOperation.SetDoubleData(data);
+        if (this.curOperation)
+            this.curOperation.SetDoubleData(data);
     };
 
     SetStringData = function(data)
     {
-        this.curOperation.SetStringData(data);
+        if (this.curOperation)
+            this.curOperation.SetStringData(data);
     };
 
     ButtonEvent = function(butId)
@@ -89,7 +92,8 @@ export class ApplicationController {
         this.curButton = butId;
         this.Operate();
 
-        this.curOperation.ButtonEvent(butId);
+        if (this.curOperation)
+            this.curOperation.ButtonEvent(butId);
     };
 
     MouseEvent = function(x, y)
@@ -98,22 +102,29 @@ export class ApplicationController {
         this.curMousePos.y = y;
         this.Operate();
 
-        this.curOperation.MouseEvent(x, y);
+        if (this.curOperation)
+            this.curOperation.MouseEvent(x, y);
     };
 
     CheckOperationStatus = function()
     {
-        st = this.curOperation.GetStatus();
-        if (st == OperationController.OperationStatus.Inactive ||
-            st == OperationController.OperationStatus.Completed)
-            this.curOperation = null;
+        if (this.curOperation)
+        {
+            st = this.curOperation.GetStatus();
+            if (st == OperationController.OperationStatus.Inactive ||
+                st == OperationController.OperationStatus.Completed)
+                this.curOperation = null;
+        }
     };
 
     RollbackOperation = function()
     {
-        let documentId = 0;
-        Ct.RequestGet(Connector.RequestEnum.Rollback, [documentId]);
-        this.curOperation = null;
+        if (this.curOperation)
+        {
+            let documentId = 0;
+            Cn.RequestGet(Connector.RequestEnum.Rollback, [documentId]);
+            this.curOperation = null;
+        }
     };
 
     Operate = function()
@@ -122,4 +133,4 @@ export class ApplicationController {
     };
 }
 
-export let Cn = new Controller();
+export let Ac = new ApplicationController();

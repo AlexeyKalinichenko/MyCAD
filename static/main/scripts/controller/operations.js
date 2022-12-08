@@ -1,5 +1,5 @@
 import {OperationController} from "./operation_controller.js";
-import {Connector, Ct} from "./connector.js";
+import {Connector, Cn} from "./connector.js";
 
 export class OpenDocumentOperation extends OperationController {
 

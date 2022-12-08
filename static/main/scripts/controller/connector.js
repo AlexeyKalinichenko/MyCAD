@@ -83,4 +83,4 @@ export class Connector {
     };
 }
 
-export let Ct = new Connector();
+export let Cn = new Connector();
