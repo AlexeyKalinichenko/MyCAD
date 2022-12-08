@@ -1,18 +1,21 @@
 import {OperationController} from "./operation_controller.js";
 import {Connector, Ct} from "./connector.js";
+import "./operations";
 
 export class ApplicationController {
 
     static OperationId = {
-        Undo: 0,
-        Redo: 1,
-        Line: 2,
-        Clear: 3,
-        SnapToNode: 4,
-        SnapToAngle: 5,
-        Nodes: 6,
-        Thickness: 7,
-        Theme: 8
+        OpenDocument: 0,
+        CloseDocument: 1,
+        Undo: 2,
+        Redo: 3,
+        Line: 4,
+        Clear: 5,
+        SnapToNode: 6,
+        SnapToAngle: 7,
+        Nodes: 8,
+        Thickness: 9,
+        Theme: 10
     };
 
     curOperation = null;
@@ -22,7 +25,47 @@ export class ApplicationController {
 
     RunOperation = function(opId)
     {
-        this.curOperation = opId;
+        let operation = null;
+
+        switch(opId) {
+            case OperationId.OpenDocument:
+                operation = new OpenDocumentOperation();
+                break;
+            case OperationId.CloseDocument:
+                operation = new CloseDocumentOperation();
+                break;
+            case OperationId.Undo:
+                operation = new UndoOperation();
+                break;
+            case OperationId.Redo:
+                operation = new RedoOperation();
+                break;
+            case OperationId.Line:
+                operation = new LineOperation();
+                break;
+            case OperationId.Clear:
+                operation = new ClearOperation();
+                break;
+            case OperationId.SnapToNode:
+                operation = new SnapToNodeOperation();
+                break;
+            case OperationId.SnapToAngle:
+                operation = new SnapToAngleOperation();
+                break;
+            case OperationId.Nodes:
+                operation = new NodesOperation();
+                break;
+            case OperationId.Thickness:
+                operation = new ThicknessOperation();
+                break;
+            case OperationId.Theme:
+                operation = new ThemeOperation();
+                break;
+            default:
+                console.log("Invalid operation ID");
+        }
+
+        this.curOperation = operation;
         this.curOperation.Run();
     };
 
@@ -68,7 +111,9 @@ export class ApplicationController {
 
     RollbackOperation = function()
     {
-        Ct.RequestGet(Connector.RequestEnum.Rollback, [0]); // document ID
+        let documentId = 0;
+        Ct.RequestGet(Connector.RequestEnum.Rollback, [documentId]);
+        this.curOperation = null;
     };
 
     Operate = function()
