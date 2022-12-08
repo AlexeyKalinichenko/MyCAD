@@ -1,6 +1,6 @@
 import {OperationController} from "./operation_controller.js";
 import {Connector, Cn} from "./connector.js";
-import "./operations.js";
+import * as op from "./operations.js";
 
 export class ApplicationController {
 
@@ -28,38 +28,38 @@ export class ApplicationController {
         let operation = null;
 
         switch(opId) {
-            case OperationId.OpenDocument:
-                operation = new OpenDocumentOperation();
+            case ApplicationController.OperationId.OpenDocument:
+                operation = new op.OpenDocumentOperation();
                 break;
-            case OperationId.CloseDocument:
-                operation = new CloseDocumentOperation();
+            case ApplicationController.OperationId.CloseDocument:
+                operation = new op.CloseDocumentOperation();
                 break;
-            case OperationId.Undo:
-                operation = new UndoOperation();
+            case ApplicationController.OperationId.Undo:
+                operation = new op.UndoOperation();
                 break;
-            case OperationId.Redo:
-                operation = new RedoOperation();
+            case ApplicationController.OperationId.Redo:
+                operation = new op.RedoOperation();
                 break;
-            case OperationId.Line:
-                operation = new LineOperation();
+            case ApplicationController.OperationId.Line:
+                operation = new op.LineOperation();
                 break;
-            case OperationId.Clear:
-                operation = new ClearOperation();
+            case ApplicationController.OperationId.Clear:
+                operation = new op.ClearOperation();
                 break;
-            case OperationId.SnapToNode:
-                operation = new SnapToNodeOperation();
+            case ApplicationController.OperationId.SnapToNode:
+                operation = new op.SnapToNodeOperation();
                 break;
-            case OperationId.SnapToAngle:
-                operation = new SnapToAngleOperation();
+            case ApplicationController.OperationId.SnapToAngle:
+                operation = new op.SnapToAngleOperation();
                 break;
-            case OperationId.Nodes:
-                operation = new NodesOperation();
+            case ApplicationController.OperationId.Nodes:
+                operation = new op.NodesOperation();
                 break;
-            case OperationId.Thickness:
-                operation = new ThicknessOperation();
+            case ApplicationController.OperationId.Thickness:
+                operation = new op.ThicknessOperation();
                 break;
-            case OperationId.Theme:
-                operation = new ThemeOperation();
+            case ApplicationController.OperationId.Theme:
+                operation = new op.ThemeOperation();
                 break;
             default:
                 console.log("Invalid operation ID");
@@ -71,18 +71,24 @@ export class ApplicationController {
 
     SetIntData = function(data)
     {
+        this.CheckOperationStatus();
+
         if (this.curOperation)
             this.curOperation.SetIntData(data);
     };
 
     SetDoubleData = function(data)
     {
+        this.CheckOperationStatus();
+
         if (this.curOperation)
             this.curOperation.SetDoubleData(data);
     };
 
     SetStringData = function(data)
     {
+        this.CheckOperationStatus();
+
         if (this.curOperation)
             this.curOperation.SetStringData(data);
     };
@@ -91,6 +97,8 @@ export class ApplicationController {
     {
         this.curButton = butId;
         this.Operate();
+
+        this.CheckOperationStatus();
 
         if (this.curOperation)
             this.curOperation.ButtonEvent(butId);
@@ -101,6 +109,8 @@ export class ApplicationController {
         this.curMousePos.x = x;
         this.curMousePos.y = y;
         this.Operate();
+
+        this.CheckOperationStatus();
 
         if (this.curOperation)
             this.curOperation.MouseEvent(x, y);
@@ -119,6 +129,8 @@ export class ApplicationController {
 
     RollbackOperation = function()
     {
+        this.CheckOperationStatus();
+
         if (this.curOperation)
         {
             let documentId = 0;

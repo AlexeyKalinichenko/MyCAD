@@ -13,13 +13,13 @@ export class OperationController {
     };
 
     curStep = -1;
-    curStatus = OperationStatus.Inactive;
+    curStatus = OperationController.OperationStatus.Inactive;
 
     indData = null;
     doubleData = null;
     stringData = null;
 
-    curButton = ButtonId.None;
+    curButton = OperationController.ButtonId.None;
     curMousePos = { x: null, y: null };
 
     result = "";
@@ -27,7 +27,7 @@ export class OperationController {
     Run = function()
     {
         this.curStep = 0;
-        this.curStatus = OperationStatus.Inprogress;
+        this.curStatus = OperationController.OperationStatus.Inprogress;
         this.Operate();
     };
 
@@ -66,7 +66,7 @@ export class OperationController {
 
     GetResult = function()
     {
-        return (curStatus == OperationStatus.Completed) ? result : "";
+        return (curStatus == OperationController.OperationStatus.Completed) ? result : "";
     }
 
     Operate = function() {};

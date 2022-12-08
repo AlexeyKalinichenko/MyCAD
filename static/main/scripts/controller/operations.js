@@ -5,7 +5,8 @@ export class OpenDocumentOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        //let body = null
+        //Cn.RequestPost(Connector.RequestEnum.OpenDocument, body);
     };
 }
 
