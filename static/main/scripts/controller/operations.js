@@ -18,7 +18,9 @@ export class CloseDocumentOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        let documentId = 0;
+        Cn.RequestGet(Connector.RequestEnum.CloseDocument, [documentId], true);
+        this.curStatus = OperationController.OperationStatus.Completed;
     };
 }
 

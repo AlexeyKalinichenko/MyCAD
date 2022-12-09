@@ -42,16 +42,19 @@ export class Connector {
         return result;
     };
 
-    RequestGet = function(request, params = []) {
+    RequestGet = function(request, params = [], async = false) {
         let requestUrl = this.GetUrl(request, params);
         console.log("Request: " + requestUrl);
 
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", requestUrl, false);
+        xhr.open("GET", requestUrl, async);
         xhr.send();
 
-        console.log("Response: " + xhr.responseText);
-        return JSON.parse(xhr.responseText);
+        if (!async)
+        {
+            console.log("Response: " + xhr.responseText);
+            return JSON.parse(xhr.responseText);
+        }
     };
 
     RequestPost = function(request, body) {
