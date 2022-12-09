@@ -120,7 +120,7 @@ export class ApplicationController {
     {
         if (this.curOperation)
         {
-            st = this.curOperation.GetStatus();
+            let st = this.curOperation.GetStatus();
             if (st == OperationController.OperationStatus.Inactive ||
                 st == OperationController.OperationStatus.Completed)
                 this.curOperation = null;

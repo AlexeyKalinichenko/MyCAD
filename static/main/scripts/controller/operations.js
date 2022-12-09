@@ -5,8 +5,12 @@ export class OpenDocumentOperation extends OperationController {
 
     Operate = function()
     {
-        //let body = null
-        //Cn.RequestPost(Connector.RequestEnum.OpenDocument, body);
+        if (this.stringData)
+        {
+            let body = 'data=' + encodeURIComponent(this.stringData);
+            Cn.RequestPost(Connector.RequestEnum.OpenDocument, body);
+            this.curStatus = OperationController.OperationStatus.Completed;
+        }
     };
 }
 

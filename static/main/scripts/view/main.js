@@ -10,6 +10,30 @@ window.onload = function() {
     Ui.SetDisplayMode(St.ColorTheme, St.Thickness, St.SnapToMode, St.NodesMode);
     Ed.SetColorTheme(St.ColorTheme);
     Ac.RunOperation(ApplicationController.OperationId.OpenDocument);
+
+    let style = {
+	    theme: {
+		    objects: {
+				red: 0.1,
+				green: 0.2,
+				blue: 0.3
+			},
+		    highlight: {
+				red: 0.4,
+				green: 0.5,
+				blue: 0.6
+			},
+		    nodes: {
+				red: 0.7,
+				green: 0.8,
+				blue: 0.9
+			}
+	    },
+	    thickness: 0.15,
+	    nodesMode: false
+    };
+
+    Ac.SetStringData(JSON.stringify(style));
 };
 
 window.onunload = function() {

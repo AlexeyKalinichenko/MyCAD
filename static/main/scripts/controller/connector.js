@@ -62,21 +62,7 @@ export class Connector {
         xhr.open('POST', requestUrl, false);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('X-CSRFToken', csrf_token);
-
-        let bodyString = '';
-        let counter = 0;
-
-        for (let key in body)
-        {
-            if (counter > 0)
-                bodyString = bodyString + '&';
-
-            bodyString = bodyString + 'key=' + encodeURIComponent(body[key]);
-
-            ++counter;
-        }
-    
-        xhr.send(bodyString);
+        xhr.send(body);
 
         console.log("Response: " + xhr.responseText);
         return JSON.parse(xhr.responseText);
