@@ -28,7 +28,9 @@ export class UndoOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        let documentId = 0;
+        Cn.RequestGet(Connector.RequestEnum.Undo, [documentId]);
+        this.curStatus = OperationController.OperationStatus.Completed;
     };
 }
 
@@ -36,7 +38,9 @@ export class RedoOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        let documentId = 0;
+        Cn.RequestGet(Connector.RequestEnum.Redo, [documentId]);
+        this.curStatus = OperationController.OperationStatus.Completed;
     };
 }
 
