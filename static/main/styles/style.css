@@ -13,6 +13,10 @@ html {
   --offsetBotX1: 20px;
   --offsetBotX2: 30px;
   --offsetBotX3: calc(100vw - 220px);
+
+  --thicknessOne: 0.1;
+  --thicknessTwo: 0.2;
+  --thicknessThree: 0.3;
 }
 
 .Dark-Theme {
@@ -42,6 +46,10 @@ html {
   --SnapToAngleButtonFocusColor: var(--MenuBgFocusColor);
   --NodesButtonBgColor: var(--ButtonBgColor);
   --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
+
+  --ObjectsColor: rgb(231, 237, 243);
+  --HighlightedColor: rgb(212, 158, 21);
+  --NodesColor: rgb(12, 225, 37);
 }
 
 .Light-Theme {
@@ -71,6 +79,10 @@ html {
   --SnapToAngleButtonFocusColor: var(--MenuBgFocusColor);
   --NodesButtonBgColor: var(--ButtonBgColor);
   --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
+
+  --ObjectsColor: rgb(36, 37, 37);
+  --HighlightedColor: rgb(159, 114, 0);
+  --NodesColor: rgb(145, 199, 152);
 }
 
 .window {

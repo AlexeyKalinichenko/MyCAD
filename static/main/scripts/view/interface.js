@@ -6,7 +6,13 @@ export class Interface {
     static ThicknessEnum  = { One: "one", Two: "two", Three: "three" };
     static SnapToModeEnum = { None: "none", Node: "node", Angle: "angle", Both: "both" };
     static NodesModeEnum  = { On: "on", Off: "off" };
-    
+
+    static ObjectColorsEnum = {
+        Objects: 0,
+        Highlighted: 1,
+        Nodes: 2
+    };
+
     static UIElementsEnum = {
         ButtonUndo: "undo",
         ButtonRedo: "redo",
@@ -336,6 +342,68 @@ export class Interface {
             this.SetElementImage("img5", "light.png");
         else
             this.SetElementImage("img5", "dark.png");
+    };
+
+    GetCurrentColor = function(objectType)
+    {
+        let parameter = null;
+
+        switch(objectType) {
+            case Interface.ObjectColorsEnum.Objects:
+                parameter = "--ObjectsColor";
+                break;
+            case Interface.ObjectColorsEnum.Highlighted:
+                parameter = "--HighlightedColor";
+                break;
+            case Interface.ObjectColorsEnum.Nodes:
+                parameter = "--NodesColor";
+                break;
+        }
+
+        let selector = null;
+
+        switch(this.DisplayMode.ColorTheme) {
+            case Interface.ColorThemeEnum.Dark:
+                selector = ".Dark-Theme";
+                break;
+            case Interface.ColorThemeEnum.Light:
+                selector = ".Light-Theme";
+                break;
+        }
+
+        let st = window.getComputedStyle(document.querySelector(selector));
+        let color = st.getPropertyValue(parameter);
+
+        let colorArray = color.match(/\d{1,}/g);
+        let result = [];
+        colorArray.forEach((element) => {
+            result.push(Number((Number(element) / 255).toFixed(2)));
+        });
+
+        let alpha = 1;
+        result.push(alpha);
+
+        return result;
+    };
+
+    GetCurrentThickness = function()
+    {
+        let parameter = null;
+
+        switch(this.DisplayMode.Thickness) {
+            case Interface.ThicknessEnum.One:
+                parameter = "--thicknessOne";
+                break;
+            case Interface.ThicknessEnum.Two:
+                parameter = "--thicknessTwo";
+                break;
+            case Interface.ThicknessEnum.Three:
+                parameter = "--thicknessThree";
+                break;
+        }
+
+        let st = window.getComputedStyle(document.querySelector("html"));
+        return Number(st.getPropertyValue(parameter));
     };
 }
 

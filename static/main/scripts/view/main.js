@@ -11,26 +11,33 @@ window.onload = function() {
     Ed.SetColorTheme(St.ColorTheme);
     Ac.RunOperation(ApplicationController.OperationId.OpenDocument);
 
+    let objectsArray = Ui.GetCurrentColor(Interface.ObjectColorsEnum.Objects);
+    let highlightArray = Ui.GetCurrentColor(Interface.ObjectColorsEnum.Highlighted);
+    let nodesArray = Ui.GetCurrentColor(Interface.ObjectColorsEnum.Nodes);
+
+    let currentThickness = Ui.GetCurrentThickness();
+    let currentNodesMode = (St.NodesMode == Storage.NodesModeEnum.On);
+
     let style = {
 	    theme: {
 		    objects: {
-				red: 0.1,
-				green: 0.2,
-				blue: 0.3
+				red: objectsArray[0],
+				green: objectsArray[1],
+				blue: objectsArray[2]
 			},
 		    highlight: {
-				red: 0.4,
-				green: 0.5,
-				blue: 0.6
+				red: highlightArray[0],
+				green: highlightArray[1],
+				blue: highlightArray[2]
 			},
 		    nodes: {
-				red: 0.7,
-				green: 0.8,
-				blue: 0.9
+				red: nodesArray[0],
+				green: nodesArray[1],
+				blue: nodesArray[2]
 			}
 	    },
-	    thickness: 0.15,
-	    nodesMode: false
+	    thickness: currentThickness,
+	    nodesMode: currentNodesMode
     };
 
     Ac.SetStringData(JSON.stringify(style));
