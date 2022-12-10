@@ -80,7 +80,13 @@ export class NodesOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        if (this.stringData)
+        {
+            let documentId = 0;
+            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(this.stringData);
+            Cn.RequestPost(Connector.RequestEnum.SetStyleData, body);
+            this.curStatus = OperationController.OperationStatus.Completed;
+        }
     };
 }
 
@@ -88,7 +94,13 @@ export class ThicknessOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        if (this.stringData)
+        {
+            let documentId = 0;
+            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(this.stringData);
+            Cn.RequestPost(Connector.RequestEnum.SetStyleData, body);
+            this.curStatus = OperationController.OperationStatus.Completed;
+        }
     };
 }
 
@@ -96,6 +108,12 @@ export class ThemeOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        if (this.stringData)
+        {
+            let documentId = 0;
+            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(this.stringData);
+            Cn.RequestPost(Connector.RequestEnum.SetStyleData, body);
+            this.curStatus = OperationController.OperationStatus.Completed;
+        }
     };
 }

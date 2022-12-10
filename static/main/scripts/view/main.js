@@ -19,25 +19,25 @@ window.onload = function() {
     let currentNodesMode = (St.NodesMode == Storage.NodesModeEnum.On);
 
     let style = {
-	    theme: {
-		    objects: {
-				red: objectsArray[0],
-				green: objectsArray[1],
-				blue: objectsArray[2]
-			},
-		    highlight: {
-				red: highlightArray[0],
-				green: highlightArray[1],
-				blue: highlightArray[2]
-			},
-		    nodes: {
-				red: nodesArray[0],
-				green: nodesArray[1],
-				blue: nodesArray[2]
-			}
-	    },
-	    thickness: currentThickness,
-	    nodesMode: currentNodesMode
+        theme: {
+            objects: {
+                red: objectsArray[0],
+                green: objectsArray[1],
+                blue: objectsArray[2]
+            },
+            highlight: {
+                red: highlightArray[0],
+                green: highlightArray[1],
+                blue: highlightArray[2]
+            },
+            nodes: {
+                red: nodesArray[0],
+                green: nodesArray[1],
+                blue: nodesArray[2]
+            }
+        },
+        thickness: currentThickness,
+        nodesMode: currentNodesMode
     };
 
     Ac.SetStringData(JSON.stringify(style));
@@ -165,6 +165,11 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonNodes, () => {
     }
 
     Ac.RunOperation(ApplicationController.OperationId.Nodes);
+
+    let currentNodesMode = (St.NodesMode == Storage.NodesModeEnum.On);
+    let style = { nodesMode: currentNodesMode };
+
+    Ac.SetStringData(JSON.stringify(style));
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness, () => {
@@ -175,21 +180,39 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness1, () => {
     St.Thickness = Storage.ThicknessEnum.One;
     St.SaveState();
     Ui.SetThickness(Interface.ThicknessEnum.One);
+
     Ac.RunOperation(ApplicationController.OperationId.Thickness);
+
+    let currentThickness = Ui.GetCurrentThickness();
+    let style = { thickness: currentThickness };
+
+    Ac.SetStringData(JSON.stringify(style));
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness2, () => {
     St.Thickness = Storage.ThicknessEnum.Two;
     St.SaveState();
     Ui.SetThickness(Interface.ThicknessEnum.Two);
+
     Ac.RunOperation(ApplicationController.OperationId.Thickness);
+
+    let currentThickness = Ui.GetCurrentThickness();
+    let style = { thickness: currentThickness };
+
+    Ac.SetStringData(JSON.stringify(style));
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness3, () => {
     St.Thickness = Storage.ThicknessEnum.Three;
     St.SaveState();
     Ui.SetThickness(Interface.ThicknessEnum.Three);
+
     Ac.RunOperation(ApplicationController.OperationId.Thickness);
+
+    let currentThickness = Ui.GetCurrentThickness();
+    let style = { thickness: currentThickness };
+
+    Ac.SetStringData(JSON.stringify(style));
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonTheme, () => {
@@ -209,4 +232,30 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonTheme, () => {
     }
 
     Ac.RunOperation(ApplicationController.OperationId.Theme);
+
+    let objectsArray = Ui.GetCurrentColor(Interface.ObjectColorsEnum.Objects);
+    let highlightArray = Ui.GetCurrentColor(Interface.ObjectColorsEnum.Highlighted);
+    let nodesArray = Ui.GetCurrentColor(Interface.ObjectColorsEnum.Nodes);
+
+    let style = {
+        theme: {
+            objects: {
+                red: objectsArray[0],
+                green: objectsArray[1],
+                blue: objectsArray[2]
+            },
+            highlight: {
+                red: highlightArray[0],
+                green: highlightArray[1],
+                blue: highlightArray[2]
+            },
+            nodes: {
+                red: nodesArray[0],
+                green: nodesArray[1],
+                blue: nodesArray[2]
+            }
+	    }
+    };
+
+    Ac.SetStringData(JSON.stringify(style));
 });
