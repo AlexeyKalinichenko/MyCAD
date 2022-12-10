@@ -92,12 +92,4 @@ struct RenderingBuffersSizes
     unsigned verticesSize;
 };
 
-/*
-struct cTest
-{
-    int one;
-    int two;
-};
-*/
-
 #endif //__DEFINITIONS_H__
