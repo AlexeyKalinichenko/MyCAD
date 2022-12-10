@@ -46,9 +46,38 @@ export class RedoOperation extends OperationController {
 
 export class LineOperation extends OperationController {
 
+    startPos = { x: null, y: null };
+
     Operate = function()
     {
-        // todo
+        if (this.curStep == 0)
+        {
+            if (this.selectedMousePos.x != null)
+            {
+                this.startPos.x = this.selectedMousePos.x;
+                this.startPos.y = this.selectedMousePos.y;
+
+                this.selectedMousePos.x = null;
+                this.selectedMousePos.y = null;
+
+                ++this.curStep;
+            }
+        }
+        else if (this.curStep == 1)
+        {
+            if (this.selectedMousePos.x != null)
+            {
+                let documentId = 0;
+                let data = { positions: [
+                        { x: this.startPos.x, y: this.startPos.y },
+                        { x: this.selectedMousePos.x, y: this.selectedMousePos.y }
+                    ] };
+	            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                Cn.RequestPost(Connector.RequestEnum.CreateLine, body);
+                this.curStatus = OperationController.OperationStatus.Completed;
+            }
+        }
     };
 }
 

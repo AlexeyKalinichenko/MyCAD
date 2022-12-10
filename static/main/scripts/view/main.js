@@ -52,8 +52,15 @@ window.onresize = function() {
     Ed.ResizeCanvas();
 };
 
-window.onclick = function() {
+window.onclick = function(event) {
     Ui.HideAllMenu();
+
+    var current = document.elementFromPoint(event.clientX, event.clientY);
+    var canvas = document.getElementById("Editor");
+    let coords = Ed.ConvertCoords(event.clientX, event.clientY);
+
+    if (current === canvas)
+        Ac.MouseClickEvent(coords[0], coords[1]);
 };
 
 window.onmousemove = function(event) {
@@ -67,7 +74,7 @@ window.onmousemove = function(event) {
         Ui.UpdateText(Interface.UIElementsEnum.TitleCoordY, coords[1]);
     }
 
-    Ac.MouseEvent(coords[0], coords[1]);
+    Ac.MouseMoveEvent(coords[0], coords[1]);
 };
 
 window.onkeydown = function(event) {

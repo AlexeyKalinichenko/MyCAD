@@ -9,7 +9,8 @@ export class OperationController {
     static ButtonId = {
         None: -1,
         Enter: 0,
-        Escape: 1
+        Escape: 1,
+        Click: 2
     };
 
     curStep = -1;
@@ -21,6 +22,7 @@ export class OperationController {
 
     curButton = OperationController.ButtonId.None;
     curMousePos = { x: null, y: null };
+    selectedMousePos = { x: null, y: null };
 
     result = "";
 
@@ -55,10 +57,17 @@ export class OperationController {
         this.Operate();
     };
 
-    MouseEvent = function(x, y)
+    MouseMoveEvent = function(x, y)
     {
         this.curMousePos.x = x;
         this.curMousePos.y = y;
+        this.Operate();
+    };
+
+    MouseClickEvent = function(x, y)
+    {
+        this.selectedMousePos.x = x;
+        this.selectedMousePos.y = y;
         this.Operate();
     };
 

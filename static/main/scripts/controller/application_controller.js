@@ -22,6 +22,7 @@ export class ApplicationController {
 
     curButton = OperationController.ButtonId.None;
     curMousePos = { x: null, y: null };
+    selectedMousePos = { x: null, y: null };
 
     RunOperation = function(opId)
     {
@@ -104,7 +105,7 @@ export class ApplicationController {
             this.curOperation.ButtonEvent(butId);
     };
 
-    MouseEvent = function(x, y)
+    MouseMoveEvent = function(x, y)
     {
         this.curMousePos.x = x;
         this.curMousePos.y = y;
@@ -113,7 +114,19 @@ export class ApplicationController {
         this.CheckOperationStatus();
 
         if (this.curOperation)
-            this.curOperation.MouseEvent(x, y);
+            this.curOperation.MouseMoveEvent(x, y);
+    };
+
+    MouseClickEvent = function(x, y)
+    {
+        this.selectedMousePos.x = x;
+        this.selectedMousePos.y = y;
+        this.Operate();
+
+        this.CheckOperationStatus();
+
+        if (this.curOperation)
+            this.curOperation.MouseClickEvent(x, y);
     };
 
     CheckOperationStatus = function()
