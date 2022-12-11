@@ -14,9 +14,9 @@ html {
   --offsetBotX2: 30px;
   --offsetBotX3: calc(100vw - 220px);
 
-  --thicknessOne: 0.1;
-  --thicknessTwo: 0.2;
-  --thicknessThree: 0.3;
+  --thicknessOne: 0.002;
+  --thicknessTwo: 0.004;
+  --thicknessThree: 0.006;
 }
 
 .Dark-Theme {

@@ -152,6 +152,13 @@ export class ApplicationController {
         }
     };
 
+    GetRenderingData = function()
+    {
+        let documentId = 0;
+        let response = Cn.RequestGet(Connector.RequestEnum.GetRenderingData, [documentId]);
+        return response.data;
+    };
+
     Operate = function()
     {
         // todo

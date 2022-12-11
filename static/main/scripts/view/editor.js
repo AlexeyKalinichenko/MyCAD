@@ -13,6 +13,7 @@ export class Editor {
         Vertices: [],   // { X: null, Y: null, Z: null }
         Indices: [],    // { Figure: null, Offset: null, Count: null }
         ObjectsColor: { R: null, G: null, B: null },
+        HighlightColor: { R: null, G: null, B: null },
         NodesColor: { R: null, G: null, B: null }
     };
 
@@ -34,7 +35,13 @@ export class Editor {
     };
 
     DrawScene = function(buffer) {
-        this.SceneBuffer = buffer;
+        this.SceneBuffer.Vertices = Array.from(buffer.Vertices);
+        this.SceneBuffer.Indices = Array.from(buffer.Indices);
+
+        this.SceneBuffer.ObjectsColor = Object.assign({}, buffer.ObjectsColor);
+        this.SceneBuffer.HighlightColor = Object.assign({}, buffer.HighlightColor);
+        this.SceneBuffer.NodesColor = Object.assign({}, buffer.NodesColor);
+
         this.RefreshScene();
     };
 
@@ -53,7 +60,7 @@ export class Editor {
     };
 
     ConvertCoords = function(coordX, coordY) {
-        let offsetX = - 0.009;
+        let offsetX = -0.009;
         let offsetY = 0.009;
 
         let glX = ((coordX - this.gl.viewportWidth / 2) / this.gl.viewportWidth) * 2 + offsetX;
@@ -142,30 +149,33 @@ export class Editor {
 
             let currentFigure = null;
             let currentColor = null;
+            let offset = null;
 
             this.SceneBuffer.Indices.forEach((item) => {
                 let figure = null;
-                let numberOfIndices = null;
 
                 switch (item.Figure) {
                     case "triangles":
                         figure = this.gl.TRIANGLES;
-                        numberOfIndices = 3;
                         break;
                     case "points":
                         figure = this.gl.POINTS;
-                        numberOfIndices = 1;
                         break;
                     default:
                         throw "Invalid figure";
                 }
 
-                if (index >= item.Offset && index < (numberOfIndices * item.Count))
+                if (index >= item.Offset && index < item.Count)
+                {
                     currentFigure = figure;
+                    offset = item.Offset;
+                }
             });
 
-            currentColor = (currentFigure == this.gl.TRIANGLES) ?
-                this.SceneBuffer.ObjectsColor : this.SceneBuffer.NodesColor;
+            if (currentFigure == this.gl.POINTS)
+                currentColor = this.SceneBuffer.NodesColor;
+            else
+                currentColor = (offset == 0) ? this.SceneBuffer.ObjectsColor : this.SceneBuffer.HighlightColor;
 
             result.push(currentColor.R);
             result.push(currentColor.G);
@@ -204,22 +214,19 @@ export class Editor {
     
         this.SceneBuffer.Indices.forEach((element) => {
             let figure = null;
-            let numberOfIndices = null;
 
             switch (element.Figure) {
                 case "triangles":
                     figure = this.gl.TRIANGLES;
-                    numberOfIndices = 3;
                     break;
                 case "points":
                     figure = this.gl.POINTS;
-                    numberOfIndices = 1;
                     break;
                 default:
                     throw "Invalid figure";
             }
 
-            this.gl.drawArrays(figure, element.Offset, numberOfIndices * element.Count);
+            this.gl.drawArrays(figure, element.Offset, element.Count);
         });
     };
 
