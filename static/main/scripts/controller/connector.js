@@ -2,6 +2,7 @@ export class Connector {
 
     static RequestEnum = {
         OpenDocument:  "OpenDocument/",
+        SaveDocument:  "SaveDocument/1",
         CloseDocument: "CloseDocument/1",
         SetStyleData:  "SetStyleData/",
         GetRenderingData: "GetRenderingData/1",

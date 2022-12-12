@@ -17,6 +17,7 @@ public:
     DocumentId CreateDocument(const StyleData & style);
     DocumentId OpenDocument(const StyleData & style, const std::vector<Line> & data);
     std::vector<Line> CloseDocument(DocumentId id);
+    std::vector<Line> SaveDocument(DocumentId id);
     Document & GetDocument(DocumentId id);
 };
 

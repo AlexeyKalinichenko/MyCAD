@@ -43,6 +43,21 @@ unsigned mc_get_storage_buffer_size(DocumentId docId)
 	return lines.size();
 }
 
+Cut * mc_save_document(DocumentId docId)
+{
+	std::vector<Line> lines = pSession->SaveDocument(docId);
+
+	if (lines.empty())
+		return nullptr;
+
+	StorageDataBuffer.clear();
+
+	for (auto it = lines.begin(); it != lines.end(); ++it)
+		StorageDataBuffer.push_back(LineToCut(*it));
+
+	return StorageDataBuffer.data();
+}
+
 Cut * mc_close_document(DocumentId docId)
 {
 	std::vector<Line> lines = pSession->CloseDocument(docId);

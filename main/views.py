@@ -113,6 +113,33 @@ def OpenDocument(request):
 		response = JsonResponse({ "result": result, "docId": docId })
 		return response
 
+def SaveDocument(request, docId):
+	data = wrapper.SaveDocumentAPI(docId)
+
+	dataObject = {}
+	dataObject['cuts'] = []
+
+	for item in data:
+		cut = {}
+		cut['start'] = {}
+		cut['start']['x'] = item.start.x
+		cut['start']['y'] = item.start.y
+		cut['end'] = {}
+		cut['end']['x'] = item.end.x
+		cut['end']['y'] = item.end.y
+
+		dataObject['cuts'].append(cut)
+
+	dataJson = json.dumps(dataObject)
+
+	filePath = os.path.join(os.getcwd(), 'data', 'document.json')
+	f = open(filePath, "w")
+	f.write(dataJson)
+	f.close()
+
+	response = JsonResponse({ "result": 0 })
+	return response
+
 def CloseDocument(request, docId):
 	data = wrapper.CloseDocumentAPI(docId)
 

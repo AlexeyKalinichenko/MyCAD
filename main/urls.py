@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     path('OpenDocument/', views.OpenDocument, name='OpenDocument'),
+    path('SaveDocument/<int:docId>/', views.SaveDocument, name='SaveDocument'),
     path('CloseDocument/<int:docId>/', views.CloseDocument, name='CloseDocument'),
 
     path('SetStyleData/', views.SetStyleData, name='SetStyleData'),

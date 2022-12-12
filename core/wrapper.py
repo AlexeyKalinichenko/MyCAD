@@ -95,6 +95,19 @@ def GetStorageBufferSizeAPI(docId):
 	core.mc_get_storage_buffer_size.restype = ctypes.c_uint
 	return core.mc_get_storage_buffer_size(docId)
 
+def SaveDocumentAPI(docId):
+	size = GetStorageBufferSizeAPI(docId)
+
+	core.mc_save_document.argtypes = [ctypes.c_int]
+	core.mc_save_document.restype = ctypes.POINTER(CCut * size)
+	cuts = core.mc_save_document(docId)
+
+	result = []
+	if cuts:
+		result = [i for i in cuts.contents]
+
+	return result
+
 def CloseDocumentAPI(docId):
 	size = GetStorageBufferSizeAPI(docId)
 

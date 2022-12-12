@@ -12,6 +12,7 @@ CORE_API Status mc_close_session();
 CORE_API DocumentId mc_create_document(StyleData style);
 CORE_API DocumentId mc_open_document(StyleData style, Cut * data, unsigned size);
 CORE_API unsigned mc_get_storage_buffer_size(DocumentId docId);
+CORE_API Cut * mc_save_document(DocumentId docId);
 CORE_API Cut * mc_close_document(DocumentId docId);
 
 CORE_API Status mc_set_color_theme(DocumentId docId, ColorTheme theme);

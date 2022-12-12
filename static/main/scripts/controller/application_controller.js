@@ -163,6 +163,7 @@ export class ApplicationController {
     GetRenderingData = function()
     {
         let documentId = 0;
+        Cn.RequestGet(Connector.RequestEnum.SaveDocument, [documentId]);
         let response = Cn.RequestGet(Connector.RequestEnum.GetRenderingData, [documentId]);
         return response.data;
     };

@@ -27,6 +27,12 @@ std::vector<Line> Session::CloseDocument(DocumentId id)
     return document.Save();
 }
 
+std::vector<Line> Session::SaveDocument(DocumentId id)
+{
+    auto document = _documents.at(id);
+    return document.Save();
+}
+
 Document & Session::GetDocument(DocumentId id)
 {
     return _documents.at(id);
