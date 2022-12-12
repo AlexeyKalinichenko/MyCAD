@@ -78,6 +78,9 @@ export class LineOperation extends OperationController {
 	            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(JSON.stringify(data));
 
                 Cn.RequestPost(Connector.RequestEnum.CreateLine, body);
+                Cn.RequestGet(Connector.RequestEnum.Commit, [documentId]);
+                Cn.RequestGet(Connector.RequestEnum.SaveDocument, [documentId]);
+
                 this.curStatus = OperationController.OperationStatus.Completed;
                 this.refrashSceneCallback();
             }

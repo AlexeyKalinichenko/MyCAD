@@ -60,11 +60,10 @@ export class Editor {
     };
 
     ConvertCoords = function(coordX, coordY) {
-        let offsetX = -0.009;
-        let offsetY = 0.009;
+        let offsetY = 0.045;
 
-        let glX = ((coordX - this.gl.viewportWidth / 2) / this.gl.viewportWidth) * 2 + offsetX;
-        let glY = ((this.gl.viewportHeight / 2 - coordY) / this.gl.viewportHeight) * 2 + offsetY;
+        let glX = (coordX - this.gl.viewportWidth / 2) / this.gl.viewportWidth * 2;
+        let glY = ((this.gl.viewportHeight / 2 - coordY) / this.gl.viewportHeight) + offsetY;
 
         return [glX, glY];
     };
