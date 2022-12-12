@@ -22,7 +22,7 @@ html {
 .Dark-Theme {
   --BgColor: #22262a;
   --EditorBgColor: rgb(48, 56, 65);
-  --ButtonBgColor: #47525d;
+  --ButtonBgColor: #47525c;
   --ButtonBgSelectedColor: #eecda6;
   --ButtonTextColor: #cccccc;
   --ButtonTextSelectedColor: #47525d;
@@ -80,9 +80,9 @@ html {
   --NodesButtonBgColor: var(--ButtonBgColor);
   --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
 
-  --ObjectsColor: rgb(36, 37, 37);
-  --HighlightedColor: rgb(159, 114, 0);
-  --NodesColor: rgb(145, 199, 152);
+  --ObjectsColor: rgb(125, 137, 148);
+  --HighlightedColor: rgb(212, 158, 21);
+  --NodesColor: rgb(12, 225, 37);
 }
 
 .window {
