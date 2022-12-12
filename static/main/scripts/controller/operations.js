@@ -50,6 +50,7 @@ export class RedoOperation extends OperationController {
 export class LineOperation extends OperationController {
 
     startPos = { x: null, y: null };
+    lineId = null;
 
     Operate = function()
     {
@@ -68,22 +69,46 @@ export class LineOperation extends OperationController {
         }
         else if (this.curStep == 1)
         {
-            if (this.selectedMousePos.x != null)
+            if (this.curMousePos.x != null)
             {
                 let documentId = 0;
                 let data = { positions: [
                     { x: this.startPos.x, y: this.startPos.y },
-                    { x: this.selectedMousePos.x, y: this.selectedMousePos.y }
+                    { x: this.curMousePos.x, y: this.curMousePos.y }
                 ] };
 	            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(JSON.stringify(data));
 
-                Cn.RequestPost(Connector.RequestEnum.CreateLine, body);
-                Cn.RequestGet(Connector.RequestEnum.Commit, [documentId]);
-                Cn.RequestGet(Connector.RequestEnum.SaveDocument, [documentId]);
+                let response = Cn.RequestPost(Connector.RequestEnum.CreateLine, body);
+                this.lineId = response.objId;
 
-                this.curStatus = OperationController.OperationStatus.Completed;
+                ++this.curStep;
+            }
+        }
+        else if (this.curStep == 2)
+        {
+            if (this.curMousePos.x != null)
+            {
+                let documentId = 0;
+                let data = { index: 1, position: { x: this.curMousePos.x, y: this.curMousePos.y } };
+                let body = 'docId=' + encodeURIComponent(documentId) + '&objId=' + encodeURIComponent(this.lineId) +
+                    '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                Cn.RequestPost(Connector.RequestEnum.EditLine, body);
                 this.refrashSceneCallback();
             }
+
+            if (this.selectedMousePos.x != null)
+            {
+                ++this.curStep;
+            }
+        }
+        else if (this.curStep == 3)
+        {
+            let documentId = 0;
+            Cn.RequestGet(Connector.RequestEnum.Commit, [documentId]);
+            Cn.RequestGet(Connector.RequestEnum.SaveDocument, [documentId]);
+            this.curStatus = OperationController.OperationStatus.Completed;
+            this.refrashSceneCallback();
         }
     };
 }
