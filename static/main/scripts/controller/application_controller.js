@@ -24,6 +24,13 @@ export class ApplicationController {
     curMousePos = { x: null, y: null };
     selectedMousePos = { x: null, y: null };
 
+    refrashSceneCallback = null;
+
+    SetRefrashSceneCallback = function(callback)
+    {
+        this.refrashSceneCallback = callback;
+    };
+
     RunOperation = function(opId)
     {
         let operation = null;
@@ -67,6 +74,7 @@ export class ApplicationController {
         }
 
         this.curOperation = operation;
+        this.curOperation.SetRefrashSceneCallback(this.refrashSceneCallback);
         this.curOperation.Run();
     };
 

@@ -10,6 +10,7 @@ export class OpenDocumentOperation extends OperationController {
             let body = 'data=' + encodeURIComponent(this.stringData);
             Cn.RequestPost(Connector.RequestEnum.OpenDocument, body);
             this.curStatus = OperationController.OperationStatus.Completed;
+            this.refrashSceneCallback();
         }
     };
 }
@@ -31,6 +32,7 @@ export class UndoOperation extends OperationController {
         let documentId = 0;
         Cn.RequestGet(Connector.RequestEnum.Undo, [documentId]);
         this.curStatus = OperationController.OperationStatus.Completed;
+        this.refrashSceneCallback();
     };
 }
 
@@ -41,6 +43,7 @@ export class RedoOperation extends OperationController {
         let documentId = 0;
         Cn.RequestGet(Connector.RequestEnum.Redo, [documentId]);
         this.curStatus = OperationController.OperationStatus.Completed;
+        this.refrashSceneCallback();
     };
 }
 
@@ -76,6 +79,7 @@ export class LineOperation extends OperationController {
 
                 Cn.RequestPost(Connector.RequestEnum.CreateLine, body);
                 this.curStatus = OperationController.OperationStatus.Completed;
+                this.refrashSceneCallback();
             }
         }
     };
@@ -115,6 +119,7 @@ export class NodesOperation extends OperationController {
             let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(this.stringData);
             Cn.RequestPost(Connector.RequestEnum.SetStyleData, body);
             this.curStatus = OperationController.OperationStatus.Completed;
+            this.refrashSceneCallback();
         }
     };
 }
@@ -129,6 +134,7 @@ export class ThicknessOperation extends OperationController {
             let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(this.stringData);
             Cn.RequestPost(Connector.RequestEnum.SetStyleData, body);
             this.curStatus = OperationController.OperationStatus.Completed;
+            this.refrashSceneCallback();
         }
     };
 }
@@ -143,6 +149,7 @@ export class ThemeOperation extends OperationController {
             let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(this.stringData);
             Cn.RequestPost(Connector.RequestEnum.SetStyleData, body);
             this.curStatus = OperationController.OperationStatus.Completed;
+            this.refrashSceneCallback();
         }
     };
 }

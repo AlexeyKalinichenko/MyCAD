@@ -9,6 +9,7 @@ window.onload = function() {
     St.LoadState();
     Ui.SetDisplayMode(St.ColorTheme, St.Thickness, St.SnapToMode, St.NodesMode);
     Ed.SetColorTheme(St.ColorTheme);
+    Ac.SetRefrashSceneCallback(() => { Ed.DrawScene(Ac.GetRenderingData()); });
     Ac.RunOperation(ApplicationController.OperationId.OpenDocument);
 
     let objectsArray = Ui.GetCurrentColor(Interface.ObjectColorsEnum.Objects);
@@ -41,8 +42,6 @@ window.onload = function() {
     };
 
     Ac.SetStringData(JSON.stringify(style));
-
-    Ed.DrawScene(Ac.GetRenderingData());
 };
 
 window.onunload = function() {
@@ -64,7 +63,6 @@ window.onclick = function(event) {
     if (current === canvas)
     {
         Ac.MouseClickEvent(coords[0], coords[1]);
-        Ed.DrawScene(Ac.GetRenderingData());
     }
 };
 
@@ -80,31 +78,25 @@ window.onmousemove = function(event) {
     }
 
     Ac.MouseMoveEvent(coords[0], coords[1]);
-    Ed.DrawScene(Ac.GetRenderingData());
 };
 
 window.onkeydown = function(event) {
     if (event.code == 'Enter')
     {
         Ac.ButtonEvent(OperationController.ButtonId.Enter);
-        Ed.DrawScene(Ac.GetRenderingData());
     }
     else if (event.code == 'Escape')
     {
         Ac.ButtonEvent(OperationController.ButtonId.Escape);
-        Ed.DrawScene(Ac.GetRenderingData());
     }
 };
 
-
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonUndo, () => {
     Ac.RunOperation(ApplicationController.OperationId.Undo);
-    Ed.DrawScene(Ac.GetRenderingData());
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonRedo, () => {
     Ac.RunOperation(ApplicationController.OperationId.Redo);
-    Ed.DrawScene(Ac.GetRenderingData());
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonLine, () => {
@@ -113,7 +105,6 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonLine, () => {
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonClear, () => {
     Ac.RunOperation(ApplicationController.OperationId.Clear);
-    Ed.DrawScene(Ac.GetRenderingData());
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapTo, () => {
@@ -192,7 +183,6 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonNodes, () => {
     let style = { nodesMode: currentNodesMode };
 
     Ac.SetStringData(JSON.stringify(style));
-    Ed.DrawScene(Ac.GetRenderingData());
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness, () => {
@@ -210,7 +200,6 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness1, () => {
     let style = { thickness: currentThickness };
 
     Ac.SetStringData(JSON.stringify(style));
-    Ed.DrawScene(Ac.GetRenderingData());
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness2, () => {
@@ -224,7 +213,6 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness2, () => {
     let style = { thickness: currentThickness };
 
     Ac.SetStringData(JSON.stringify(style));
-    Ed.DrawScene(Ac.GetRenderingData());
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness3, () => {
@@ -238,7 +226,6 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonThickness3, () => {
     let style = { thickness: currentThickness };
 
     Ac.SetStringData(JSON.stringify(style));
-    Ed.DrawScene(Ac.GetRenderingData());
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonTheme, () => {
@@ -284,5 +271,4 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonTheme, () => {
     };
 
     Ac.SetStringData(JSON.stringify(style));
-    Ed.DrawScene(Ac.GetRenderingData());
 });

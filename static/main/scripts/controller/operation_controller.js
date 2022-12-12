@@ -24,7 +24,14 @@ export class OperationController {
     curMousePos = { x: null, y: null };
     selectedMousePos = { x: null, y: null };
 
+    refrashSceneCallback = null;
+
     result = "";
+
+    SetRefrashSceneCallback = function(callback)
+    {
+        this.refrashSceneCallback = callback;
+    };
 
     Run = function()
     {
