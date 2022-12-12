@@ -72,9 +72,9 @@ export class LineOperation extends OperationController {
             {
                 let documentId = 0;
                 let data = { positions: [
-                        { x: this.startPos.x, y: this.startPos.y },
-                        { x: this.selectedMousePos.x, y: this.selectedMousePos.y }
-                    ] };
+                    { x: this.startPos.x, y: this.startPos.y },
+                    { x: this.selectedMousePos.x, y: this.selectedMousePos.y }
+                ] };
 	            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(JSON.stringify(data));
 
                 Cn.RequestPost(Connector.RequestEnum.CreateLine, body);
