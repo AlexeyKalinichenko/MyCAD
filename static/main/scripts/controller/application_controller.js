@@ -26,6 +26,8 @@ export class ApplicationController {
 
     refrashSceneCallback = null;
 
+    needRefreshScene = false;
+
     SetRefrashSceneCallback = function(callback)
     {
         this.refrashSceneCallback = callback;
@@ -169,7 +171,40 @@ export class ApplicationController {
 
     Operate = function()
     {
-        // todo
+        if (this.curMousePos.x != null && this.curOperation == null)
+        {
+            let documentId = 0;
+            let response1 = Cn.RequestGet(Connector.RequestEnum.GetAllObjects, [documentId]);
+            let sceneObjects = response1.objects;
+
+            let data = { radius: 0.02, position: { x: this.curMousePos.x, y: this.curMousePos.y } };
+
+            let needToHighlight = [];
+
+            for (let object of sceneObjects)
+            {
+                let documentId = 0;
+                let body = 'docId=' + encodeURIComponent(documentId) +
+                    '&objId=' + encodeURIComponent(object) + '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                let response2 = Cn.RequestPost(Connector.RequestEnum.IsLineUnderCursor, body);
+                if (response2.topology != -1)
+                    needToHighlight.push(object);
+            }
+
+            if (this.needRefreshScene)
+            {
+                this.refrashSceneCallback();
+                this.needRefreshScene = false;
+            }
+
+            if (needToHighlight.length != 0)
+            {
+                Cn.RequestGet(Connector.RequestEnum.HighlightObject, [documentId, needToHighlight[0]]);
+                this.refrashSceneCallback();
+                this.needRefreshScene = true;
+            }
+        }
     };
 }
 
