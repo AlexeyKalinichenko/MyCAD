@@ -117,16 +117,23 @@ bool Line::IsPointInLine(const Point & point)
     bool xInside = (std::max(_node1.x, _node2.x) >= point.x) && (std::min(_node1.x, _node2.x) <= point.x);
     bool yInside = (std::max(_node1.y, _node2.y) >= point.y) && (std::min(_node1.y, _node2.y) <= point.y);
 
+    if (Round1(_node1.x) == Round1(_node2.x))
+        return (Round1(point.x) == Round1(_node1.x)) && yInside;
+
+    if (Round1(_node1.y) == Round1(_node2.y))
+        return ((Round1(point.y) == Round1(_node1.y))) && xInside;
+
     if (!xInside || !yInside)
         return false;
 
-    if (_node1.x == _node2.x)
-        return (point.x == _node1.x);
+    float sideA = GetLength();
+    float sideB = CalcDistance(_node1, point);
+    float sideC = CalcDistance(_node2, point);
 
-    if (_node1.y == _node2.y)
-        return (point.y == _node1.y);
+    float p = (sideA + sideB + sideC) / 2;
+    float h = 2 * sqrt(p * (p - sideA) * (p - sideB) * (p - sideC)) / sideA;
 
-    return ((point.x - _node1.x) / (_node2.x - _node1.x) == (point.y - _node1.y) / (_node2.y - _node1.y));
+    return (h <= 0.05);
 }
 
 bool operator==(const Line & op1, const Line & op2)

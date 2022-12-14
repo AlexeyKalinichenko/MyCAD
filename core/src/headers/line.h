@@ -3,6 +3,7 @@
 
 #include "definitions.h"
 #include "point.h"
+#include "utils.h"
 #include <vector>
 #include <utility>
 
