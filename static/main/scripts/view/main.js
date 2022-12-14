@@ -9,7 +9,10 @@ window.onload = function() {
     St.LoadState();
     Ui.SetDisplayMode(St.ColorTheme, St.Thickness, St.SnapToMode, St.NodesMode);
     Ed.SetColorTheme(St.ColorTheme);
-    Ac.SetRefrashSceneCallback(() => { Ed.DrawScene(Ac.GetRenderingData()); });
+    Ac.SetRefrashSceneCallback(() => {
+        Ed.DrawScene(Ac.GetRenderingData());
+        Ui.UpdateText(Interface.UIElementsEnum.TitleObjects, Ac.GetObjectsCount());
+    });
     Ac.RunOperation(ApplicationController.OperationId.OpenDocument);
 
     let objectsArray = Ui.GetCurrentColor(Interface.ObjectColorsEnum.Objects);

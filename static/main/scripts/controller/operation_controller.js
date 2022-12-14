@@ -16,6 +16,8 @@ export class OperationController {
     curStep = -1;
     curStatus = OperationController.OperationStatus.Inactive;
 
+    documentId = -1;
+
     indData = null;
     doubleData = null;
     stringData = null;
@@ -38,6 +40,11 @@ export class OperationController {
         this.curStep = 0;
         this.curStatus = OperationController.OperationStatus.Inprogress;
         this.Operate();
+    };
+
+    SetDocumentId = function(id)
+    {
+        this.documentId = id;
     };
 
     SetIntData = function(data)

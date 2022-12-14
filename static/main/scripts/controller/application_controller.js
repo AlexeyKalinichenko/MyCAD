@@ -20,6 +20,8 @@ export class ApplicationController {
 
     curOperation = null;
 
+    documentId = 0;
+
     curButton = OperationController.ButtonId.None;
     curMousePos = { x: null, y: null };
     selectedMousePos = { x: null, y: null };
@@ -76,6 +78,7 @@ export class ApplicationController {
         }
 
         this.curOperation = operation;
+        this.curOperation.SetDocumentId(this.documentId);
         this.curOperation.SetRefrashSceneCallback(this.refrashSceneCallback);
         this.curOperation.Run();
     };
@@ -156,25 +159,28 @@ export class ApplicationController {
 
         if (this.curOperation)
         {
-            let documentId = 0;
-            Cn.RequestGet(Connector.RequestEnum.Rollback, [documentId]);
+            Cn.RequestGet(Connector.RequestEnum.Rollback, [this.documentId]);
             this.curOperation = null;
         }
     };
 
     GetRenderingData = function()
     {
-        let documentId = 0;
-        let response = Cn.RequestGet(Connector.RequestEnum.GetRenderingData, [documentId]);
+        let response = Cn.RequestGet(Connector.RequestEnum.GetRenderingData, [this.documentId]);
         return response.data;
+    };
+
+    GetObjectsCount = function()
+    {
+        let response = Cn.RequestGet(Connector.RequestEnum.GetAllObjects, [this.documentId]);
+        return response.objects.length;
     };
 
     Operate = function()
     {
         if (this.curMousePos.x != null && this.curOperation == null)
         {
-            let documentId = 0;
-            let response1 = Cn.RequestGet(Connector.RequestEnum.GetAllObjects, [documentId]);
+            let response1 = Cn.RequestGet(Connector.RequestEnum.GetAllObjects, [this.documentId]);
             let sceneObjects = response1.objects;
 
             let data = { radius: 0.02, position: { x: this.curMousePos.x, y: this.curMousePos.y } };
@@ -183,8 +189,7 @@ export class ApplicationController {
 
             for (let object of sceneObjects)
             {
-                let documentId = 0;
-                let body = 'docId=' + encodeURIComponent(documentId) +
+                let body = 'docId=' + encodeURIComponent(this.documentId) +
                     '&objId=' + encodeURIComponent(object) + '&data=' + encodeURIComponent(JSON.stringify(data));
 
                 let response2 = Cn.RequestPost(Connector.RequestEnum.IsLineUnderCursor, body);
@@ -200,7 +205,7 @@ export class ApplicationController {
 
             if (needToHighlight.length != 0)
             {
-                Cn.RequestGet(Connector.RequestEnum.HighlightObject, [documentId, needToHighlight[0]]);
+                Cn.RequestGet(Connector.RequestEnum.HighlightObject, [this.documentId, needToHighlight[0]]);
                 this.refrashSceneCallback();
                 this.needRefreshScene = true;
             }

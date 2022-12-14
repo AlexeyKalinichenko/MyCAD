@@ -19,8 +19,7 @@ export class CloseDocumentOperation extends OperationController {
 
     Operate = function()
     {
-        let documentId = 0;
-        Cn.RequestGet(Connector.RequestEnum.CloseDocument, [documentId], true);
+        Cn.RequestGet(Connector.RequestEnum.CloseDocument, [this.documentId], true);
         this.curStatus = OperationController.OperationStatus.Completed;
     };
 }
@@ -29,8 +28,7 @@ export class UndoOperation extends OperationController {
 
     Operate = function()
     {
-        let documentId = 0;
-        Cn.RequestGet(Connector.RequestEnum.Undo, [documentId]);
+        Cn.RequestGet(Connector.RequestEnum.Undo, [this.documentId]);
         this.curStatus = OperationController.OperationStatus.Completed;
         this.refrashSceneCallback();
     };
@@ -40,8 +38,7 @@ export class RedoOperation extends OperationController {
 
     Operate = function()
     {
-        let documentId = 0;
-        Cn.RequestGet(Connector.RequestEnum.Redo, [documentId]);
+        Cn.RequestGet(Connector.RequestEnum.Redo, [this.documentId]);
         this.curStatus = OperationController.OperationStatus.Completed;
         this.refrashSceneCallback();
     };
@@ -71,12 +68,11 @@ export class LineOperation extends OperationController {
         {
             if (this.curMousePos.x != null)
             {
-                let documentId = 0;
                 let data = { positions: [
                     { x: this.startPos.x, y: this.startPos.y },
                     { x: this.curMousePos.x, y: this.curMousePos.y }
                 ] };
-	            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(JSON.stringify(data));
+	            let body = 'docId=' + encodeURIComponent(this.documentId) + '&data=' + encodeURIComponent(JSON.stringify(data));
 
                 let response = Cn.RequestPost(Connector.RequestEnum.CreateLine, body);
                 this.lineId = response.objId;
@@ -88,9 +84,8 @@ export class LineOperation extends OperationController {
         {
             if (this.curMousePos.x != null)
             {
-                let documentId = 0;
                 let data = { index: 1, position: { x: this.curMousePos.x, y: this.curMousePos.y } };
-                let body = 'docId=' + encodeURIComponent(documentId) + '&objId=' + encodeURIComponent(this.lineId) +
+                let body = 'docId=' + encodeURIComponent(this.documentId) + '&objId=' + encodeURIComponent(this.lineId) +
                     '&data=' + encodeURIComponent(JSON.stringify(data));
 
                 Cn.RequestPost(Connector.RequestEnum.EditLine, body);
@@ -104,9 +99,8 @@ export class LineOperation extends OperationController {
         }
         else if (this.curStep == 3)
         {
-            let documentId = 0;
-            Cn.RequestGet(Connector.RequestEnum.Commit, [documentId]);
-            Cn.RequestGet(Connector.RequestEnum.SaveDocument, [documentId]);
+            Cn.RequestGet(Connector.RequestEnum.Commit, [this.documentId]);
+            Cn.RequestGet(Connector.RequestEnum.SaveDocument, [this.documentId]);
             this.curStatus = OperationController.OperationStatus.Completed;
             this.refrashSceneCallback();
         }
@@ -143,8 +137,7 @@ export class NodesOperation extends OperationController {
     {
         if (this.stringData)
         {
-            let documentId = 0;
-            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(this.stringData);
+            let body = 'docId=' + encodeURIComponent(this.documentId) + '&data=' + encodeURIComponent(this.stringData);
             Cn.RequestPost(Connector.RequestEnum.SetStyleData, body);
             this.curStatus = OperationController.OperationStatus.Completed;
             this.refrashSceneCallback();
@@ -158,8 +151,7 @@ export class ThicknessOperation extends OperationController {
     {
         if (this.stringData)
         {
-            let documentId = 0;
-            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(this.stringData);
+            let body = 'docId=' + encodeURIComponent(this.documentId) + '&data=' + encodeURIComponent(this.stringData);
             Cn.RequestPost(Connector.RequestEnum.SetStyleData, body);
             this.curStatus = OperationController.OperationStatus.Completed;
             this.refrashSceneCallback();
@@ -173,8 +165,7 @@ export class ThemeOperation extends OperationController {
     {
         if (this.stringData)
         {
-            let documentId = 0;
-            let body = 'docId=' + encodeURIComponent(documentId) + '&data=' + encodeURIComponent(this.stringData);
+            let body = 'docId=' + encodeURIComponent(this.documentId) + '&data=' + encodeURIComponent(this.stringData);
             Cn.RequestPost(Connector.RequestEnum.SetStyleData, body);
             this.curStatus = OperationController.OperationStatus.Completed;
             this.refrashSceneCallback();
