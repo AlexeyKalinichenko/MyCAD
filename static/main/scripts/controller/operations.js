@@ -109,11 +109,13 @@ export class LineOperation extends OperationController {
 
 export class ClearOperation extends OperationController {
 
+    highlightObjects = true;
+    
     Operate = function()
     {
         if (this.selectedMousePos.x != null)
         {
-            let objectId = null;
+            let objectId = -1;
 
             let response1 = Cn.RequestGet(Connector.RequestEnum.GetAllObjects, [this.documentId]);
             let sceneObjects = response1.objects;
@@ -133,7 +135,7 @@ export class ClearOperation extends OperationController {
                 }
             }
 
-            if (objectId)
+            if (objectId >= 0)
             {
                 Cn.RequestGet(Connector.RequestEnum.DeleteLine, [this.documentId, objectId]);
                 Cn.RequestGet(Connector.RequestEnum.Commit, [this.documentId]);

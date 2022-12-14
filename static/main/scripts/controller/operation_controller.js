@@ -26,6 +26,8 @@ export class OperationController {
     curMousePos = { x: null, y: null };
     selectedMousePos = { x: null, y: null };
 
+    highlightObjects = false;
+
     refrashSceneCallback = null;
 
     result = "";

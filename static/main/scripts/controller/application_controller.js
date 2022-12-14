@@ -178,7 +178,7 @@ export class ApplicationController {
 
     Operate = function()
     {
-        if (this.curMousePos.x != null && this.curOperation == null)
+        if (this.curMousePos.x != null && (this.curOperation == null || this.curOperation.highlightObjects))
         {
             let response1 = Cn.RequestGet(Connector.RequestEnum.GetAllObjects, [this.documentId]);
             let sceneObjects = response1.objects;
