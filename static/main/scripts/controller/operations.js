@@ -111,7 +111,40 @@ export class ClearOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        if (this.selectedMousePos.x != null)
+        {
+            let objectId = null;
+
+            let response1 = Cn.RequestGet(Connector.RequestEnum.GetAllObjects, [this.documentId]);
+            let sceneObjects = response1.objects;
+
+            let data = { radius: 0.02, position: { x: this.selectedMousePos.x, y: this.selectedMousePos.y } };
+
+            for (let object of sceneObjects)
+            {
+                let body = 'docId=' + encodeURIComponent(this.documentId) +
+                    '&objId=' + encodeURIComponent(object) + '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                let response2 = Cn.RequestPost(Connector.RequestEnum.IsLineUnderCursor, body);
+                if (response2.topology != -1)
+                {
+                    objectId = object;
+                    break;
+                }
+            }
+
+            if (objectId)
+            {
+                Cn.RequestGet(Connector.RequestEnum.DeleteLine, [this.documentId, objectId]);
+                Cn.RequestGet(Connector.RequestEnum.Commit, [this.documentId]);
+                Cn.RequestGet(Connector.RequestEnum.SaveDocument, [this.documentId]);
+                this.curStatus = OperationController.OperationStatus.Completed;
+                this.refrashSceneCallback();
+            }
+
+            this.selectedMousePos.x = null;
+            this.selectedMousePos.y = null;
+        }
     };
 }
 
