@@ -156,7 +156,30 @@ export class LineOperation extends OperationController {
 
                 if (this.snapToAngleMode)
                 {
-                    // todo
+                    let res = Cn.RequestGet(Connector.RequestEnum.GetLineAngle, [this.documentId, this.lineId]);
+
+                    let deltaAngle = 0.052;
+                    let condition1 = res.angle >= 1.57 - deltaAngle && res.angle <= 1.57 + deltaAngle;
+                    let condition2 = res.angle >= 4.71 - deltaAngle && res.angle <= 4.71 + deltaAngle;
+                    let condition3 = res.angle >= 0.00 - deltaAngle && res.angle <= 0.00 + deltaAngle;
+                    let condition4 = res.angle >= 3.14 - deltaAngle && res.angle <= 3.14 + deltaAngle;
+
+                    if (condition1 || condition2)
+                    {
+                        let data = { index: 1, position: { x: this.startPos.x, y: this.curMousePos.y } };
+                        let body = 'docId=' + encodeURIComponent(this.documentId) +
+                            '&objId=' + encodeURIComponent(this.lineId) + '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                        Cn.RequestPost(Connector.RequestEnum.EditLine, body);
+                    }
+                    else if (condition3 || condition4)
+                    {
+                        let data = { index: 1, position: { x: this.curMousePos.x, y: this.startPos.y } };
+                        let body = 'docId=' + encodeURIComponent(this.documentId) +
+                            '&objId=' + encodeURIComponent(this.lineId) + '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                        Cn.RequestPost(Connector.RequestEnum.EditLine, body);
+                    }
                 }
 
                 this.refrashSceneCallback();
