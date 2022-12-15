@@ -30,9 +30,22 @@ export class ApplicationController {
 
     needRefreshScene = false;
 
+    snapToNodeMode = false;
+    snapToAngleMode = false;
+
     SetRefrashSceneCallback = function(callback)
     {
         this.refrashSceneCallback = callback;
+    };
+
+    SetSnapToNodeMode = function(mode)
+    {
+        this.snapToNodeMode = mode;
+    };
+
+    SetSnapToAngleMode = function(mode)
+    {
+        this.snapToAngleMode = mode;
     };
 
     RunOperation = function(opId)
@@ -79,32 +92,40 @@ export class ApplicationController {
 
         this.curOperation = operation;
         this.curOperation.SetDocumentId(this.documentId);
+        this.curOperation.SetSnapToNodeMode(this.snapToNodeMode);
+        this.curOperation.SetSnapToAngleMode(this.snapToAngleMode);
         this.curOperation.SetRefrashSceneCallback(this.refrashSceneCallback);
         this.curOperation.Run();
     };
 
     SetIntData = function(data)
     {
-        this.CheckOperationStatus();
+        this.CheckOperationStatusBefore();
 
         if (this.curOperation)
             this.curOperation.SetIntData(data);
+
+        this.CheckOperationStatusAfter();
     };
 
     SetDoubleData = function(data)
     {
-        this.CheckOperationStatus();
+        this.CheckOperationStatusBefore();
 
         if (this.curOperation)
             this.curOperation.SetDoubleData(data);
+
+        this.CheckOperationStatusAfter();
     };
 
     SetStringData = function(data)
     {
-        this.CheckOperationStatus();
+        this.CheckOperationStatusBefore();
 
         if (this.curOperation)
             this.curOperation.SetStringData(data);
+
+        this.CheckOperationStatusAfter();
     };
 
     ButtonEvent = function(butId)
@@ -112,10 +133,12 @@ export class ApplicationController {
         this.curButton = butId;
         this.Operate();
 
-        this.CheckOperationStatus();
+        this.CheckOperationStatusBefore();
 
         if (this.curOperation)
             this.curOperation.ButtonEvent(butId);
+
+        this.CheckOperationStatusAfter();
     };
 
     MouseMoveEvent = function(x, y)
@@ -124,10 +147,12 @@ export class ApplicationController {
         this.curMousePos.y = y;
         this.Operate();
 
-        this.CheckOperationStatus();
+        this.CheckOperationStatusBefore();
 
         if (this.curOperation)
             this.curOperation.MouseMoveEvent(x, y);
+
+        this.CheckOperationStatusAfter();
     };
 
     MouseClickEvent = function(x, y)
@@ -136,13 +161,15 @@ export class ApplicationController {
         this.selectedMousePos.y = y;
         this.Operate();
 
-        this.CheckOperationStatus();
+        this.CheckOperationStatusBefore();
 
         if (this.curOperation)
             this.curOperation.MouseClickEvent(x, y);
+
+        this.CheckOperationStatusAfter();
     };
 
-    CheckOperationStatus = function()
+    CheckOperationStatusBefore = function()
     {
         if (this.curOperation)
         {
@@ -153,9 +180,22 @@ export class ApplicationController {
         }
     };
 
+    CheckOperationStatusAfter = function()
+    {
+        if (this.curOperation && this.curOperation.GetResult().length > 0)
+        {
+            let data = JSON.parse(this.curOperation.GetResult());
+            
+            if ("SnapToNode" in data)
+                this.snapToNodeMode = data.SnapToNode;
+            else if ("SnapToAngle" in data)
+                this.snapToAngleMode = data.SnapToAngle;
+        }
+    };
+
     RollbackOperation = function()
     {
-        this.CheckOperationStatus();
+        this.CheckOperationStatusBefore();
 
         if (this.curOperation)
         {

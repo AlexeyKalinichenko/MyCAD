@@ -18,7 +18,7 @@ export class OperationController {
 
     documentId = -1;
 
-    indData = null;
+    intData = null;
     doubleData = null;
     stringData = null;
 
@@ -30,11 +30,24 @@ export class OperationController {
 
     refrashSceneCallback = null;
 
+    snapToNodeMode = false;
+    snapToAngleMode = false;
+
     result = "";
 
     SetRefrashSceneCallback = function(callback)
     {
         this.refrashSceneCallback = callback;
+    };
+
+    SetSnapToNodeMode = function(mode)
+    {
+        this.snapToNodeMode = mode;
+    };
+
+    SetSnapToAngleMode = function(mode)
+    {
+        this.snapToAngleMode = mode;
     };
 
     Run = function()
@@ -51,7 +64,7 @@ export class OperationController {
 
     SetIntData = function(data)
     {
-        this.indData = data;
+        this.intData = data;
         this.Operate();
     };
 
@@ -91,7 +104,7 @@ export class OperationController {
 
     GetResult = function()
     {
-        return (curStatus == OperationController.OperationStatus.Completed) ? result : "";
+        return (this.curStatus == OperationController.OperationStatus.Completed) ? this.result : "";
     }
 
     Operate = function() {};

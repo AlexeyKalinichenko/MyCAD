@@ -89,6 +89,17 @@ export class LineOperation extends OperationController {
                     '&data=' + encodeURIComponent(JSON.stringify(data));
 
                 Cn.RequestPost(Connector.RequestEnum.EditLine, body);
+
+                if (this.snapToNodeMode)
+                {
+                    // todo
+                }
+
+                if (this.snapToAngleMode)
+                {
+                    // todo
+                }
+
                 this.refrashSceneCallback();
             }
 
@@ -154,7 +165,14 @@ export class SnapToNodeOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        if (this.intData != null)
+        {
+            this.snapToNodeMode = this.intData;
+            let data = { SnapToNode: this.snapToNodeMode };
+            this.result = JSON.stringify(data);
+            this.intData = null;
+            this.curStatus = OperationController.OperationStatus.Completed;
+        }
     };
 }
 
@@ -162,7 +180,14 @@ export class SnapToAngleOperation extends OperationController {
 
     Operate = function()
     {
-        // todo
+        if (this.intData != null)
+        {
+            this.snapToAngleMode = this.intData;
+            let data = { SnapToAngle: this.snapToAngleMode };
+            this.result = JSON.stringify(data);
+            this.intData = null;
+            this.curStatus = OperationController.OperationStatus.Completed;
+        }
     };
 }
 

@@ -13,6 +13,25 @@ window.onload = function() {
         Ed.DrawScene(Ac.GetRenderingData());
         Ui.UpdateText(Interface.UIElementsEnum.TitleObjects, Ac.GetObjectsCount());
     });
+
+    let snapToNode = false;
+    let snapToAngle = false;
+    switch (St.SnapToMode)
+    {
+        case Storage.SnapToModeEnum.Node:
+            snapToNode = true;
+            break;
+        case Storage.SnapToModeEnum.Angle:
+            snapToAngle = true;
+            break;
+        case Storage.SnapToModeEnum.Both:
+            snapToNode = true;    
+            snapToAngle = true;
+            break;
+    }
+    Ac.SetSnapToNodeMode(snapToNode);
+    Ac.SetSnapToAngleMode(snapToAngle);
+
     Ac.RunOperation(ApplicationController.OperationId.OpenDocument);
 
     let objectsArray = Ui.GetCurrentColor(Interface.ObjectColorsEnum.Objects);
@@ -138,6 +157,19 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapToNode, () => {
     }
 
     Ac.RunOperation(ApplicationController.OperationId.SnapToNode);
+
+    let snapToNode = 0;
+    switch (St.SnapToMode)
+    {
+        case Storage.SnapToModeEnum.Node:
+            snapToNode = 1;
+            break;
+        case Storage.SnapToModeEnum.Both:
+            snapToNode = 1;    
+            break;
+    }
+
+    Ac.SetIntData(snapToNode);
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapToAngle, () => {
@@ -164,6 +196,19 @@ Ui.RegisterHandler(Interface.UIElementsEnum.ButtonSnapToAngle, () => {
     }
 
     Ac.RunOperation(ApplicationController.OperationId.SnapToAngle);
+
+    let snapToAngle = 0;
+    switch (St.SnapToMode)
+    {
+        case Storage.SnapToModeEnum.Angle:
+            snapToAngle = 1;
+            break;
+        case Storage.SnapToModeEnum.Both:   
+            snapToAngle = 1;
+            break;
+    }
+
+    Ac.SetIntData(snapToAngle);
 });
 
 Ui.RegisterHandler(Interface.UIElementsEnum.ButtonNodes, () => {
