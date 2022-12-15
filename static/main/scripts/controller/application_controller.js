@@ -195,8 +195,6 @@ export class ApplicationController {
 
     RollbackOperation = function()
     {
-        this.CheckOperationStatusBefore();
-
         if (this.curOperation)
         {
             Cn.RequestGet(Connector.RequestEnum.Rollback, [this.documentId]);
@@ -218,6 +216,13 @@ export class ApplicationController {
 
     Operate = function()
     {
+        if (this.curButton == OperationController.ButtonId.Escape)
+        {
+            this.RollbackOperation();
+            this.refrashSceneCallback();
+            this.curButton = OperationController.ButtonId.None;
+        }
+        
         if (this.curMousePos.x != null && (this.curOperation == null || this.curOperation.highlightObjects))
         {
             let response1 = Cn.RequestGet(Connector.RequestEnum.GetAllObjects, [this.documentId]);
