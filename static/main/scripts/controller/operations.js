@@ -48,6 +48,7 @@ export class LineOperation extends OperationController {
 
     startPos = { x: null, y: null };
     lineId = null;
+    ids = null;
 
     Operate = function()
     {
@@ -57,6 +58,37 @@ export class LineOperation extends OperationController {
             {
                 this.startPos.x = this.selectedMousePos.x;
                 this.startPos.y = this.selectedMousePos.y;
+
+                this.ids = Cn.RequestGet(Connector.RequestEnum.GetAllObjects, [this.documentId]);
+
+                if (this.snapToNodeMode)
+                {
+                    let sceneObjects = this.ids.objects;
+                    let data = { radius: 0.05, position: { x: this.selectedMousePos.x, y: this.selectedMousePos.y } };
+                    let nearestNode = null;
+
+                    for (let object of sceneObjects)
+                    {
+                        let body = 'docId=' + encodeURIComponent(this.documentId) +
+                            '&objId=' + encodeURIComponent(object) + '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                        let response2 = Cn.RequestPost(Connector.RequestEnum.IsLineUnderCursor, body);
+                        if (response2.topology == 0 || response2.topology == 1)
+                        {
+                            nearestNode = { id: object, topology: response2.topology };
+                            break;
+                        }
+                    }
+
+                    if (nearestNode)
+                    {
+                        let pos = Cn.RequestGet(Connector.RequestEnum.GetLineNode,
+                            [this.documentId, nearestNode.id, nearestNode.topology]);
+                        
+                        this.startPos.x = pos.position.x;
+                        this.startPos.y = pos.position.y;
+                    }
+                }
 
                 this.selectedMousePos.x = null;
                 this.selectedMousePos.y = null;
@@ -92,7 +124,34 @@ export class LineOperation extends OperationController {
 
                 if (this.snapToNodeMode)
                 {
-                    // todo
+                    let sceneObjects = this.ids.objects;
+                    let data = { radius: 0.02, position: { x: this.curMousePos.x, y: this.curMousePos.y } };
+                    let nearestNode = null;
+
+                    for (let object of sceneObjects)
+                    {
+                        let body = 'docId=' + encodeURIComponent(this.documentId) +
+                            '&objId=' + encodeURIComponent(object) + '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                        let response2 = Cn.RequestPost(Connector.RequestEnum.IsLineUnderCursor, body);
+                        if (response2.topology == 0 || response2.topology == 1)
+                        {
+                            nearestNode = { id: object, topology: response2.topology };
+                            break;
+                        }
+                    }
+
+                    if (nearestNode)
+                    {
+                        let pos = Cn.RequestGet(Connector.RequestEnum.GetLineNode,
+                            [this.documentId, nearestNode.id, nearestNode.topology]);
+
+                        let data = { index: 1, position: { x: pos.position.x, y: pos.position.y } };
+                        let body = 'docId=' + encodeURIComponent(this.documentId) +
+                            '&objId=' + encodeURIComponent(this.lineId) + '&data=' + encodeURIComponent(JSON.stringify(data));
+
+                        Cn.RequestPost(Connector.RequestEnum.EditLine, body);
+                    }
                 }
 
                 if (this.snapToAngleMode)
