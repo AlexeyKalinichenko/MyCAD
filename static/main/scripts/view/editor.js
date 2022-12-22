@@ -11,7 +11,7 @@ export class Editor {
 
     SceneBuffer = {
         Vertices: [],   // { X: null, Y: null, Z: null }
-        Indices: [],    // { Figure: null, Offset: null, Count: null }
+        Indices: [],    // { Figure: null, Offset: null, Count: null, Highlight: null }
         ObjectsColor: { R: null, G: null, B: null },
         HighlightColor: { R: null, G: null, B: null },
         NodesColor: { R: null, G: null, B: null }
@@ -164,7 +164,7 @@ export class Editor {
                         throw "Invalid figure";
                 }
 
-                if (index >= item.Offset && index < item.Count)
+                if (index >= item.Offset && index < (item.Offset + item.Count))
                 {
                     currentFigure = figure;
                     currentHighlightMode = item.Highlight;
