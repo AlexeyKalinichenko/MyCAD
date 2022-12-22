@@ -73,7 +73,8 @@ RenderingDataInt Document::GetRenderingData(bool clearHighlightedObjects)
     }
 
     unsigned triangleVerticesCount = data.vertices.size();
-    data.indices.push_back(CreateIndex(Figures::Triangles, 0, triangleVerticesCount));
+    if (triangleVerticesCount > 0)
+        data.indices.push_back(CreateIndex(Figures::Triangles, 0, triangleVerticesCount, false));
 
     unsigned highlightedTriangleVerticesCount = _highlighted.size() * 6;
     if (!_highlighted.empty())
@@ -85,7 +86,7 @@ RenderingDataInt Document::GetRenderingData(bool clearHighlightedObjects)
                 data.vertices.push_back(CreateVertex(point->x, point->y, 0.0f));
         }
 
-        data.indices.push_back(CreateIndex(Figures::Triangles, triangleVerticesCount, highlightedTriangleVerticesCount));
+        data.indices.push_back(CreateIndex(Figures::Triangles, triangleVerticesCount, highlightedTriangleVerticesCount, true));
 
         if (clearHighlightedObjects)
             _highlighted.clear();
@@ -101,7 +102,7 @@ RenderingDataInt Document::GetRenderingData(bool clearHighlightedObjects)
         }
 
         data.indices.push_back(CreateIndex(Figures::Points, triangleVerticesCount + highlightedTriangleVerticesCount,
-            data.vertices.size() - triangleVerticesCount - highlightedTriangleVerticesCount));
+            data.vertices.size() - triangleVerticesCount - highlightedTriangleVerticesCount, false));
     }
 
     return data;
@@ -125,12 +126,13 @@ void Document::MarkAsChanged()
     _needToUpdate = true;
 }
 
-Index CreateIndex(Figures figure, unsigned offset, unsigned count)
+Index CreateIndex(Figures figure, unsigned offset, unsigned count, bool highlight)
 {
     Index index;
     index.figure = figure;
     index.offset = offset;
     index.count = count;
+    index.highlight = highlight;
 
     return index;
 }

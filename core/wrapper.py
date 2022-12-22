@@ -55,7 +55,8 @@ class CIndex(ctypes.Structure):
 	_fields_ = [
 		("figure", ctypes.c_int),
 		("offset", ctypes.c_uint),
-		("count", ctypes.c_uint)
+		("count", ctypes.c_uint),
+		("highlight", ctypes.c_bool)
 	]
 
 class CVertex(ctypes.Structure):

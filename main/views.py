@@ -216,9 +216,9 @@ def SetStyleData(request):
 	"result": 0,
 	"data": {
 		"Indices": [
-			{ "Figure": "triangles", "Offset": 0, "Count": 6 },
-			{ "Figure": "triangles", "Offset": 0, "Count": 6 },
-			{ "Figure": "points", "Offset": 18, "Count": 6 }
+			{ "Figure": "triangles", "Offset": 0, "Count": 6, "Highlight": false },
+			{ "Figure": "triangles", "Offset": 0, "Count": 6, "Highlight": true },
+			{ "Figure": "points", "Offset": 18, "Count": 6, "Highlight": false }
 		],
 		"ObjectsColor": { "R": 0.85, "G": 0.87, "B": 0.91 },
 		"HighlightColor": { "R": 0.98, "G": 0.68, "B": 0.35 },
@@ -283,6 +283,7 @@ def GetRenderingData(request, docId):
 		index['Figure'] = 'triangles' if item.figure == 0 else 'points' 
 		index['Offset'] = item.offset
 		index['Count'] = item.count
+		index['Highlight'] = item.highlight
 		targetData['Indices'].append(index)
 
 	targetData['Vertices'] = []

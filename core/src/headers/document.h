@@ -40,7 +40,7 @@ public:
     void MarkAsChanged();
 };
 
-Index CreateIndex(Figures figure, unsigned offset, unsigned count);
+Index CreateIndex(Figures figure, unsigned offset, unsigned count, bool highlight);
 Vertex CreateVertex(float x, float y, float z);
 
 Cut LineToCut(const Line & line);

@@ -148,7 +148,7 @@ export class Editor {
 
             let currentFigure = null;
             let currentColor = null;
-            let offset = null;
+            let currentHighlightMode = null;
 
             this.SceneBuffer.Indices.forEach((item) => {
                 let figure = null;
@@ -167,14 +167,14 @@ export class Editor {
                 if (index >= item.Offset && index < item.Count)
                 {
                     currentFigure = figure;
-                    offset = item.Offset;
+                    currentHighlightMode = item.Highlight;
                 }
             });
 
             if (currentFigure == this.gl.POINTS)
                 currentColor = this.SceneBuffer.NodesColor;
             else
-                currentColor = (offset == 0) ? this.SceneBuffer.ObjectsColor : this.SceneBuffer.HighlightColor;
+                currentColor = (currentHighlightMode == false) ? this.SceneBuffer.ObjectsColor : this.SceneBuffer.HighlightColor;
 
             result.push(currentColor.R);
             result.push(currentColor.G);

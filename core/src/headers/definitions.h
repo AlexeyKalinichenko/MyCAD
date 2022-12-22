@@ -53,6 +53,7 @@ struct Index
     Figures figure;
     unsigned offset;
     unsigned count;
+    bool highlight;
 };
 
 struct Vertex
