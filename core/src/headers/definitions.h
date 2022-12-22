@@ -13,7 +13,7 @@ enum class Figures { Triangles, Points };
 
 const float Pi = 3.14159265358979323846;
 
-const unsigned HistoryLimit = 5;
+const unsigned HistoryLimit = 11;
 
 struct Color
 {
