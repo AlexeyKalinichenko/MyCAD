@@ -1,0 +1,432 @@
+html {
+  --offsetTopH1: 10px;
+  --offsetTopV1: 10px;
+
+  --separator1: 10px;
+  --separator2: 10px;
+
+  --offsetTopH2: calc(var(--offsetTopH1) + var(--separator1));
+  --offsetTopH3: calc(var(--offsetTopH2) + var(--separator2));
+
+  --offsetBotY: -3px;
+
+  --offsetBotX1: 20px;
+  --offsetBotX2: 30px;
+  --offsetBotX3: calc(100vw - 220px);
+
+  --thicknessOne: 0.002;
+  --thicknessTwo: 0.004;
+  --thicknessThree: 0.006;
+}
+
+.Dark-Theme {
+  --BgColor: #22262a;
+  --EditorBgColor: rgb(48, 56, 65);
+  --ButtonBgColor: #47525c;
+  --ButtonBgSelectedColor: #eecda6;
+  --ButtonTextColor: #cccccc;
+  --ButtonTextSelectedColor: #47525d;
+  --ButtonBgFocusColor: #2e333a;
+  --ButtonBgSelectedFocusColor: #eabc83;
+  --ThemeButtonBgColor: #cccccc;
+  --ThemeButtonTextColor: #47525d;
+  --ThemeButtonBgFocusColor: #848181;
+  --BottomTextColor: #cccccc;
+  --MenuBgColor: #e4e0e0;
+  --MenuSelectedBgColor: #eecda6;
+  --MenuTextColor: #22262a;
+  --MenuBgFocusColor: #a8a6a6;
+
+  --SnapToButtonBgColor: var(--ButtonBgColor);
+  --SnapToButtonTextColor: var(--ButtonTextColor);
+  --SnapToButtonBgFocusColor: var(--ButtonBgFocusColor);
+  --SnapToNodeButtonColor: var(--MenuBgColor);
+  --SnapToNodeButtonFocusColor: var(--MenuBgFocusColor);
+  --SnapToAngleButtonColor: var(--MenuBgColor);
+  --SnapToAngleButtonFocusColor: var(--MenuBgFocusColor);
+  --NodesButtonBgColor: var(--ButtonBgColor);
+  --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
+
+  --ObjectsColor: rgb(231, 237, 243);
+  --HighlightedColor: rgb(212, 158, 21);
+  --NodesColor: rgb(12, 225, 37);
+}
+
+.Light-Theme {
+  --BgColor: #f3f3f3;
+  --EditorBgColor: rgb(255, 255, 255);
+  --ButtonBgColor: #e4e6f0;
+  --ButtonBgSelectedColor: #eecda6;
+  --ButtonTextColor: #616161;
+  --ButtonTextSelectedColor: #47525d;
+  --ButtonBgFocusColor: #edb067;
+  --ButtonBgSelectedFocusColor: #edb067;
+  --ThemeButtonBgColor: #47525d;
+  --ThemeButtonTextColor: #e4e6f0;
+  --ThemeButtonBgFocusColor: #edb067;
+  --BottomTextColor: #616161;
+  --MenuBgColor: #e4e6f0;
+  --MenuSelectedBgColor: #eecda6;
+  --MenuTextColor: #616161;
+  --MenuBgFocusColor: #edb067;
+
+  --SnapToButtonBgColor: var(--ButtonBgColor);
+  --SnapToButtonTextColor: var(--ButtonTextColor);
+  --SnapToButtonBgFocusColor: var(--ButtonBgFocusColor);
+  --SnapToNodeButtonColor: var(--MenuBgColor);
+  --SnapToNodeButtonFocusColor: var(--MenuBgFocusColor);
+  --SnapToAngleButtonColor: var(--MenuBgColor);
+  --SnapToAngleButtonFocusColor: var(--MenuBgFocusColor);
+  --NodesButtonBgColor: var(--ButtonBgColor);
+  --NodesButtonBgFocusColor: var(--ButtonBgFocusColor);
+
+  --ObjectsColor: rgb(125, 137, 148);
+  --HighlightedColor: rgb(212, 158, 21);
+  --NodesColor: rgb(12, 225, 37);
+}
+
+.window {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 1fr;
+  grid-template-rows: 40px auto 30px;
+  grid-gap: 0px;
+  background-color: var(--BgColor);
+}
+
+.top {
+  grid-column: 1;
+  grid-row: 1;
+  background-color: var(--BgColor);
+}
+
+#space {
+  grid-column: 1;
+  grid-row: 2;
+  background-color: var(--BgColor);
+}
+
+.bottom {
+  grid-column: 1;
+  grid-row: 3;
+  background-color: var(--BgColor);
+}
+
+#Editor {
+  background-color: var(--EditorBgColor);
+  margin: 0 auto;
+  position: absolute;
+  cursor: crosshair;
+}
+
+#btn1 {
+  width: 30px;
+  position: relative;
+  top: var(--offsetTopV1);
+  left: var(--offsetTopH1);
+
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+#btn1:hover, #btn1:focus {
+  background-color: var(--ButtonBgFocusColor);
+}
+
+#img1 {
+  width: 12px;
+}
+
+#btn2 {
+  width: 30px;
+  position: relative;
+  top: var(--offsetTopV1);
+  left: var(--offsetTopH1);
+
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+#btn2:hover, #btn2:focus {
+  background-color: var(--ButtonBgFocusColor);
+}
+
+#img2 {
+  width: 12px;
+}
+
+#btn3 {
+  width: 45px;
+  position: relative;
+  top: var(--offsetTopV1);
+  left: var(--offsetTopH2);
+
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+#btn3:hover, #btn3:focus {
+  background-color: var(--ButtonBgFocusColor);
+}
+
+#btn4 {
+  width: 50px;
+  position: relative;
+  top: var(--offsetTopV1);
+  left: var(--offsetTopH2);
+
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+#btn4:hover, #btn4:focus {
+  background-color: var(--ButtonBgFocusColor);
+}
+
+#btn5 {
+  width: 70px;
+  position: relative;
+  top: var(--offsetTopV1);
+  left: var(--offsetTopH2);
+
+  background: var(--SnapToButtonBgColor);
+  color: var(--SnapToButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+#btn5:hover, #btn5:focus {
+  background-color: var(--SnapToButtonBgFocusColor);
+}
+
+#btn6 {
+  width: 25px;
+  position: relative;
+  top: var(--offsetTopV1);
+  left: var(--offsetTopH3);
+
+  background: var(--NodesButtonBgColor);
+  color: var(--ButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+#btn6:hover, #btn6:focus {
+  background-color: var(--NodesButtonBgFocusColor);
+}
+
+#img3 {
+  width: 12px;
+}
+
+#btn7 {
+  width: 100px;
+  position: relative;
+  top: var(--offsetTopV1);
+  left: var(--offsetTopH3);
+
+  background: var(--ButtonBgColor);
+  color: var(--ButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+#btn7:hover, #btn7:focus {
+  background-color: var(--ButtonBgFocusColor);
+}
+
+#img4, #img41, #img42, #img43 {
+  width: 85px;
+}
+
+#btn8 {
+  width: 25px;
+  position: relative;
+  top: var(--offsetTopV1);
+  left: var(--offsetTopH3);
+
+  background: var(--ThemeButtonBgColor);
+  color: var(--ThemeButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+#btn8:hover, #btn8:focus {
+  background-color: var(--ThemeButtonBgFocusColor);
+}
+
+#img5 {
+  width: 15px;
+  position: relative;
+  bottom: -2px;
+  left: 0px;
+}
+
+#coord_x {
+  position: relative;
+  bottom: var(--offsetBotY);
+  left: var(--offsetBotX1);
+
+  width: 60px;
+  text-align: left;
+
+  padding: 0;
+  border: none;
+  background: none;
+
+  font-family: Tahoma;
+  font-size: 13px;
+  color: var(--BottomTextColor);
+}
+
+#coord_y {
+  position: relative;
+  bottom: var(--offsetBotY);
+  left: var(--offsetBotX2);
+
+  width: 60px;
+  text-align: left;
+
+  padding: 0;
+  border: none;
+  background: none;
+
+  font-family: Tahoma;
+  font-size: 13px;
+  color: var(--BottomTextColor);
+}
+
+#stat {
+  position: relative;
+  bottom: var(--offsetBotY);
+  left: var(--offsetBotX3);
+
+  padding: 0;
+  border: none;
+  background: none;
+
+  font-family: Tahoma;
+  font-size: 13px;
+  color: var(--BottomTextColor);
+}
+
+#btn5-menu {
+  top: 40px;
+  left: 191px;
+}
+
+#btn7-menu {
+  top: 40px;
+  left: 304px;
+  width: 95px;
+
+  background: var(--ThemeButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+.menu {
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
+#btn51 {
+  background-color: var(--SnapToNodeButtonColor);
+  color: var(--MenuTextColor);
+  padding: 5px 10px;
+  text-decoration: none;
+  display: block;
+  font-family: Tahoma;
+  font-size: 15px;
+  width: 70px;
+  height: 25px;
+
+  padding: 0;
+  border: none;
+}
+
+#btn51:hover {
+  background-color: var(--SnapToNodeButtonFocusColor);
+}
+
+#btn52 {
+  background: var(--SnapToAngleButtonColor);
+  color: var(--MenuTextColor);
+  padding: 5px 10px;
+  text-decoration: none;
+  display: block;
+  font-family: Tahoma;
+  font-size: 15px;
+  width: 70px;
+  height: 25px;
+
+  padding: 0;
+  border: none;
+}
+
+#btn52:hover {
+  background-color: var(--SnapToAngleButtonFocusColor);
+}
+
+.menu_btn7 {
+  top: 40px;
+  left: 304px;
+  width: 95px;
+
+  background: var(--ThemeButtonTextColor);
+  padding: 3px;
+  border-radius: 5px;
+  font-family: Tahoma;
+  font-size: 15px;
+  border: none;
+}
+
+.menu_btn7:hover {
+  background-color: var(--ButtonBgFocusColor);
+}
+
+.show {
+  display: block;
+}

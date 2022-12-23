@@ -1,5 +1,5 @@
 development = {
-	'url': 'http://127.0.0.1:8000/main/',
+	'url': 'http://127.0.0.1:8000/',
 	'core_path': './core/build/',
 	'db_name': 'Statistics',
 	'host': 'localhost',
@@ -10,7 +10,7 @@ development = {
 }
 
 production = {
-	'url': 'https://alexeymycad.pythonanywhere.com/main/',
+	'url': 'https://alexeymycad.pythonanywhere.com/',
 	'core_path': '/home/AlexeyMyCAD/MyCAD/core/build/',
 	'db_name': 'AlexeyMyCAD$mycaddb',
 	'host': 'AlexeyMyCAD.mysql.pythonanywhere-services.com',
